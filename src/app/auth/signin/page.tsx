@@ -1,5 +1,5 @@
 "use client";
-import { assets } from "@/assets/assets";
+import { assets } from "../../../../public/assets";
 import Button from "@/components/button";
 import Input from "@/components/input";
 import { Lock, Phone } from "lucide-react";
