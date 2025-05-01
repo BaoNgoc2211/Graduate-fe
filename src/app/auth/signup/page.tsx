@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import Image from "next/image";
 import Button from "@/components/button";
 import { Mail, Lock, User } from "lucide-react"; //CircleCheckBig, Circle
-import { assets } from "@/assets/assets";
+import { assets } from "../../../../public/assets";
 
 const SignUp = () => {
   const [signUp, setSignUp] = useState({
