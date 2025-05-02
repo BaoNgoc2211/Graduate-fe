@@ -1,32 +1,61 @@
 "use client";
-
 import Link from "next/link";
 import Image from "next/image";
 import { assets } from "../../../public/assets";
+import SearchBar from "./search-bar";
 
 const Header = () => {
   return (
-    <div className="flex items-center justify-between py-5 font-medium">
-      <ul className="hidden sm:flex gap-5 text-sm text-gray-700">
-        <li>
-          <Link href="/home" className="flex flex-col items-center gap-1">
-            <p>Trang chủ</p>
-            <hr className="w-2/4 border-none h-[1.5px] bg-gray-700 hidden" />
-          </Link>
-        </li>
-        <li>
-          <Link href="/home" className="flex flex-col items-center gap-1">
-            <p>Thuốc</p>
-            <hr className="w-2/4 border-none h-[1.5px] bg-gray-700 hidden" />
-          </Link>
-        </li>
-        <li>
-          <Link href="/home" className="flex flex-col items-center gap-1">
-            <p>Bệnh</p>
-            <hr className="w-2/4 border-none h-[1.5px] bg-gray-700 hidden" />
-          </Link>
-        </li>
-      </ul>
+    <div className="flex items-center justify-around py-5 font-medium">
+      <Link href="">
+        <Image
+          src={assets.logoMedicine}
+          alt="Logo MediGo"
+          width={80}
+          height={80}
+        />
+      </Link>
+      <div className="flex flex-col gap-2 py-3 px-5">
+        <ul className="hidden sm:flex gap-5 text-sm text-gray-700">
+          <li>
+            <Link href="/home" className="flex flex-col items-center gap-1">
+              <p>Trang chủ</p>
+              <hr className="w-2/4 border-none h-[1.5px] bg-gray-700 hidden" />
+            </Link>
+          </li>
+          <li>
+            <Link href="/home" className="flex flex-col items-center gap-1">
+              <p>Thuốc</p>
+              <hr className="w-2/4 border-none h-[1.5px] bg-gray-700 hidden" />
+            </Link>
+          </li>
+          <li>
+            <Link href="/home" className="flex flex-col items-center gap-1">
+              <p>Bệnh</p>
+              <hr className="w-2/4 border-none h-[1.5px] bg-gray-700 hidden" />
+            </Link>
+          </li>
+          <li>
+            <Link href="/home" className="flex flex-col items-center gap-1">
+              <p>Mã giảm giá</p>
+              <hr className="w-2/4 border-none h-[1.5px] bg-gray-700 hidden" />
+            </Link>
+          </li>
+          <li>
+            <Link href="/home" className="flex flex-col items-center gap-1">
+              <p>Về chúng tôi</p>
+              <hr className="w-2/4 border-none h-[1.5px] bg-gray-700 hidden" />
+            </Link>
+          </li>
+          <li>
+            <Link href="/home" className="flex flex-col items-center gap-1">
+              <p>Bảng tin</p>
+              <hr className="w-2/4 border-none h-[1.5px] bg-gray-700 hidden" />
+            </Link>
+          </li>
+        </ul>
+        <SearchBar />
+      </div>
       <div className="flex items-center gap-6">
         <div className="group relative">
           <Link href="/home">
@@ -51,7 +80,7 @@ const Header = () => {
             </div>
           </div>
         </div>
-        <Link href="" className="relative">
+        <Link href="/" className="relative">
           <Image
             src={assets.cart_icon}
             alt="Cart icon"
@@ -61,6 +90,12 @@ const Header = () => {
           />
         </Link>
       </div>
+      {/* sidebar menu for small screens */}
+      {/* <div className="">
+        <div className="flex flex-col text-gray-600">
+          <div className="flex items-center gap-4 p-3 cursor-pointer"></div>
+        </div>
+      </div> */}
     </div>
   );
 };
