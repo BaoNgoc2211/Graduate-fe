@@ -1,3 +1,4 @@
+import Footer from "@/components/layout/footer";
 import Header from "@/components/layout/header";
 // import Image from "next/image";
 
@@ -5,6 +6,7 @@ export default function Home() {
   return (
     <div className="font-sans px4 sm:px-[5vw] md:px-[7vw] lg:px-[9vw]">
       <Header />
+      <Footer/>
     </div>
 
     // <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
