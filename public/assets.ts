@@ -8,4 +8,5 @@ export const assets = {
   cart_icon: "/cart_icon.png",
   profile_icon: "/profile_icon.png",
   search_icon: "/search_icon.png",
+  stethoscope: "/stethoscope-disCa.svg",
 };

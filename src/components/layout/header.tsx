@@ -89,7 +89,17 @@ const Header = () => {
             className="cursor-pointer"
           />
         </Link>
+        <Link href="/" className="relative">
+          <Image
+            src={assets.stethoscope}
+            alt="Cart icon"
+            width={20}
+            height={20}
+            className="cursor-pointer"
+          />
+        </Link>
       </div>
+
       {/* sidebar menu for small screens */}
       {/* <div className="">
         <div className="flex flex-col text-gray-600">
