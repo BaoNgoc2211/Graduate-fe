@@ -1,6 +1,7 @@
 "use client";
 
-import DisCategoryItem from "@/components/diseases/disCategory-items";
+import DisCategoryItem from "@/components/diseases/disCategory-item";
+import DiseaseTagItem from "@/components/diseases/disease-tag-item";
 
 const DisCategory = () => {
   // const [disCategory, setDisCategory] = useState({
@@ -10,6 +11,7 @@ const DisCategory = () => {
   return (
     <>
       <DisCategoryItem />
+      <DiseaseTagItem />
     </>
   );
 };
