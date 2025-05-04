@@ -1,5 +1,6 @@
 import Footer from "@/components/layout/footer";
 import Header from "@/components/layout/header";
+import Sidebar from "@/components/sidebar/sidebar";
 // import { Sidebar } from "@/components/ui/sidebar";
 // import { Sidebar } from "@/components/ui/sidebar";
 // import Image from "next/image";
@@ -7,8 +8,13 @@ import Header from "@/components/layout/header";
 export default function Home() {
   return (
     <div className="font-sans px4 sm:px-[5vw] md:px-[7vw] lg:px-[9vw]">
-      <Header/>
-
+      <Header />
+      <div className="flex flex-row grid[1fe_3fr">
+        <div>
+          <Sidebar />
+        </div>
+        <div></div>
+      </div>
       <Footer />
     </div>
     // <div>
