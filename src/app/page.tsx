@@ -1,13 +1,24 @@
 import Footer from "@/components/layout/footer";
 import Header from "@/components/layout/header";
+// import { Sidebar } from "@/components/ui/sidebar";
+// import { Sidebar } from "@/components/ui/sidebar";
 // import Image from "next/image";
 
 export default function Home() {
   return (
     <div className="font-sans px4 sm:px-[5vw] md:px-[7vw] lg:px-[9vw]">
-      <Header />
-      <Footer/>
+      <Header/>
+
+      <Footer />
     </div>
+    // <div>
+    //   <Header />
+    //   {/* <div className="flex">
+    //     <Sidebar className="w-[240px] min-h-screen border-r border-gray-200" />
+    //     <main className="flex-1 px-4 sm:px-[5vw] md:px-[7vw] lg:px-[9vw]"></main>{" "}
+    //   </div> */}
+    //   <Footer />
+    // </div>
 
     // <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
     //   <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
