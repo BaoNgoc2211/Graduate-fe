@@ -32,17 +32,20 @@ const Sidebar = () => {
       <SidebarSection title="Platform">
         <SidebarGroup
           // icon="Layers" icon: "History", icon: "Star", icon: "Settings"
-          title="Thuốc kê đơn"
+          title="Thuốc"
+          items={[{ label: "Thuốc kê đơn " }, { label: "Thuốc không kê đơn" }]}
+        />
+        <SidebarGroup
+          // icon="Layers" icon: "History", icon: "Star", icon: "Settings"
+          title="Thực phẩm"
           items={[
-            { label: "Thuốc " },
-            { label: "Thuốc không kê đơn" },
             { label: "Thực phẩm chức năng" },
+            { label: "Thuốc đông y " },
+            { label: "Dược liệu" },
           ]}
         />
-        <SidebarItem label="Models" expandable />
         {/* <SidebarItem icon={Box} label="Models" expandable /> */}
-        <SidebarItem label="Documentation" expandable />
-        <SidebarItem label="Settings" expandable />
+        <SidebarItem label="Thiết bị y tế" expandable />
       </SidebarSection>
 
       {/* Projects Section */}
