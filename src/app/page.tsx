@@ -1,3 +1,4 @@
+// import CountrySlider from "@/components/country-slide";
 import Footer from "@/components/layout/footer";
 import Header from "@/components/layout/header";
 import Sidebar from "@/components/sidebar/sidebar";
@@ -12,6 +13,7 @@ export default function Home() {
       <div className="flex flex-row grid[1fe_3fr">
         <div>
           <Sidebar />
+          {/* <CountrySlider /> */}
         </div>
         <div></div>
       </div>
