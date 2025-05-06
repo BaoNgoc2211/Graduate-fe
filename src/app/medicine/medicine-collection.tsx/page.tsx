@@ -1,3 +1,5 @@
+import MedicineItem from "@/components/medicine/medicine-item";
+
 const MedicinePage = () => {
   return (
     <>
@@ -11,7 +13,9 @@ const MedicinePage = () => {
           </select>
         </div>
         {/* Medicine Selection */}
-        <div></div>
+        <div>
+          <MedicineItem />
+        </div>
       </div>
     </>
   );
