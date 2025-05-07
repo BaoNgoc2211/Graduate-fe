@@ -1,6 +1,7 @@
 // import CountrySlider from "@/components/country-slide";
 import Footer from "@/components/layout/footer";
 import Header from "@/components/layout/header";
+import MedicineDetail from "@/components/medicine/medicine-detail";
 import Sidebar from "@/components/sidebar/sidebar";
 // import { Sidebar } from "@/components/ui/sidebar";
 // import { Sidebar } from "@/components/ui/sidebar";
@@ -14,6 +15,7 @@ export default function Home() {
         <div>
           <Sidebar />
           {/* <CountrySlider /> */}
+          <MedicineDetail />
         </div>
         <div></div>
       </div>
