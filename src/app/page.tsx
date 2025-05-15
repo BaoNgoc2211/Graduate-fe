@@ -9,9 +9,9 @@ import Sidebar from "@/components/sidebar/sidebar";
 
 export default function Home() {
   return (
-    <div className="font-sans px4 sm:px-[5vw] md:px-[7vw] lg:px-[9vw]">
+    <div className="font-sans px-10">
       <Header />
-      <div className="flex flex-row grid[1fe_3fr">
+      <div className="flex flex-row grid-[1fe_3fr]">
         <div>
           <Sidebar />
           {/* <CountrySlider /> */}

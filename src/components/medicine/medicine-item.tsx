@@ -54,7 +54,7 @@ const MedicineItem: React.FC<Partial<IMedicine>> = ({
   thumbnail,
 }) => {
   return (
-    <div className="bg-white rounded-xl shadow-md p-4 w-full max-w-[260px] relative">
+    <div className="bg-white rounded-xl shadow-md p-4 w-full max-w-[260px] relative cursor-copy">
       {/* Best Seller Badge */}
       <span className="absolute top-2 left-2 bg-gray-400 text-white text-xs font-medium px-2 py-0.5 rounded-md">
         Best Seller
@@ -66,8 +66,9 @@ const MedicineItem: React.FC<Partial<IMedicine>> = ({
           src={assets.stethoscope}
           alt="Medicine Thumbnail"
           width={100}
-          height={100}
-          className="object-contain"
+          height={120}
+          // className="object-contain"
+          className="hover:scale-110 transition ease-in-out"
         />
       </div>
 
@@ -77,7 +78,7 @@ const MedicineItem: React.FC<Partial<IMedicine>> = ({
           <p className="text-sm text-gray-800 font-medium truncate mb-2">
             Chuyên khoa nội tiết kéo dài rất dài abc xyz
           </p>
-          <p className="text-sm text-gray-500">55.000 VND</p>
+          <p className="text-sm text-blue-900 font-bold">55.000 VND</p>
         </div>
 
         {/* Cart Icon */}

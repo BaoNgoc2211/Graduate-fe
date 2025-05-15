@@ -16,7 +16,7 @@ import {
 
 const Sidebar = () => {
   return (
-    <aside className="border-[#00416A] w-64 h-screen bg-white text-[#00416A] p-4 space-y-6">
+    <aside className="border-[#00416A] w-64 h-screen bg-white text-[#00416A] pt-4 space-y-6">
       {/* Company Info */}
       <div className="flex items-center gap-3">
         <div className="bg-blue-600 p-2 rounded-md">

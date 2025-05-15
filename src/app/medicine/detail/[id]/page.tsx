@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { assets } from "../../../../public/assets";
+import { assets } from "../../../../../public/assets";
 
 const Medicine = () => {
   return (
