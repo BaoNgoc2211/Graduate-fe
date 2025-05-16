@@ -9,5 +9,8 @@ export const assets = {
   profile_icon: "/profile_icon.png",
   search_icon: "/search_icon.png",
   stethoscope: "/stethoscope-disCa.svg",
-  start_icon: "/star_icon.png"
+  start_icon: "/star_icon.png",
+  exchange_icon: "/exchange_icon.png",
+  quality_icon: "/quality_icon.png",
+  support_img: "/support_img.png",
 };

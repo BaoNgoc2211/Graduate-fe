@@ -6,17 +6,19 @@ import SearchBar from "./search-bar";
 
 const Header = () => {
   return (
-    <div className="flex items-center justify-around py-5 font-medium">
-      <Link href="">
-        <Image
-          src={assets.logoMedicine}
-          alt="Logo MediGo"
-          width={80}
-          height={80}
-        />
-      </Link>
+    <div className="grid grid-cols-[auto_1fr_auto] font-medium border-b">
+      <div className="flex items-center">
+        <Link href="">
+          <Image
+            src={assets.logoMedicine}
+            alt="Logo MediGo"
+            width={100}
+            height={100}
+          />
+        </Link>
+      </div>
       <div className="flex flex-col gap-2 py-3 px-5">
-        <ul className="hidden sm:flex gap-5 text-sm text-gray-700">
+        <ul className="hidden sm:flex gap-5 text-sm text-gray-700 justify-center w-full">
           <li>
             <Link href="/home" className="flex flex-col items-center gap-1">
               <p>Trang chủ</p>

@@ -1,10 +1,10 @@
 import Image from "next/image";
-import { assets } from "../../../../public/assets";
+import { assets } from "../../../../../public/assets";
 
 const Medicine = () => {
   return (
-    <>
-      <div className=" border-t-2 pt-10 transition-opacity ease-in duration-500 opacity-100">
+    <div className="px-5">
+      <div className=" border-t-2 pt-10 transition-opacity ease-in duration-500 opacity-100 px-5">
         <div className="flex gap-12  flex-col sm:gap-12 sm:flex-row">
           <div className="flex-1 flex flex-col-reverse gap-3 sm:flex-row">
             <div className="flex sm:flex-col overflow-x-auto sm:overflow-y-scroll justify-between sm:justify-normal sm:w-[18.7%] w-full">
@@ -19,7 +19,7 @@ const Medicine = () => {
             ))} */}
             </div>
             <div className="w-full sm:w-[80%]">
-              <Image src={assets.stethoscope} alt="" width={20} height={20} />
+              <Image src={assets.stethoscope} alt="" width={120} height={120} />
             </div>
           </div>
           <div className="flex-1">
@@ -90,7 +90,7 @@ const Medicine = () => {
           </p>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 export default Medicine;
