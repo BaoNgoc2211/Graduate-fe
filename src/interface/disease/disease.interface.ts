@@ -1,20 +1,21 @@
 import mongoose from "mongoose";
-import { SeverityLevelEnum, StagesEnum } from "../../enum/disease/disease.enum";
+import { SeverityLevelEnum } from "../../enum/disease/disease.enum";
 
 export interface IDisease {
+  code: string;
   name: string;
-  symptom: string;
-  stages: StagesEnum;
+  image: string;
+  Definition: string; // định nghĩa
+  riskGroup: string; // nhóm nguy cơ
   causes: string;
-  riskGroup: string;
   diagnosis: string;
   prevention: string;
-  image: string;
-  notes: string;
   severityLevel: SeverityLevelEnum;
   treatmentPlan: string;
-  diseaseUsageGroup: mongoose.Types.ObjectId[];
-  diseaseCategory: mongoose.Types.ObjectId[];
+  notes: string;
+  symptom: mongoose.Types.ObjectId[];
+  disCategory: mongoose.Types.ObjectId[];
+  disUsageGroup: mongoose.Types.ObjectId[];
 }
 export interface IProductMethod extends Document {
   addDisease(data: IDisease): Promise<IDisease>;

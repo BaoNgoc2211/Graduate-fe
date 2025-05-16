@@ -2,8 +2,8 @@ import mongoose from "mongoose";
 import { DisUsageGroupEnum } from "../../enum/disease/disease-usage.enum";
 
 export interface IDiseaseUsageGroup {
+  code: string;
   name: DisUsageGroupEnum;
   icon: string;
-  diseaseCategory: mongoose.Types.ObjectId[];
-  disease: mongoose.Types.ObjectId[];
+  disCategory: mongoose.Types.ObjectId[];
 }
