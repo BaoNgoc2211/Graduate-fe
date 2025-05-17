@@ -2,10 +2,17 @@
 import Filter from "@/components/filter/filter";
 import MedicineItem from "@/components/medicine/medicine-item";
 import { useState } from "react";
-
+import { useMutation } from "@tanstack/react-query";
 const MedicinePage = () => {
   const [setType] = useState([]);
   const [fileterMedicine, setFilterMedicine] = useState<MedicineType[]>([]);
+  const [medicine, setMedicine] = useState({
+    thumbnail: "",
+    name: "",
+    price: Number,
+  });
+  console.log(medicine);
+  const {data, isL}
   return (
     <>
       <div className="flex flex-col sm:flex-row gap-1 sm:gap-10 pt-10 border-t px-5">
