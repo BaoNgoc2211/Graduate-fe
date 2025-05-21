@@ -1,7 +1,8 @@
 // import CountrySlider from "@/components/country-slide";
+import Hero from "@/components/home/hero";
+import LatestCollection from "@/components/home/lastest-collection";
 import Footer from "@/components/layout/footer";
 import Header from "@/components/layout/header";
-import MedicineDetail from "@/components/medicine/medicine-detail";
 import Sidebar from "@/components/sidebar/sidebar";
 // import { Sidebar } from "@/components/ui/sidebar";
 // import { Sidebar } from "@/components/ui/sidebar";
@@ -11,13 +12,16 @@ export default function Home() {
   return (
     <div className="font-sans px-10">
       <Header />
-      <div className="flex flex-row grid-[1fe_3fr]">
-        <div>
+      <div className="flex">
+        <div className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5 ">
           <Sidebar />
           {/* <CountrySlider /> */}
-          <MedicineDetail />
+          {/* <MedicineDetail /> */}
         </div>
-        <div></div>
+        <div className="w-full px-5 py-5">
+          <Hero />
+          <LatestCollection/>
+        </div>
       </div>
       <Footer />
     </div>

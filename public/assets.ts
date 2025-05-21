@@ -13,4 +13,5 @@ export const assets = {
   exchange_icon: "/exchange_icon.png",
   quality_icon: "/quality_icon.png",
   support_img: "/support_img.png",
+  hero_img:"/hero.jpeg"
 };
