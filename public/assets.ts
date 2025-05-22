@@ -13,5 +13,13 @@ export const assets = {
   exchange_icon: "/exchange_icon.png",
   quality_icon: "/quality_icon.png",
   support_img: "/support_img.png",
-  hero_img:"/hero.jpeg"
+  hero_img:"/hero.jpeg",
+  thuoc_ke_don:"/thuc_ke_don.png",
+  thuoc_khong_ke_don:"/thuc_khong_ke_don.png",
+  thuc_pham_chuc_nang:"/thuc_pham_chuc_nang.png",
+  duoc_lieu:"/duoc_lieu.png",
+  thuoc_ke_don_while:"/thuc_ke_don.png_while",
+  thuoc_khong_ke_don_while:"/thuc_khong_ke_don_while.png",
+  thuc_pham_chuc_nang_while:"/thuc_pham_chuc_nang_while.png",
+  duoc_lieu_while:"/duoc_lieu_while.png",
 };

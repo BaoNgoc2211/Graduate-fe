@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Input from "@/components/input";
-import Button from "@/components/button";
+import Button from "@/components/ui/button";
 // import { login } from "./authAPI";
 import { FaUser, FaLock } from "react-icons/fa";
 
@@ -43,7 +43,7 @@ export default function LoginForm() {
           Forgot User ID or Password?
         </a>
       </div>
-      <Button label="LOGIN"  onClick={handleSubmit}/>
+      <Button label="LOGIN" onClick={handleSubmit} />
       <div className="text-xs mt-2">
         Not registered yet?{" "}
         <a href="#" className="underline">
