@@ -1,6 +1,6 @@
 // import CountrySlider from "@/components/country-slide";
-import Hero from "@/components/home/hero";
-import LatestCollection from "@/components/home/lastest-collection";
+import Hero from "@/app/home/components/hero";
+import LatestCollection from "@/app/home/components/lastest-collection";
 import Footer from "@/components/layout/footer";
 import Header from "@/components/layout/header";
 import Sidebar from "@/components/sidebar/sidebar";
@@ -20,7 +20,7 @@ export default function Home() {
         </div>
         <div className="w-full px-5 py-5">
           <Hero />
-          <LatestCollection/>
+          <LatestCollection />
         </div>
       </div>
       <Footer />

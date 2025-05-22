@@ -2,7 +2,7 @@
 import Input from "@/components/input";
 import React, { useState } from "react";
 import Image from "next/image";
-import Button from "@/components/button";
+import Button from "@/components/ui/button";
 import { Mail, Lock, User } from "lucide-react"; //CircleCheckBig, Circle
 import { assets } from "../../../../public/assets";
 

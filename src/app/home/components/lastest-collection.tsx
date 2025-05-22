@@ -1,9 +1,9 @@
 "use client";
 import { LatestCollectionAPI } from "@/api/home.api";
-import Title from "../ui/title";
+import Title from "../../../components/ui/title";
 import { useQuery } from "@tanstack/react-query";
-import MedicineItem from "../medicine/medicine-item";
 import { IMedicine } from "@/interface/medicine/medicine.interface";
+import MedicineItem from "@/app/medicine/collection/components/medicine-item";
 const LatestCollection = () => {
   const { data, isLoading, isError } = useQuery({
     queryKey: ["get-latest-collection"],
