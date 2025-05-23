@@ -1,4 +1,4 @@
-import Navbar from "../navbar/symptom-navbar";
+import Navbar from "../../disease/components/symptom-navbar";
 
 const SymptomChecker = () => {
   return (

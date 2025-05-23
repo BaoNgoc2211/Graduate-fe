@@ -22,20 +22,45 @@ const SymptomNavbar = () => {
               <p>THÔNG TIN</p>
             </div>
           </Link>
-          <Link
-            href=""
-            className="px-5 hover:bg-while rounded rounded-r-full transition "
-          >
-            <p>TRIỆU CHỨNG</p>
+          <Link href="" className="px-5 py-2 hover:bg-while rounded transition">
+            <div
+              onClick={() => setActiveTab("info")}
+              className={`px-5 py-2 rounded transition cursor-pointer ${
+                activeTab === "info" ? "bg-white" : "hover:bg-white"
+              }`}
+            >
+              <p>TRIỆU CHỨNG</p>
+            </div>
           </Link>
-          <Link href="" className="px-5 hover:bg-while rounded transition">
-            <p>TÌNH TRẠNG</p>
+          <Link href="" className="px-5 py-2 hover:bg-while rounded transition">
+            <div
+              onClick={() => setActiveTab("info")}
+              className={`px-5 py-2 rounded transition cursor-pointer ${
+                activeTab === "info" ? "bg-white" : "hover:bg-white"
+              }`}
+            >
+              <p>TÌNH TRẠNG</p>
+            </div>
           </Link>
-          <Link href="" className="px-5 hover:bg-while rounded transition">
-            <p>CHI TIẾT</p>
+          <Link href="" className="px-5 py-2 hover:bg-while rounded transition">
+            <div
+              onClick={() => setActiveTab("info")}
+              className={`px-5 py-2 rounded transition cursor-pointer ${
+                activeTab === "info" ? "bg-white" : "hover:bg-white"
+              }`}
+            >
+              <p>TÌNH TRẠNG</p>
+            </div>
           </Link>
-          <Link href="" className="px-5 hover:bg-while rounded transition">
-            <p>KHUYẾN NGHỊ</p>
+          <Link href="" className="px-5 py-2 hover:bg-while rounded transition">
+            <div
+              onClick={() => setActiveTab("info")}
+              className={`px-5 py-2 rounded transition cursor-pointer ${
+                activeTab === "info" ? "bg-white" : "hover:bg-white"
+              }`}
+            >
+              <p>KHUYẾN NGHỊ</p>
+            </div>
           </Link>
         </div>
       </div>

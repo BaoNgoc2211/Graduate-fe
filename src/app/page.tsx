@@ -4,6 +4,7 @@ import LatestCollection from "@/app/home/components/lastest-collection";
 import Footer from "@/components/layout/footer";
 import Header from "@/components/layout/header";
 import Sidebar from "@/components/sidebar/sidebar";
+import BestSeller from "./home/components/best-seller";
 // import { Sidebar } from "@/components/ui/sidebar";
 // import { Sidebar } from "@/components/ui/sidebar";
 // import Image from "next/image";
@@ -21,6 +22,7 @@ export default function Home() {
         <div className="w-full px-5 py-5">
           <Hero />
           <LatestCollection />
+          {/* <BestSeller/> */}
         </div>
       </div>
       <Footer />

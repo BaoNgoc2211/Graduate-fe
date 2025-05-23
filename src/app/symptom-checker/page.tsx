@@ -1,7 +1,8 @@
+"use client";
 import { useState } from "react";
-import Step1 from "@/components/form/symptom-checker/step-01";
-import Step2 from "@/components/form/symptom-checker/step-02";
-import Step3 from "@/components/form/symptom-checker/step-03";
+import Step1 from "@/app/symptom-checker/components/form/step-01";
+import Step2 from "@/app/symptom-checker/components/form/step-02";
+import Step3 from "@/app/symptom-checker/components/form/step-03";
 const SymptomChecker = () => {
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
@@ -20,7 +21,7 @@ const SymptomChecker = () => {
       <div className="form-container">
         <h2>Symptom Checker</h2>
         {step === 1 && (
-          <Step1 data={formData} onChange={handleChange} onNext={next} />
+          <Step3 data={formData} onChange={handleChange} onNext={next} />
         )}
         {step === 2 && (
           <Step2
