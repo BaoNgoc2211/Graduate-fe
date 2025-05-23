@@ -1,6 +1,6 @@
 "use client";
 
-import SymptomChecker from "@/components/form/symptom-checker";
+import SymptomChecker from "@/app/symptom-checker/components/symptom-checker";
 
 const Collection = () => {
   return (

@@ -7,7 +7,7 @@ import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import TitleFilter from "@/components/filter/title-filter";
 import MedicineItem from "./components/medicine-item";
-import Navbar from "./components/navbar";
+// import Navbar from "./components/navbar";
 import Button from "@/components/ui/button";
 const MedicinePage = () => {
   const [type, setType] = useState([]);
@@ -24,7 +24,7 @@ const MedicinePage = () => {
 
   return (
     <div className="min-h-screen mb-5">
-      <Navbar />
+      {/* <Nav /> */}
       {/* flex flex-col sm:flex-row gap-1 sm:gap-10 pt-10 border-t px-5 */}
       <div className="flex flex-col lg:flex-row gap-4 lg:gap-10 pt-10 border-t px-5 lg:px-10 xl:px-20 items-center">
         {/* Filter left*/}
