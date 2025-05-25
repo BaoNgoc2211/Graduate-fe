@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Button from "@/components/ui/button";
-import ButtonStep from "../button";
+import ButtonStep from "../ui/button";
 
 const Step01 = () => {
   const [showMore, setShowMore] = useState(false);
