@@ -1,8 +1,11 @@
-export interface Symptom {
-  name: string; // nhức đầu
-  kindOf: KindOf[]; // nặng nhẹ
+import mongoose from "mongoose";
+
+export interface ISymptom {
+  name: string; 
+  kindOf: string; 
   symptomGroup: string;
 }
-export interface KindOf {
+export interface IKindOf {
   name: string;
+  symptom_id: mongoose.Types.ObjectId;
 }
