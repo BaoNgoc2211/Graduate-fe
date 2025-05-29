@@ -5,8 +5,8 @@ import NewsletterBox from "@/components/layout/news-letter-box";
 
 const About = () => {
   return (
-    <div>
-      <div className="text-2xl tex-center pt-8 border-t">
+    <div className="w-full flex flex-col justify-center">
+      <div className="text-2xl tex-center pt-8 border-t ">
         <Title text1={"CHÚNG TÔI "} text2={"CÓ THỂ MANG ĐẾN CHO BẠN"} />
       </div>
       <div className="my-10 flex flex-col md:flex-row gap-16">
@@ -17,7 +17,7 @@ const About = () => {
           width={50}
           height={50}
         />
-        <div className="flex flex-col justify-center gap-6 md:w-2/4 text-gray-600">
+        <div className="flex flex-col justify-center items-center gap-6 md:w-2/4 text-gray-600">
           <p>
             &quot;Chúng tôi được thành lập với sứ mệnh mang đến sự đổi mới trong
             cách mọi người tiếp cận và mua thuốc. Hành trình của chúng tôi bắt

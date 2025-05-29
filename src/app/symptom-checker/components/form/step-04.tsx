@@ -1,6 +1,6 @@
+"use client";
 import ConditionItem from "../layout/condition";
 import DiseaseItem from "../layout/disease-item";
-
 const conditions = [
   {
     name: "Tension Headache",
@@ -18,7 +18,7 @@ const conditions = [
     levelValue: 3,
   },
 ];
-const step04 = () => {
+const Step04 = () => {
   return (
     <div className="max-w-5xl mx-auto px-6 py-8 bg-white rounded-xl shadow-md space-x-6">
       {" "}
@@ -46,4 +46,4 @@ const step04 = () => {
     </div>
   );
 };
-export default step04;
+export default Step04;

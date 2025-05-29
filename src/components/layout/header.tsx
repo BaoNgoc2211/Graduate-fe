@@ -3,12 +3,18 @@ import Link from "next/link";
 import Image from "next/image";
 import { assets } from "../../../public/assets";
 import SearchBar from "./search-bar";
+// import { useContext } from "react";
 
 const Header = () => {
+  // const cart: ICart = {
+  // user_id: String,
+  // medicine_item: String,
+  // };
+  // const { getCartCount } = useContext(ShopContext);
   return (
-    <div className="grid grid-cols-[auto_1fr_auto] font-medium border-b">
+    <div className="grid grid-cols-[auto_1fr_auto] font-medium border-b px-4">
       <div className="flex items-center">
-        <Link href="">
+        <Link href="/">
           <Image
             src={assets.logoMedicine}
             alt="Logo MediGo"
@@ -20,38 +26,39 @@ const Header = () => {
       <div className="flex flex-col gap-2 py-3 px-5">
         <ul className="hidden sm:flex gap-5 text-sm text-gray-700 justify-center w-full">
           <li>
-            <Link href="/home" className="flex flex-col items-center gap-1">
+            <Link href="/" className="flex flex-col items-center gap-1">
               <p>Trang chủ</p>
               <hr className="w-2/4 border-none h-[1.5px] bg-gray-700 hidden" />
             </Link>
           </li>
           <li>
-            <Link href="/home" className="flex flex-col items-center gap-1">
+            <Link href="/medicine" className="flex flex-col items-center gap-1">
               <p>Thuốc</p>
               <hr className="w-2/4 border-none h-[1.5px] bg-gray-700 hidden" />
             </Link>
           </li>
           <li>
-            <Link href="/home" className="flex flex-col items-center gap-1">
+            <Link href="/disease" className="flex flex-col items-center gap-1">
               <p>Bệnh</p>
               <hr className="w-2/4 border-none h-[1.5px] bg-gray-700 hidden" />
             </Link>
           </li>
+
           <li>
-            <Link href="/home" className="flex flex-col items-center gap-1">
+            <Link href="/symptom-checker" className="flex flex-col items-center gap-1">
+              <p>Khuyến nghị thuốc</p>
+              <hr className="w-2/4 border-none h-[1.5px] bg-gray-700 hidden" />
+            </Link>
+          </li>
+          <li>
+            <Link href="/voucher" className="flex flex-col items-center gap-1">
               <p>Mã giảm giá</p>
               <hr className="w-2/4 border-none h-[1.5px] bg-gray-700 hidden" />
             </Link>
           </li>
           <li>
-            <Link href="/home" className="flex flex-col items-center gap-1">
+            <Link href="/about" className="flex flex-col items-center gap-1">
               <p>Về chúng tôi</p>
-              <hr className="w-2/4 border-none h-[1.5px] bg-gray-700 hidden" />
-            </Link>
-          </li>
-          <li>
-            <Link href="/home" className="flex flex-col items-center gap-1">
-              <p>Bảng tin</p>
               <hr className="w-2/4 border-none h-[1.5px] bg-gray-700 hidden" />
             </Link>
           </li>
@@ -82,14 +89,17 @@ const Header = () => {
             </div>
           </div>
         </div>
-        <Link href="/" className="relative">
+        <Link href="/cart" className="relative">
           <Image
             src={assets.cart_icon}
             alt="Cart icon"
             width={20}
             height={20}
             className="cursor-pointer"
-          />
+          />{" "}
+          <p className="absolute right-[-5px] bottom-[-5px] w-4 text-center leading-4 bg-black text-white aspect-square rounded-full text-[8px]">
+            {/* {getCartCount(cart)} */}2
+          </p>
         </Link>
         <Link href="/" className="relative">
           <Image

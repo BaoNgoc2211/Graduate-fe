@@ -1,36 +1,3 @@
-// import Button from "@/components/ui/button";
-// import Image from "next/image";
-// import { assets } from "../../../../../public/assets";
-
-// const Step02 = () => {
-//   return (
-//     <div className="p-6 max-w-2xl mx-auto bg-white rounded-xl shadow-md space-y-6">
-//       <div className="w">
-//         <p className="font-bold text-2xl text-blue-900">
-//           Triệu chứng của bạn là gì?
-//         </p>
-//         <input
-//           type="text"
-//           placeholder="Nhập triệu chứng của bạn vào đây nè ...."
-//           className="border border-gray-400 shadow-2xl bg-white px-3 py-2"
-//         ></input>
-//       </div>
-//       <div className="bg-gray-200 py-2 px-3 ">
-//         <Image
-//           src={assets.duoc_lieu_while}
-//           alt=""
-//           width={100}
-//           height={100}
-//         />
-//       </div>
-//       <div className="">
-//         <Button text="Quay về" />
-//         <Button text="Tiếp tục" />
-//       </div>
-//     </div>
-//   );
-// };
-// export default Step02;
 "use client";
 import Image from "next/image";
 import { assets } from "../../../../../public/assets";

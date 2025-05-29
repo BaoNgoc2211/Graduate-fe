@@ -1,7 +1,10 @@
+"use client";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/router";
 import Title from "@/components/ui/title";
-import Image from "next/image";
 import { assets } from "../../../public/assets";
 import { useNavigate } from "react-router-dom";
+import CartTotal from "./components/cart-total";
 
 const Cart = () => {
   const [navigate] = useNavigate;
@@ -73,7 +76,7 @@ const Cart = () => {
         })}
         <div className="flex justify-end my-20">
           <div className="w-full sm:w-[450px]">
-            <CartTotal />
+            <CartTotal/>
             <div className="w-full text-end">
               <button
                 onClick={() => navigate("/place-order")}

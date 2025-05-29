@@ -4,7 +4,6 @@ import LatestCollection from "@/app/home/components/lastest-collection";
 import Footer from "@/components/layout/footer";
 import Header from "@/components/layout/header";
 import Sidebar from "@/components/sidebar/sidebar";
-import BestSeller from "./home/components/best-seller";
 // import { Sidebar } from "@/components/ui/sidebar";
 // import { Sidebar } from "@/components/ui/sidebar";
 // import Image from "next/image";
@@ -12,7 +11,6 @@ import BestSeller from "./home/components/best-seller";
 export default function Home() {
   return (
     <div className="font-sans px-10">
-      <Header />
       <div className="flex">
         <div className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5 ">
           <Sidebar />
@@ -25,7 +23,6 @@ export default function Home() {
           {/* <BestSeller/> */}
         </div>
       </div>
-      <Footer />
     </div>
     // <div>
     //   <Header />

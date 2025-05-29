@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import { IMedicine } from "@/interface/medicine/medicine.interface";
-import { assets } from "../../../../../public/assets";
+import { assets } from "../../../../public/assets";
 
 const MedicineItem: React.FC<Partial<IMedicine>> = ({ name, thumbnail }) => {
   return (
