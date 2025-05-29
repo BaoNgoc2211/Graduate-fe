@@ -1,5 +1,6 @@
+"use client";
 import Button from "@/components/ui/button";
-const step03 = () => {
+const Step03 = () => {
   return (
     <div className="max-w-5xl mx-auto px-6 py-8 bg-white rounded-xl shadow-md space-x-6">
       <h2 className="text-2xl font-bold text-blue-900  mb-6">
@@ -89,4 +90,4 @@ const step03 = () => {
     </div>
   );
 };
-export default step03;
+export default Step03;

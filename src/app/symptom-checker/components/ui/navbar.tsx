@@ -2,19 +2,23 @@ import Image from "next/image";
 import { assets } from "../../../../../public/assets";
 const navItems = [
   {
-    label: "Thuốc kê đơn",
+    label: "Thông tin",
     image: assets.thuoc_ke_don,
   },
   {
-    label: "Thuốc không kê đơn",
+    label: "Triệu chứng",
     image: assets.thuoc_khong_ke_don,
   },
   {
-    label: "Thực phẩm chức năng",
+    label: "Tình trạng",
     image: assets.thuc_pham_chuc_nang,
   },
   {
-    label: "Dược liệu",
+    label: "Chi tiết",
+    image: assets.duoc_lieu,
+  },
+  {
+    label: "Khuyến nghị",
     image: assets.duoc_lieu,
   },
 ];

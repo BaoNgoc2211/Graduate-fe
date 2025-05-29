@@ -6,11 +6,11 @@ import { IMedicine } from "@/interface/medicine/medicine.interface";
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import TitleFilter from "@/components/filter/title-filter";
-import MedicineItem from "./components/medicine-item";
 // import Navbar from "./components/navbar";
 import Button from "@/components/ui/button";
+import MedicineItem from "./components/medicine-item";
 const MedicinePage = () => {
-  const [type, setType] = useState([]);
+  const [ setType] = useState([]);
   const { data, isLoading, isError } = useQuery({
     queryKey: ["get-latest-collection"],
     queryFn: () => getALLMedicineAPI(),

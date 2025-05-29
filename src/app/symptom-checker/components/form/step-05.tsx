@@ -1,3 +1,4 @@
+"use client";
 import ConditionItem from "../layout/condition";
 import TreatmentItem from "../layout/treatment-item";
 const conditions = [
