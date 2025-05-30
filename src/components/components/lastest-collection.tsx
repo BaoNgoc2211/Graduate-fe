@@ -1,18 +1,21 @@
 "use client";
-import { LatestCollectionAPI } from "@/api/home.api";
-import Title from "../../../components/ui/title";
 import { useQuery } from "@tanstack/react-query";
 import { IMedicine } from "@/interface/medicine/medicine.interface";
 import MedicineItem from "@/app/medicine/components/medicine-item";
+import Title from "../ui/title";
+import { LatestCollectionAPI } from "@/api/home.api";
 const LatestCollection = () => {
+  const createAdd = new Date();
+  createAdd.setDate(createAdd.getDate() - 5);
   const { data, isLoading, isError } = useQuery({
-    queryKey: ["get-latest-collection"],
-    queryFn: () => LatestCollectionAPI("Mới"),
+    queryKey: ["get-Best-Seller-collection",createAdd],
+    queryFn: () => LatestCollectionAPI(createAdd),
   });
 
   console.log("Data", data);
   if (isLoading) return "isLoading...";
   if (isError) return "Fetching data error";
+
 
   return (
     <div className="my-10">
