@@ -1,8 +1,9 @@
 // import CountrySlider from "@/components/country-slide";
-import Hero from "@/app/home/components/hero";
-import LatestCollection from "@/app/home/components/lastest-collection";
-import Footer from "@/components/layout/footer";
-import Header from "@/components/layout/header";
+
+import BestSeller from "@/components/components/best-seller";
+import Hero from "@/components/components/hero";
+import LatestCollection from "@/components/components/lastest-collection";
+import OurPolicy from "@/components/components/our-policy";
 import Sidebar from "@/components/sidebar/sidebar";
 // import { Sidebar } from "@/components/ui/sidebar";
 // import { Sidebar } from "@/components/ui/sidebar";
@@ -11,16 +12,20 @@ import Sidebar from "@/components/sidebar/sidebar";
 export default function Home() {
   return (
     <div className="font-sans px-10">
-      <div className="flex">
-        <div className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5 ">
-          <Sidebar />
+      <div className="flex flex-col">
+        {" "}
+        <Hero />
+        <div className="flex justify-center">
+          {/* <div className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5 "> */}
+          {/* <Sidebar /> */}
           {/* <CountrySlider /> */}
           {/* <MedicineDetail /> */}
-        </div>
-        <div className="w-full px-5 py-5">
-          <Hero />
-          <LatestCollection />
-          {/* <BestSeller/> */}
+          {/* </div> */}
+          <div className="w-full px-5 py-5">
+            <LatestCollection />
+            <OurPolicy/>
+            <BestSeller />
+          </div>
         </div>
       </div>
     </div>

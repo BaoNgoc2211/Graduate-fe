@@ -1,6 +1,6 @@
 "use client";
 import { BestSellerCollectionAPI } from "@/api/home.api";
-import MedicineItem from "@/app/medicine/collection/components/medicine-item";
+import MedicineItem from "@/app/medicine/components/medicine-item";
 import Title from "@/components/ui/title";
 import { IMedicine } from "@/interface/medicine/medicine.interface";
 import { useQuery } from "@tanstack/react-query";
@@ -21,10 +21,10 @@ const BestSeller = () => {
     <div>
       <div className="text-center text-3xl py-8">
         <Title text1="BEST " text2="SELLERS" />
-        <Title text1="BEST " text2="SELLERS" />
         <p className="w-3/4 m-auto text-xs sm:text-sm md:text-base text-gray-600">
-          Lorem Ipsum is simply dummy text of the printing and typesetting
-          industry.
+          Top những loại thuốc được lựa chọn nhiều nhất, giúp bạn chăm sóc sức
+          khỏe toàn diện và an toàn. Được bác sĩ và người tiêu dùng đánh giá
+          cao.
         </p>
       </div>
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 gap-y-6">
