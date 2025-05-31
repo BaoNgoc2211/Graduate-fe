@@ -1,4 +1,5 @@
 "use client";
+import TitleDisease from "./components/layout/title";
 import Disease01 from "./components/ui/disease-01";
 import Disease02 from "./components/ui/disease-02";
 import Disease03 from "./components/ui/disease-03";
@@ -14,21 +15,15 @@ const Collection = () => {
   return (
     <div>
       <div className="flex flex-col mb-5">
-        <p className="font-semibold text-2xl text-blue-900 mb-3">
-          Bệnh phổ biến biến biến
-        </p>
+        <TitleDisease text1="Bệnh phổ biến biến biến"/>
         <Disease01 />
       </div>
       <div className="flex flex-col mb-5">
-        <p className="font-semibold text-2xl text-blue-900 mb-3">
-          Bệnh theo đối tượng
-        </p>
+      <TitleDisease text1="Bệnh theo đối tượng"/>
         <Disease02 />
       </div>
       <div className="flex flex-col mb-5">
-        <p className="font-semibold text-2xl text-blue-900 mb-3">
-          Chuyên trang bệnh học
-        </p>
+      <TitleDisease text1="Chuyên trang bệnh học"/>
         <Disease03 />
       </div>
       {/* <div className="flex flex-row gap-3 px-1 py-2 justify-center">

@@ -8,7 +8,7 @@ const categoriesAge = [
 const Disease02 = () => {
   return (
     <div className="w-full overflow-x-auto md:overflow-x-visible">
-      <div className="flex flex-row gap-4 p-4 justify-center md:flex-wrap lg:flex-wrap rounded-2xl shadow-sm hover:shadow-md ">
+      <div className="flex flex-row gap-4 py-3 justify-between md:flex-wrap lg:flex-wrap rounded-2xl shadow-sm hover:shadow-md ">
         {categoriesAge.map((category, index) => (
           <Disease02Item key={index} title={category.title} icon={category.icon} />
         ))}

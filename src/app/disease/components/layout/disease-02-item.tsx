@@ -1,38 +1,22 @@
-// import { IDisCategory } from "@/interface/disease/disease-category.interface";
-
-// >>
-interface Props {
-  title: string;
+interface IDiseaseUsageGroup {
+  name: string;
   icon: string;
 }
-// const DisCateCardAgeItem:React.FC<Partial<IDisCategory ({ name, icon }) => {
-//   return (
-//     <>
-//       <div className="flex flex-col items-center justify-center bg-white  rounded-xl shadow-xl w-full max-w-sm py-3 px-5 ">
-//         <div className=" overflow-hidden">
-//           <Image
-//             className="hover:scale-110 transition ease-in-out"
-//             src={assets.stethoscope}
-//             alt="Image"
-//             width={50}
-//             height={50}
-//           />
-//         </div>
-//         <p className="pt-3 text-[#00416A] pb-1 font-medium mt-5">
-//           Chuyên khoa nội
-//         </p>
-//       </div>
 
-//     </>
-//   );
-// };
-const Disease02Item = ({ title, icon }: Props) => {
+const Disease02Item = ({ name, icon }: IDiseaseUsageGroup) => {
   return (
     <div className="flex flex-col items-center justify-center bg-white  rounded-xl shadow-xl w-full max-w-sm py-3 px-5 ">
       <div className=" overflow-hidden">
-        <image src={icon} className="hover:scale-110 transition ease-in-out" />
+        {/* <image src={icon} className="hover:scale-110 transition ease-in-out" /> */}
+        <img
+          src={icon}
+          alt={name}
+          width={24}
+          height={24}
+          className="hover:scale-110 transition ease-in-out"
+        />
       </div>
-      <p className="pt-3 text-[#00416A] pb-1 font-medium mt-5">{title}</p>
+      <p className="pt-3 text-[#00416A] pb-1 font-medium mt-5">{name}</p>
     </div>
   );
 };

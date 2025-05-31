@@ -1,15 +1,9 @@
-export interface DiseaseCategory {
+export interface IDiseaseUsageGroup {
   id: string;
   name: string;
-  icon: string; // path đến icon SVG
+  icon: string;
 }
-import Image from "next/image";
-
-interface Props {
-  category: DiseaseCategory;
-}
-
-const Disease03Item = ({ category }: Props) => {
+const Disease03Item = ({ name, icon }: IDiseaseUsageGroup) => {
   return (
     // w-28 sm:w-32
     <div
@@ -17,16 +11,9 @@ const Disease03Item = ({ category }: Props) => {
         max-w-[9rem]p-3  transition cursor-pointer shadow-sm hover:shadow-md"
     >
       <div className="w-14 h-14 relative">
-        <Image
-          src={category.icon}
-          alt=""
-          fill
-          className="object-contain rounded-full"
-        />
+        <img src={icon} alt={name} className="object-contain rounded-full" />
       </div>
-      <p className="text-sm text-center font-medium text-gray-800">
-        {category.name}
-      </p>
+      <p className="text-sm text-center font-medium text-gray-800">{name}</p>
     </div>
   );
 };
