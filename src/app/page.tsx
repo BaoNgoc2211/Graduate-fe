@@ -1,10 +1,9 @@
 // import CountrySlider from "@/components/country-slide";
 
-import BestSeller from "@/components/components/best-seller";
-import Hero from "@/components/components/hero";
-import LatestCollection from "@/components/components/lastest-collection";
-import OurPolicy from "@/components/components/our-policy";
-import Sidebar from "@/components/sidebar/sidebar";
+import BestSeller from "@/components/home/best-seller";
+import Hero from "@/components/home/hero";
+import LatestCollection from "@/components/home/lastest-collection";
+import OurPolicy from "@/components/home/our-policy";
 // import { Sidebar } from "@/components/ui/sidebar";
 // import { Sidebar } from "@/components/ui/sidebar";
 // import Image from "next/image";

@@ -1,6 +1,6 @@
 "use client";
 import { BestSellerCollectionAPI } from "@/api/home.api";
-import MedicineItem from "@/app/medicine/components/medicine-item";
+import MedicineItem from "@/app/medicine/components/layout/medicine-item";
 import Title from "@/components/ui/title";
 import { IMedicine } from "@/interface/medicine/medicine.interface";
 import { useQuery } from "@tanstack/react-query";

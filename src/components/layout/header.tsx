@@ -3,6 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { assets } from "../../../public/assets";
 import SearchBar from "./search-bar";
+// import DropdownMenu from "../home/drop-dow";
 // import { useContext } from "react";
 
 const Header = () => {
@@ -45,7 +46,10 @@ const Header = () => {
           </li>
 
           <li>
-            <Link href="/symptom-checker" className="flex flex-col items-center gap-1">
+            <Link
+              href="/symptom-checker"
+              className="flex flex-col items-center gap-1"
+            >
               <p>Khuyến nghị thuốc</p>
               <hr className="w-2/4 border-none h-[1.5px] bg-gray-700 hidden" />
             </Link>
@@ -76,6 +80,7 @@ const Header = () => {
               className="cursor-pointer"
             />
           </Link>
+          {/* <DropdownMenu /> */}
           <div className="group-hover:block hidden absolute dropdown-menu right-0 pt-4">
             <div className="flex flex-col gap-2 w-36 py-3 px-5 bg-slate-100 text-gray-500 rounded">
               <p className="cursor-pointer hover:text-black">

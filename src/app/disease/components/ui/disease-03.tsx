@@ -1,48 +1,22 @@
-
+import { IDiseaseUsageGroup } from "@/interface/disease/disease-usage.interface";
 import Disease03Item from "../layout/disease-03-item";
-const categories: DiseaseCategory[] = [
-  {
-    id: "cardiology",
-    name: "Bệnh Tim Mạch",
-    icon: "/assets/disease-icons/tim-mach.svg",
-  },
-  {
-    id: "orthopedic",
-    name: "Bệnh Cơ Xương Khớp",
-    icon: "/assets/disease-icons/co-xuong.svg",
-  },
-  {
-    id: "respiratory",
-    name: "Bệnh Hô Hấp",
-    icon: "/assets/disease-icons/ho-hap.svg",
-  },
-  {
-    id: "infectious",
-    name: "Bệnh Truyền Nhiễm",
-    icon: "/assets/disease-icons/truyen-nhiem.svg",
-  },
-  {
-    id: "neurology",
-    name: "Bệnh Thần Kinh",
-    icon: "/assets/disease-icons/than-kinh.svg",
-  },
-  {
-    id: "dermatology",
-    name: "Bệnh Về Da",
-    icon: "/assets/disease-icons/ve-da.svg",
-  },
-  {
-    id: "dermatology",
-    name: "Bệnh Về Da",
-    icon: "/assets/disease-icons/ve-da.svg",
-  },
-];
+import { useQuery } from "@tanstack/react-query";
+import { getALLDisCategoryAPI } from "@/api/disease/disease-category.api";
+
 const Disease03 = () => {
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ["get-medicine-category"],
+    queryFn: () => getALLDisCategoryAPI(),
+  });
+  console.log("Data", data);
+
+  if (isLoading) return "isLoading...";
+  if (isError) return "Fetching data error";
   return (
     <section className="w-full">
-      <div className="flex gap-4 p-4 justify-center overflow-x-auto md:overflow-visible rounded-2xl shadow-sm hover:shadow-md">
-        {categories.map((category) => (
-          <Disease03Item key={category.id} category={category} />
+      <div className="flex gap-4 py-3 justify-between overflow-x-auto md:overflow-visible rounded-2xl shadow-sm hover:shadow-md">
+        {data?.data?.map((item: IDiseaseUsageGroup, index: number) => (
+          <Disease03Item key={index} name={item.name} icon={item.icon} />
         ))}
       </div>
     </section>

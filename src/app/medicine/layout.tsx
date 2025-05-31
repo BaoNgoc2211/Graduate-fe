@@ -1,6 +1,6 @@
 const MedicineLayout = ({children}: Readonly<{children: React.ReactNode}>) => {
   return (
-    <div>{children}</div>
+    <div className="px-20">{children}</div>
   )
 }
 

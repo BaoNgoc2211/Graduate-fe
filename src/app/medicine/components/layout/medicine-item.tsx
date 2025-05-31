@@ -1,11 +1,15 @@
 "use client";
 import Image from "next/image";
 import { IMedicine } from "@/interface/medicine/medicine.interface";
-import { assets } from "../../../../public/assets";
-
-const MedicineItem: React.FC<Partial<IMedicine>> = ({ name, thumbnail }) => {
+import { assets } from "../../../../../public/assets";
+import Link from "next/link";
+const MedicineItem: React.FC<Partial<IMedicine>> = ({
+  _id,
+  name,
+  thumbnail,
+}) => {
   return (
-    <>
+    <Link href={`/medicine/${_id}`}>
       <div className="text-gray-700 bg-white rounded-xl shadow-md p-4 w-full max-w-[260px] relative cursor-copy">
         <div className="overflow-hidden">
           <img
@@ -76,7 +80,7 @@ const MedicineItem: React.FC<Partial<IMedicine>> = ({ name, thumbnail }) => {
         </div>
        </div>
       </div> */}
-    </>
+    </Link>
   );
 };
 export default MedicineItem;

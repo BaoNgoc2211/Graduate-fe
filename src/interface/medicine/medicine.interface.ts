@@ -1,13 +1,13 @@
 import { DetailedDosageFormEnum } from "@/enum/medicine/medicine.enum";
-import mongoose from "mongoose";
 
 export interface IReview {
-  user: mongoose.Types.ObjectId;
+  user: string;
   rating: number;
   comment: string;
-  medicine_id: mongoose.Types.ObjectId;
+  medicine_id: string;
 }
 export interface IMedicine {
+  _id: string;
   code: string;
   name: string;
   thumbnail: string;
@@ -26,8 +26,8 @@ export interface IMedicine {
   storage: string; // bảo quản
   active: string;
   note: string;
-  age_group: string; //mongoose.Types.ObjectId[]
-  medCategory_id: mongoose.Types.ObjectId[];
-  medUsage_id?: mongoose.Types.ObjectId[];
-  manufacturer_id: mongoose.Types.ObjectId;
+  age_group: string; 
+  medCategory_id: string[];
+  medUsage_id?: string[];
+  manufacturer_id: string;
 }
