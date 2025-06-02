@@ -6,12 +6,12 @@ import Title from "../ui/title";
 import { LatestCollectionAPI } from "@/api/home.api";
 const LatestCollection = () => {
   const createAdd = new Date();
-  createAdd.setDate(createAdd.getDate() - 5);
+  createAdd.setDate(createAdd.getDate() - 30);
+  const formattedDate = createAdd.toISOString().split("T")[0];
   const { data, isLoading, isError } = useQuery({
-    queryKey: ["get-Best-Seller-collection", createAdd],
-    queryFn: () => LatestCollectionAPI(createAdd),
+    queryKey: ["get-Best-Seller-collection", formattedDate],
+    queryFn: () => LatestCollectionAPI(formattedDate),
   });
-
   console.log("Data", data);
   if (isLoading) return "isLoading...";
   if (isError) return "Fetching data error";
@@ -35,6 +35,7 @@ const LatestCollection = () => {
           />
         ))}
       </div>
+      
     </div>
   );
 };

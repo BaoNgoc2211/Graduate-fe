@@ -5,5 +5,5 @@ export interface IDisCategory {
   code: string;
   name: DisCategoryEnum;
   icon: string;
-  disUsage: mongoose.Types.ObjectId[];
+  disUsage?: mongoose.Types.ObjectId[];
 }

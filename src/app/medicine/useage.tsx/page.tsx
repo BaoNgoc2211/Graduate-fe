@@ -1,39 +1,27 @@
 "use client";
 import { getALLMedicineAPI } from "@/api/medicine/medicine.api";
 import Filter from "@/components/filter/filter";
-
 import { IMedicine } from "@/interface/medicine/medicine.interface";
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import TitleFilter from "@/components/filter/title-filter";
 import Button from "@/components/ui/button";
-import MedicineItem from "./components/layout/medicine-item";
-import Medicine01 from "./components/ui/medicine-01";
-import Medicine02 from "./components/ui/medicine-02";
-import TitleMedicine from "./components/layout/title";
 import Title from "@/components/ui/title";
-const MedicinePage = () => {
+import MedicineItem from "../components/layout/medicine-item";
+const MedicineUsagePage = () => {
   const [setType] = useState([]);
   const { data, isLoading, isError } = useQuery({
     queryKey: ["get-latest-collection"],
     queryFn: () => getALLMedicineAPI(),
   });
 
-  console.log("Category", data);
+  console.log("Data", data);
 
   if (isLoading) return "isLoading...";
   if (isError) return "Fetching data error";
 
   return (
     <div className="min-h-screen mb-5">
-      <div>
-        <TitleMedicine text1="Tra cứu thuốc" />
-        <Medicine01 />
-      </div>
-      <div className="pt-10">
-        <TitleMedicine text1="Thuốc theo nhóm điều trị" />
-        <Medicine02 />
-      </div>
       <div className="flex flex-col lg:flex-row gap-4 lg:gap-10 pt-10 lg:px-10 xl:px-20 items-center">
         <aside className="w-full lg:w-1/6">
           <TitleFilter title="Bộ lọc" />
@@ -78,7 +66,7 @@ const MedicinePage = () => {
               thumbnail={item.thumbnail}
             />
           ))} */}
-            {data?.data?.map((item: IMedicine) => (
+            {data?.data?.map((item: IMedicine, W) => (
               <MedicineItem
                 key={item._id}
                 _id={item._id}
@@ -96,4 +84,4 @@ const MedicinePage = () => {
     </div>
   );
 };
-export default MedicinePage;
+export default MedicineUsagePage;

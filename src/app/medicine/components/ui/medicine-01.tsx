@@ -28,7 +28,7 @@ const Medicine01 = () => {
   return (
     <div className="w-full overflow-x-auto md:overflow-x-visible">
       {/*  md:flex-col gap-4 p-4 w-max md:w-full */}
-      <div className="flex flex-col  py-3 justify-between lg:flex-row items-center gap-2 5 py-3 rounded-2xl transition-all cursor-pointer shadow-sm hover:shadow-md">
+      <div className="flex flex-col  px-5 lg:flex-row items-center gap-3 5 py-3 rounded-2xl transition-all cursor-pointer shadow-sm hover:shadow-md">
         {data?.data?.map((item: IMedicineCategory, index: number) => (
           <Medicine01Item key={index} name={item.name} icon={item.icon} />
         ))}

@@ -4,7 +4,7 @@ import Disease01 from "./components/ui/disease-01";
 import Disease02 from "./components/ui/disease-02";
 import Disease03 from "./components/ui/disease-03";
 
-const Collection = () => {
+const DiseasePage = () => {
   // const { data, isLoading, isError } = useQuery({
   //   queryKey: ["get-category-disease"],
   //   queryFn: getALLDisCategoryAPI,
@@ -15,7 +15,8 @@ const Collection = () => {
   return (
     <div>
       <div className="flex flex-col mb-5">
-        <TitleDisease text1="Bệnh phổ biến biến biến"/>
+        {/* phổ biến biến biến */}
+        <TitleDisease text1="Bệnh theo khoa"/>
         <Disease01 />
       </div>
       <div className="flex flex-col mb-5">
@@ -37,4 +38,4 @@ const Collection = () => {
     </div>
   );
 };
-export default Collection;
+export default DiseasePage;

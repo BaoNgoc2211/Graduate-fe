@@ -8,7 +8,7 @@ import Step05 from "./components/form/step-05";
 import NavbarForm from "./components/ui/navbar-form";
 // import Step1 from "@/app/symptom-checker/components/form/step-01";
 
-const SymptomChecker = () => {
+const SymptomCheckerPage = () => {
   // const [step, setStep] = useState(1);
   // const [formData, setFormData] = useState({
   //   gender: "",
@@ -47,4 +47,4 @@ const SymptomChecker = () => {
     </>
   );
 };
-export default SymptomChecker;
+export default SymptomCheckerPage;

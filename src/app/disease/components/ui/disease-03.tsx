@@ -14,7 +14,7 @@ const Disease03 = () => {
   if (isError) return "Fetching data error";
   return (
     <section className="w-full">
-      <div className="flex gap-4 py-3 justify-between overflow-x-auto md:overflow-visible rounded-2xl shadow-sm hover:shadow-md">
+      <div className="flex gap-4 py-3 justify-between overflow-x-auto md:overflow-visible rounded-2xl ">
         {data?.data?.map((item: IDiseaseUsageGroup, index: number) => (
           <Disease03Item key={index} name={item.name} icon={item.icon} />
         ))}
