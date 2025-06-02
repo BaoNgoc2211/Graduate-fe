@@ -19,6 +19,6 @@ export const getDisCategoryAPI = async (id: string) => {
   return res.data;
 };
 export const getALLDisCategoryAPI = async () => {
-  const res = await APIConfig.get(`/api/disCategory/get-disCategory`);
+  const res = await APIConfig.get(`/api/disCategory/getAll`);
   return res.data;
 };

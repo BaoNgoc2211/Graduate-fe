@@ -13,8 +13,8 @@ export const editMedicineAPI = async (id: string, data: IMedicine) => {
   const res = await APIConfig.put(`/api/medicine/${id}`, data);
   return res.data;
 };
-export const getMedicineAPI = async (id: string) => {
-  const res = await APIConfig.get(`/api/medicine/${id}`);
+export const getMedicineAPI = async (id: string): Promise<{data: IMedicine}> => {
+  const res = await APIConfig.get<{data: IMedicine}>(`/api/medicine/${id}`);
   return res.data;
 };
 export const getALLMedicineAPI = async () => {

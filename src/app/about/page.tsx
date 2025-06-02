@@ -3,7 +3,7 @@ import { assets } from "../../../public/assets";
 import Image from "next/image";
 import NewsletterBox from "@/components/layout/news-letter-box";
 
-const About = () => {
+const AboutPage = () => {
   return (
     <div className="w-full flex flex-col justify-center">
       <div className="text-2xl tex-center pt-8 border-t ">
@@ -72,4 +72,4 @@ const About = () => {
     </div>
   );
 };
-export default About;
+export default AboutPage;
