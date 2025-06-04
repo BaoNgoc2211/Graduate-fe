@@ -26,6 +26,8 @@ const MedicineDetailPage = () => {
         image={data?.data.image}
         packaging={data?.data.packaging}
         dosage={data?.data.dosageForm}
+        stock_id={data?.data.stock_id}
+      
       />
       <NavbarInfo
         note={data?.data.note}

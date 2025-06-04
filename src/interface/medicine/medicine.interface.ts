@@ -1,4 +1,4 @@
-import { DetailedDosageFormEnum } from "@/enum/medicine/medicine.enum";
+
 
 export interface IReview {
   user: string;
@@ -38,7 +38,7 @@ export interface IMedicine {
   thumbnail: string;
   image?: string[];
   packaging: string;
-  dosageForm: DetailedDosageFormEnum; // dạng điều chế
+  dosageForm: string; // dạng điều chế
   use?: string; // cách dùng
   dosage?: string; // liều dùng
   indication?: string; // công dụng
@@ -55,6 +55,9 @@ export interface IMedicine {
   medCategory_id: string[];
   medUsage_id?: string[];
   manufacturer_id: string;
-  price: number;
-  quantity: number;
+  stock_id: {
+    _id: string;
+    quantity: number;
+    sellingPrice: number;
+  };
 }

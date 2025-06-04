@@ -9,7 +9,7 @@ export default function Layout({
   return (
     <>
       <div className="bg-white">
-        <div className="container max-w-7xl mx-auto sm:px-10">
+        <div className="container max-w-7xl mx-auto sm:px-2">
           <FakeShopProvider>
             <div className="w-full px-5 sm:px-0 py-5">{children}</div>
           </FakeShopProvider>

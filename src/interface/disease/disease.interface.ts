@@ -1,4 +1,3 @@
-import mongoose from "mongoose";
 import { SeverityLevelEnum } from "../../enum/disease/disease.enum";
 import { RiskGroup } from "../../enum/disease/disease.enum";
 export interface IDisease {
@@ -15,17 +14,17 @@ export interface IDisease {
   treatmentPlan: string;
   notes?: string;
   status: string;
-  symptomIds: mongoose.Types.ObjectId[];
-  diseaseCategoryIds: mongoose.Types.ObjectId[];
-  diseaseUsageGroupIds: mongoose.Types.ObjectId[];
+  symptomIds: string[];
+  diseaseCategoryIds: string[];
+  diseaseUsageGroupIds: string[];
 }
 export interface Disease_Symptom {
-  disease_id: mongoose.Types.ObjectId;
-  symptom_id: mongoose.Types.ObjectId;
+  disease_id: string;
+  symptom_id: string;
 }
 export interface Disease_Medicine {
-  disease_id: mongoose.Types.ObjectId;
-  medicine_id: mongoose.Types.ObjectId;
+  disease_id: string;
+  medicine_id: string;
 }
 export interface IProductMethod extends Document {
   addDisease(data: IDisease): Promise<IDisease>;

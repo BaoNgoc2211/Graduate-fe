@@ -1,12 +1,12 @@
 import Title from "@/components/ui/title";
-import { ShopContext } from "@/context/ShopContext";
+import { FakeShopProvider } from "@/context/fakeShopProvider";
 import React, { useContext } from "react";
 
 
 const CartTotal = () => {
   const shippingDiscount = 32000;
   const voucherDiscount = 10000;
-  const { currency, delivery_fee, getCartAmount } = useContext(ShopContext)!;
+  const { currency, delivery_fee, getCartAmount } = useContext(FakeShopProvider)!;
   return (
     <div className="w-full">
       <div className="text-2xl">
