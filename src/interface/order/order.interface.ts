@@ -1,24 +1,27 @@
-import mongoose from "mongoose";
-import {
-  PaymentMethodEnum,
-  PaymentStatusEnum,
-  OrderStatus
-} from "@/enum/order/order.enum";
-
 export interface IOrder {
-  user_id: mongoose.Types.ObjectId;
-  IInfo: IInfo;
-  voucher_id: mongoose.Types.ObjectId;
-  shipping_id: mongoose.Types.ObjectId;
-  status: OrderStatus;
+  _id: string;
+  status: string;
   totalAmount: number;
-  finalAmount?: number;
-  paymentMethod: PaymentMethodEnum;
-  paymentStatus: PaymentStatusEnum;
-  orderDetail: mongoose.Types.ObjectId[];
-}
-export interface IInfo {
-  address: string;
-  phone: string;
-  name: string;
+  shippingFee: number;
+  shippingVoucher: number;
+  totalVoucher: number;
+  orderDate: Date;
+  order_id: {
+    stock_id: {
+      medicine_id: {
+        thumbnail: string;
+        packaging: string;
+      };
+    };
+    name: string;
+    price: string;
+    quantity: number;
+    totalAmount: number;
+    note: string;
+  };
+  Info: {
+    address: string;
+    name: string;
+    phone: number;
+  };
 }

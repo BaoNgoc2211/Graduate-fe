@@ -7,6 +7,8 @@ const MedicineDetail: React.FC<Partial<IMedicine>> = ({
   image,
   packaging,
   dosageForm,
+  stock_id,
+  manufacturer_id,
 }) => {
   return (
     <div className="px-5 py-5 max-w-5xl mx-auto">
@@ -64,23 +66,12 @@ const MedicineDetail: React.FC<Partial<IMedicine>> = ({
             ))}
             <span className="text-gray-500 text-sm">(chưa có đánh giá)</span>
             <p>||</p>
-            <span className="text-gray-500 text-sm">Kho:10  </span>
+            <span className="text-gray-500 text-sm">{stock_id?.quantity} </span>
           </div>
           {/* Giá giả định */}
-          <p className="text-2xl text-red-600 font-bold">500.000 VND</p>
-          {/* Quy cách đóng gói */}
-          {/* <div className="flex gap-2">
-            {packaging.map((pkg, index) => (
-              <button
-                key={index}
-                className="border px-4 py-2 rounded-lg text-sm hover:border-blue-500"
-              >
-                {pkg}
-              </button>
-            ))}
-          </div> */}
-
-          {/* Thông tin thêm */}
+          <p className="text-2xl text-red-600 font-bold">
+            {stock_id?.sellingPrice} VND
+          </p>
           <div>
             <p className="mb-1">
               <span className="font-bold text-blue-900">Quy cách:</span>{" "}
@@ -92,7 +83,7 @@ const MedicineDetail: React.FC<Partial<IMedicine>> = ({
             </p>
             <p className="mb-4">
               <span className="font-bold text-blue-900">Hãng sản xuất:</span>{" "}
-              (đang cập nhật)
+              {manufacturer_id}
             </p>
             <button className="bg-white border border-blue-900 text-blue-900 py-3 px-6 rounded-lg hover:bg-blue-900 hover:text-white transition">
               Mua ngay
