@@ -19,7 +19,7 @@ export interface IOrder {
     totalAmount: number;
     note: string;
   };
-  Info: {
+  info: {
     address: string;
     name: string;
     phone: number;

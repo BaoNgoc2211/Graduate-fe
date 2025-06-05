@@ -3,6 +3,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { assets } from "../../../public/assets";
 import SearchBar from "./search-bar";
+import NavItem from "../home/nav-item";
+import DropMenu from "../home/drop-menu";
 // import DropdownMenu from "../home/drop-dow";
 // import { useContext } from "react";
 
@@ -27,44 +29,22 @@ const Header = () => {
       <div className="flex flex-col gap-2 py-3 px-5">
         <ul className="hidden sm:flex gap-5 text-sm text-gray-700 justify-center w-full">
           <li>
-            <Link href="/" className="flex flex-col items-center gap-1">
-              <p>Trang chủ</p>
-              <hr className="w-2/4 border-none h-[1.5px] bg-gray-700 hidden" />
-            </Link>
+            <NavItem href="/" label="Trang chủ" />
           </li>
           <li>
-            <Link href="/medicine" className="flex flex-col items-center gap-1">
-              <p>Thuốc</p>
-              <hr className="w-2/4 border-none h-[1.5px] bg-gray-700 hidden" />
-            </Link>
+            <NavItem href="/medicine" label="Thuốc" />
           </li>
           <li>
-            <Link href="/disease" className="flex flex-col items-center gap-1">
-              <p>Bệnh</p>
-              <hr className="w-2/4 border-none h-[1.5px] bg-gray-700 hidden" />
-            </Link>
-          </li>
-
-          <li>
-            <Link
-              href="/symptom-checker"
-              className="flex flex-col items-center gap-1"
-            >
-              <p>Khuyến nghị thuốc</p>
-              <hr className="w-2/4 border-none h-[1.5px] bg-gray-700 hidden" />
-            </Link>
+            <NavItem href="/" label="Bệnh" />
           </li>
           <li>
-            <Link href="/voucher" className="flex flex-col items-center gap-1">
-              <p>Mã giảm giá</p>
-              <hr className="w-2/4 border-none h-[1.5px] bg-gray-700 hidden" />
-            </Link>
+            <NavItem href="/" label="Khuyến nghị thuốc" />
           </li>
           <li>
-            <Link href="/about" className="flex flex-col items-center gap-1">
-              <p>Về chúng tôi</p>
-              <hr className="w-2/4 border-none h-[1.5px] bg-gray-700 hidden" />
-            </Link>
+            <NavItem href="/" label="Mã giảm giá" />
+          </li>
+          <li>
+            <NavItem href="/" label="Về chúng tôi" />
           </li>
         </ul>
         <SearchBar />
@@ -81,8 +61,11 @@ const Header = () => {
             />
           </Link>
           {/* <DropdownMenu /> */}
-          <div className="group-hover:block hidden absolute dropdown-menu right-0 pt-4">
-            <div className="flex flex-col gap-2 w-36 py-3 px-5 bg-slate-100 text-gray-500 rounded">
+          <div className="group-hover:block hidden absolute dropdown-menu right-0 pt-4 z-50">
+            <DropMenu />
+          </div>
+          {/* <div className="group-hover:block hidden absolute dropdown-menu right-0 pt-4">
+            <div className="flex flex-col gap-2 w-50 py-3 px-5 bg-slate-100 text-gray-500 rounded">
               <p className="cursor-pointer hover:text-black">
                 Thông tin cá nhân
               </p>
@@ -92,7 +75,7 @@ const Header = () => {
               <p className="cursor-pointer hover:text-black">Mã giảm giá</p>
               <p className="cursor-pointer hover:text-black">Đăng xuất</p>
             </div>
-          </div>
+          </div> */}
         </div>
         <Link href="/cart" className="relative">
           <Image
