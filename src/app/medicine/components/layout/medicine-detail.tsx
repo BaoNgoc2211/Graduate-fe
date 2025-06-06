@@ -1,7 +1,14 @@
 "use client";
 import Image from "next/image";
 import { IMedicine } from "@/interface/medicine/medicine.interface";
+import { useRouter } from "next/navigation";
+import { useMutation } from "@tanstack/react-query";
+import { createCartAPI } from "@/api/cart/cart.api";
+import { toast } from "react-toastify";
+import { ICart, ICartItem } from "@/interface/order/cart.interface";
+
 const MedicineDetail: React.FC<Partial<IMedicine>> = ({
+  _id,
   name,
   thumbnail,
   image,
@@ -10,6 +17,67 @@ const MedicineDetail: React.FC<Partial<IMedicine>> = ({
   stock_id,
   manufacturer_id,
 }) => {
+  const router = useRouter();
+
+  const user_id =
+    typeof window !== "undefined" ? localStorage.getItem("user_id") || "" : "";
+  const mutation = useMutation({
+    mutationKey: ["add-to-cart"],
+    mutationFn: (cartData: ICart) => createCartAPI(cartData),
+    onSuccess: (res: any) => {
+      if (res?.message === "Add Product On Cart Successful") {
+        toast.success("Đã thêm vào giỏ hàng!");
+        router.push("/cart");
+      } else {
+        toast.error("Thêm vào giỏ hàng thất bại!");
+      }
+    },
+    onError: (error) => {
+      console.error("Error adding to cart:", error);
+      toast.error("Thêm vào giỏ hàng thất bại!");
+    },
+  });
+  // const handleBuyNow = () => {
+  //   mutation.mutate();
+  // };
+  const handleBuyNow = () => {
+    if (!_id || !stock_id?.sellingPrice) {
+      toast.error("Thiếu thông tin sản phẩm!");
+      return;
+    }
+
+    // const cartData: ICart = {
+    //   user_id,
+    //   medicine_item: [
+    //     {
+    //       _id: _id || "unknown",
+    //       thumbnail: thumbnail || "",
+    //       name: name || "Unknown",
+    //       price: stock_id?.sellingPrice || 0,
+    //       quantity: 1,
+    //     },
+    //   ],
+    //   totalItems: 1,
+    //   totalPrice: stock_id?.sellingPrice || 0,
+    // };
+    const cartItem: ICartItem = {
+      _id,
+      thumbnail: thumbnail || "",
+      name: name || "Unknown",
+      price: stock_id.sellingPrice,
+      quantity: 1,
+    };
+
+    const cartData: ICart = {
+      user_id,
+      medicine_item: [cartItem],
+      totalItems: 1,
+      totalPrice: stock_id.sellingPrice,
+    };
+
+    mutation.mutate(cartData);
+  };
+
   return (
     <div className="px-5 py-5 max-w-5xl mx-auto">
       <div className="flex flex-col lg:flex-row gap-10">
@@ -85,7 +153,10 @@ const MedicineDetail: React.FC<Partial<IMedicine>> = ({
               <span className="font-bold text-blue-900">Hãng sản xuất:</span>{" "}
               {manufacturer_id}
             </p>
-            <button className="bg-white border border-blue-900 text-blue-900 py-3 px-6 rounded-lg hover:bg-blue-900 hover:text-white transition">
+            <button
+              onClick={handleBuyNow}
+              className="bg-white border border-blue-900 text-blue-900 py-3 px-6 rounded-lg hover:bg-blue-900 hover:text-white transition"
+            >
               Mua ngay
             </button>
             <ul className="text-sm text-gray-600 list-disc pl-5 mt-3">

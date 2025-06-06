@@ -31,6 +31,7 @@ import { Order } from "@/styles/order"; // bạn có thể đổi lại import n
 import StatusTag from "./statusTag";
 import Button01 from "../ui/button-01";
 import Button02 from "../ui/button-02";
+import Image from "next/image";
 
 interface OrderCardProps {
   order: Order;
@@ -55,6 +56,9 @@ const OrderCard: React.FC<OrderCardProps> = ({
 
   return (
     <div className="bg-white shadow-md rounded-xl p-5 mb-4 flex flex-col md:flex-row justify-between items-start md:items-center transition hover:shadow-lg">
+      <div>
+        <Image src="/thuoc-test-02.jpeg" alt="" width={20} height={20} />
+      </div>
       <div className="space-y-1">
         <p className="font-semibold text-lg">
           Đơn hàng: <span className="text-blue-600">{order.id}</span>
@@ -73,7 +77,7 @@ const OrderCard: React.FC<OrderCardProps> = ({
 
         <div className="flex justify-end gap-3">
           <Button01 text=" Chi tiết" onClick={handleDetailClick} />
-          <Button02 text="Hủy" onClick={handleCancelClick}/>
+          <Button02 text="Hủy" onClick={handleCancelClick} />
           {/* <button
             onClick={handleDetailClick}
             className="flex flex-wrap items-center gap-2 md:flex-row text-sm text-blue-600 hover:underline hover:font-medium"

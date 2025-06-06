@@ -10,7 +10,7 @@ const Button02 = (props: ButtonProps) => {
   return (
     <button
       onClick={props.onClick}
-      className={`w-auto px-1 py-1 rounded-full 
+      className={`w-auto px-4 py-2 rounded-full text-center
       bg-white text-red-600 border border-red-600 
       font-bold transition-all duration-300 
       hover:bg-red-600 hover:text-white 
