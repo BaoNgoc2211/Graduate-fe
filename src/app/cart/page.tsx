@@ -1,4 +1,5 @@
 "use client";
+import { getAllCartAPI } from "@/api/cart/cart.api";
 //#region  version 01 full
 // import { useState, useEffect } from "react";
 // import { useRouter } from "next/router";
@@ -95,36 +96,49 @@
 // export default Cart;
 //#endregion
 import Title from "@/components/ui/title";
+import { ICart } from "@/interface/order/cart.interface";
+import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import Link from "next/link";
+import { useState } from "react";
 
-const mockCartData = [
-  {
-    _id: "1",
-    size: "M",
-    quantity: 2,
-    name: "Thuốc bổ mắt",
-    price: 150000,
-    image: ["/thuoc-test-02.jpeg"],
-  },
-  {
-    _id: "2",
-    size: "L",
-    quantity: 1,
-    name: "Viên uống vitamin C",
-    price: 100000,
-    image: ["/thuoc-test-02.jpeg"],
-  },
-];
+// const mockCartData = [
+//   {
+//     _id: "1",
+//     size: "M",
+//     quantity: 2,
+//     name: "Thuốc bổ mắt",
+//     price: 150000,
+//     image: ["/thuoc-test-02.jpeg"],
+//   },
+//   {
+//     _id: "2",
+//     size: "L",
+//     quantity: 1,
+//     name: "Viên uống vitamin C",
+//     price: 100000,
+//     image: ["/thuoc-test-02.jpeg"],
+//   },
+// ];
 
 const Cart = () => {
+  const [setType] = useState([]);
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ["get-cart"],
+    queryFn: () => getAllCartAPI(),
+  });
+
+  console.log("Category", data);
+
+  if (isLoading) return "isLoading...";
+  if (isError) return "Fetching data error";
   return (
     <div className="border-t pt-14">
       <div className="text-2xl mb-3">
         <Title text1={"Giỏ Hàng"} text2={" Của Bạn"} />
       </div>
 
-      {mockCartData.map((item, index) => (
+      {/* {mockCartData.map((item, index) => (
         <div
           key={index}
           className="py-4 border-t border-b text-gray-700 grid grid-cols-[3fr_2fr_1fr] sm:grid-cols-[4fr_2fr_0.5fr] items-center gap-4"
@@ -171,6 +185,20 @@ const Cart = () => {
             />
           </div>
         </div>
+      ))} */}
+      <div
+        key={index}
+        className="py-4 border-t border-b text-gray-700 grid grid-cols-[3fr_2fr_1fr] sm:grid-cols-[4fr_2fr_0.5fr] items-center gap-4"
+      >
+       
+      </div>
+      {data?.data?.map((item: ICart> (
+        <MedicineItem
+          key={item._id}
+          _id={item._id}
+          name={item.name}
+          thumbnail={item.thumbnail}
+        />
       ))}
 
       <div className="flex justify-end my-20">

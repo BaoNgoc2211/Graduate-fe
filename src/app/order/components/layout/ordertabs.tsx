@@ -1,29 +1,36 @@
-import React from 'react';
-import { Order, OrderStatus } from '@/styles/order';
-import OrderCard from './ordercard';
+import React from "react";
+import { Order, OrderStatus } from "@/styles/order";
+import OrderCard from "./ordercard";
 // import OrderCard from './OrderCard';
 
 interface Props {
-  activeTab: OrderStatus| 'Tất cả';
-  onChangeTab: (tab: OrderStatus | 'Tất cả') => void;
+  activeTab: OrderStatus | "Tất cả";
+  onChangeTab: (tab: OrderStatus | "Tất cả") => void;
   orders: Order[];
 }
 
-const tabs: (OrderStatus | 'Tất cả')[] = [
-  'Tất cả', 'Chờ xác nhận', 'Đã xác nhận', 'Đang giao', 'Hoàn tất', 'Đã hủy'
+const tabs: (OrderStatus | "Tất cả")[] = [
+  "Tất cả",
+  "Chờ xác nhận",
+  "Đã xác nhận",
+  "Đang giao",
+  "Hoàn tất",
+  "Đã hủy",
 ];
 
 const OrderTabs: React.FC<Props> = ({ activeTab, onChangeTab, orders }) => {
   return (
     <div>
       <div className="flex gap-2 mb-4 flex-wrap">
-        {tabs.map(tab => (
+        {tabs.map((tab) => (
           <button
             key={tab}
             onClick={() => onChangeTab(tab)}
-            className={`px-4 py-2 rounded-full border ${
-              activeTab === tab ? 'bg-blue-600 text-white' : 'bg-white text-gray-700'
-            } hover:bg-blue-100`}
+            className={`px-4 py-2  border ${
+              activeTab === tab
+                ? "bg-blue-600 rounded-r-full text-white"
+                : "bg-white text-gray-700"
+            } hover:bg-blue-200`}
           >
             {tab}
           </button>
@@ -31,7 +38,7 @@ const OrderTabs: React.FC<Props> = ({ activeTab, onChangeTab, orders }) => {
       </div>
 
       <div className="grid gap-4">
-        {orders.map(order => (
+        {orders.map((order) => (
           <OrderCard key={order.id} order={order} />
         ))}
         {orders.length === 0 && (

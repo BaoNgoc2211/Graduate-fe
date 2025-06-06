@@ -12,7 +12,7 @@ export const updateCartAPI = async (id: string, data: ICart) => {
   const res = await APIConfig.put(`/api/cart/update/${id}`, data);
   return res.data;
 };
-export const getAllCartAPI = async (id: string, data: ICart) => {
-  const res = await APIConfig.put(`/api/cart/getAll`, data);
+export const getAllCartAPI = async () => {
+  const res = await APIConfig.put(`/api/cart/getAll`);
   return res.data;
 };
