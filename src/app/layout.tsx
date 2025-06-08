@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Urbanist, Open_Sans } from "next/font/google";
-import "./globals.css";
+// import "./globals.css";
+import "../styles/globals.css";
 import { cn } from "@/lib/utils";
 import QueryProvider from "@/providers/query-provider";
 import Header from "@/components/layout/header";
