@@ -91,6 +91,7 @@ const MedicinePage = () => {
           <div className="w-2xl mt-5 justify-center">
             <Button text="Xem thêm" />
           </div>
+          
         </main>
       </div>
     </div>
