@@ -9,10 +9,11 @@
 //   <TabsContent value="account">Make changes to your account here.</TabsContent>
 //   <TabsContent value="password">Change your password here.</TabsContent>
 // </Tabs>;
-import Button from "@/components/home/button";
+// import Button from "@/components/home/button";
 import Button04 from "@/components/ui/button-04";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-import { FC } from "react";
+// import { IMedicine } from "@/interface/medicine/medicine.interface";
+// import { FC } from "react";
 // import { IMedicine } from "@/types/IMedicine"; // Đường dẫn import IMedicine tuỳ chỉnh
 
 interface MedicineTabsProps {

@@ -61,11 +61,11 @@
 "use client";
 // import Image from "next/image";
 import { IMedicine } from "@/interface/medicine/medicine.interface";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+// import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import MedicineImage from "./medicine-image";
 import MedicineInfo from "./medicine-info";
-import { data } from "react-router-dom";
-import MedicineTabs from "./medicine-tabs";
+// import { data } from "react-router-dom";
+// import MedicineTabs from "./medicine-tabs";
 
 const MedicineDetail: React.FC<Partial<IMedicine>> = ({
   _id,
@@ -116,7 +116,8 @@ const MedicineDetail: React.FC<Partial<IMedicine>> = ({
                   Change your password here.
                 </TabsContent>
               </Tabs> */}
-              <MedicineTabs name={name} packaging={packaging} />
+              {/* <MedicineTabs name={name} packaging={packaging}/> */}
+              {/* <MedicineTabs _id={} code={} name={} thumbnail="" /> */}
             </div>
           </div>
         </div>
