@@ -1,5 +1,4 @@
 "use client";
-import { IMedicine } from "@/interface/medicine/medicine.interface";
 import { useRouter } from "next/navigation";
 import { useMutation } from "@tanstack/react-query";
 import { createCartAPI } from "@/api/cart/cart.api";

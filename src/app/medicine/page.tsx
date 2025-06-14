@@ -1,7 +1,6 @@
 "use client";
 import { getALLMedicineAPI } from "@/api/medicine/medicine.api";
 import Filter from "@/components/filter/filter";
-
 import { IMedicine } from "@/interface/medicine/medicine.interface";
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
@@ -14,7 +13,7 @@ import TitleMedicine from "./components/layout/title";
 import Title from "@/components/ui/title";
 const MedicinePage = () => {
   const [setType] = useState([]);
-  const { data, isLoading, isError } = useQuery({
+  const { data, isLoading, isError } = useQuery<{ data: IMedicine[] }>({
     queryKey: ["get-latest-collection"],
     queryFn: () => getALLMedicineAPI(),
   });
@@ -91,7 +90,6 @@ const MedicinePage = () => {
           <div className="w-2xl mt-5 justify-center">
             <Button text="Xem thêm" />
           </div>
-          
         </main>
       </div>
     </div>

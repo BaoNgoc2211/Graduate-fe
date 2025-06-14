@@ -29,7 +29,7 @@
     ".next/types/**/*.ts",
     "src/app/medicine/collection",
     "src/app/medicine/detail",
-    "src/app/medicine/[id]"
+    "src/app/medicine/[_id]"
   ],
   "exclude": ["node_modules"]
 }

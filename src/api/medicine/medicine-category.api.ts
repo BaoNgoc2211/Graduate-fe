@@ -1,26 +1,25 @@
+import { IMedicineCategory } from "@/interface/medicine/medicine-category";
 import APIConfig from "../api.config";
-// import { IMedicineCategory } from "@/interface/medicine/medicine-category";
+import { IMedicine } from "@/interface/medicine/medicine.interface";
 
-// export const addMeCategoryAPI = async (data: IMedicineCategory) => {
-//   const res = await APIConfig.post(`/api/medicine/`, data);
-//   return res.data;
-// };
-// export const deleteMedCategoryAPI = async (id: string) => {
-//   const res = await APIConfig.delete(`/api/medicine/${id}`);
-//   return res.data;
-// };
-// export const editMedCategoryAPI = async (
-//   id: string,
-//   data: IMedicineCategory
-// ) => {
-//   const res = await APIConfig.put(`/api/medicine/${id}`, data);
-//   return res.data;
-// };
 export const getMedCategoryAPI = async (id: string) => {
   const res = await APIConfig.get(`/api/medicine/cate/${id}`);
   return res.data;
 };
-export const getALLMedCategoryAPI = async () => {
+export const getALLMedCategoryAPI = async (): Promise<{
+  data: IMedicineCategory[];
+}> => {
   const res = await APIConfig.get(`/api/medicine/cate`);
-  return res.data;
+  return res.data as Promise<{ data: IMedicineCategory[] }>;
+};
+export const getListMedicine = async (
+  status: string
+): Promise<{ data: IMedicine }> => {
+  try {
+    const res = await APIConfig.get<{ data: IMedicine }>(`/api/medicine/`);
+    return res.data;
+  } catch (error) {
+    console.error("Error fetching medicine:", error);
+    throw error;
+  }
 };
