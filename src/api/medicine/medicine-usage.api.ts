@@ -9,7 +9,10 @@ export const deleteMedUsageAPI = async (id: string) => {
   const res = await APIConfig.delete(`/api/medicine/${id}`);
   return res.data;
 };
-export const editMedUsageAPI = async (id: string, data: IMedicineUsageGroup) => {
+export const editMedUsageAPI = async (
+  id: string,
+  data: IMedicineUsageGroup
+) => {
   const res = await APIConfig.put(`/api/medicine/${id}`, data);
   return res.data;
 };
@@ -17,7 +20,10 @@ export const getMedUsageAPI = async (id: string) => {
   const res = await APIConfig.get(`/api/medicine/${id}`);
   return res.data;
 };
-export const getALLMedUsageAPI = async () => {
+
+export const getAllMedUsageAPI = async (): Promise<{
+  data: IMedicineUsageGroup[];
+}> => {
   const res = await APIConfig.get(`/api/medicine/`);
-  return res.data;
+  return res.data as Promise<{ data: IMedicineUsageGroup[] }>;
 };

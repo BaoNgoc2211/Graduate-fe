@@ -1,22 +1,7 @@
-// import { TabsList } from "@/components/ui/tabs"
-
-// import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-// <Tabs defaultValue="account" className="w-[400px]">
-//   <TabsList>
-//     <TabsTrigger value="account">Account</TabsTrigger>
-//     <TabsTrigger value="password">Password</TabsTrigger>
-//   </TabsList>
-//   <TabsContent value="account">Make changes to your account here.</TabsContent>
-//   <TabsContent value="password">Change your password here.</TabsContent>
-// </Tabs>;
-import Button from "@/components/home/button";
 import Button04 from "@/components/ui/button-04";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-import { FC } from "react";
-// import { IMedicine } from "@/types/IMedicine"; // Đường dẫn import IMedicine tuỳ chỉnh
 
 interface MedicineTabsProps {
-  // medicine: IMedicine;
   name: string;
   packaging: string;
 }
@@ -34,11 +19,11 @@ const MedicineTabs: React.FC<MedicineTabsProps> = ({ name, packaging }) => {
         <div className=" flex flex-col space-y-2 p-4 ">
           <h2 className="text-xl font-semibold mb-3">{name}</h2>
           <hr className="border border-gray-300 mb-3" />
-          <p className="text-gray-600">Phân loại sản phẩm: </p>
-          <p className="border border-blue-900 text-blue-900 w-fit p-1 rounded-xl text-[14px]">
+          <p className="text-blue-900 font-semibold">Phân loại sản phẩm: </p>
+          <p className="border border-blue-900 text-blue-900 w-fit px-5 py-2 text-[14px]">
             {packaging}
           </p>
-          <p className="text-gray-600">Số lượng: </p>
+          <p className="text-blue-900 font-semibold">Số lượng: </p>
           <div className="flex space-x-4 justify-center">
             <p className="border border-blue-900 rounded-full w-7 h-7 text-center font-semibold">
               {" "}

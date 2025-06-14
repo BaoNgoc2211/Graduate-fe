@@ -9,15 +9,20 @@ export const deleteMedicineAPI = async (id: string) => {
   const res = await APIConfig.delete(`/api/medicine/${id}`);
   return res.data;
 };
-export const editMedicineAPI = async (id: string, data: IMedicine) => {
-  const res = await APIConfig.put(`/api/medicine/${id}`, data);
-  return res.data;
+
+export const getMedicineAPI = async (
+  id: string
+): Promise<{ data: IMedicine }> => {
+  try {
+    const res = await APIConfig.get<{ data: IMedicine }>(`/api/medicine/${id}`);
+    return res.data;
+  } catch (error) {
+    console.error("Error fetching medicine:", error);
+    throw error;
+  }
 };
-export const getMedicineAPI = async (id: string): Promise<{data: IMedicine}> => {
-  const res = await APIConfig.get<{data: IMedicine}>(`/api/medicine/${id}`);
-  return res.data;
-};
-export const getALLMedicineAPI = async () => {
-  const res = await APIConfig.get(`/api/medicine/`);
-  return res.data;
+
+export const getALLMedicineAPI = async (): Promise<{ data: IMedicine[] }> => {
+  const response = await APIConfig.get(`/api/medicine/`);
+  return response.data as Promise<{ data: IMedicine[] }>;
 };

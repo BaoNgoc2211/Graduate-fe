@@ -1,5 +1,5 @@
 // import React, { useState } from "react";
-
+"use client";
 import { IMedicine } from "@/interface/medicine/medicine.interface";
 import { useState } from "react";
 const NavbarInfo: React.FC<Partial<IMedicine>> = ({

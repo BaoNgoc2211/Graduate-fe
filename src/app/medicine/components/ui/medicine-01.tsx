@@ -1,23 +1,13 @@
 import {
   getALLMedCategoryAPI,
-  getMedCategoryAPI,
 } from "@/api/medicine/medicine-category.api";
 import Medicine01Item from "../layout/medicine-01-item";
-import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { IMedicineCategory } from "@/interface/medicine/medicine-category";
 
-// const categories = [
-//   { title: "Thuốc kê đơn", icon: "🩺" },
-//   { title: "Thuốc không kê đơn", icon: "🔪" },
-//   { title: "Thực phẩm chức năng", icon: "👂" },
-//   { title: "Vắc-xin – Sinh phẩm", icon: "🧴" },
-//   { title: "Thuốc Đông y – Dược liệu", icon: "🧴" },
-//   { title: "Thiết bị y tế", icon: "🧴" },
-// ];
 const Medicine01 = () => {
   // const [type, setType] = useState([]);
-  const { data, isLoading, isError } = useQuery({
+  const { data, isLoading, isError } = useQuery<{ data: IMedicineCategory[] }>({
     queryKey: ["get-medicine-category"],
     queryFn: () => getALLMedCategoryAPI(),
   });

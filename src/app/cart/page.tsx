@@ -1,237 +1,254 @@
-// "use client";
-// import { getAllCartAPI } from "@/api/cart/cart.api";
-// //#region  version 01 full
-// // import { useState, useEffect } from "react";
-// // import { useRouter } from "next/router";
-// // import Title from "@/components/ui/title";
-// // import { assets } from "../../../public/assets";
-// // import { useNavigate } from "react-router-dom";
-// // import CartTotal from "./components/cart-total";
-
-// // const Cart = () => {
-// //   const [navigate] = useNavigate;
-// //   const [cartData, setCartData] = useState<
-// //     { _id: string; size: string; quantity: number }[]
-// //   >([]);
-// //   return (
-// //     <div className="border-t pt-14">
-// //       <div className="text-2xl mb-3">
-// //         <Title text1={"Giỏ Hàng"} text2={"Của Bạn"} />
-// //       </div>
-// //       <div>
-// //         {cartData.map((item, index) => {
-// //           const productData = products.find(
-// //             (product) => product._id === item._id
-// //           );
-// //           if (!productData) {
-// //             return null; // hoặc hiển thị một thông báo lỗi
-// //           }
-// //           return (
-// //             <div
-// //               key={index}
-// //               className="py-4 border-t border-b text-gray-700 grid grid-cols-[4fr_0.5fr] sm:grid-cols-[4fr_2fr_0.5fr] items-center gap-4"
-// //             >
-// //               <div className="flex items-start gap-6">
-// //                 <img
-// //                   className="w-16 sm:w-20"
-// //                   src={productData.image[0]}
-// //                   alt=""
-// //                 />
-// //                 <div>
-// //                   <p className="text-xs sm:text-lg font-medium">
-// //                     {productData.name}
-// //                   </p>
-// //                   <div className="flex items-center gap-5 mt-2">
-// //                     <p>
-// //                       {currency}
-// //                       {productData.price}
-// //                     </p>
-// //                     <p className="px-2 sm:px-3 sm:py-1 border bg-slate-50">
-// //                       {item.size}
-// //                     </p>
-// //                   </div>
-// //                 </div>
-// //               </div>
-// //               <input
-// //                 onChange={(e) =>
-// //                   e.target.value === `` || e.target.value === "0"
-// //                     ? null
-// //                     : updateQuantity(
-// //                         item._id,
-// //                         item.size,
-// //                         Number(e.target.value)
-// //                       )
-// //                 }
-// //                 className="border max-w-10 sm:max-w-20 px-1 sm:px-2 py-1"
-// //                 type="number"
-// //                 min={1}
-// //                 defaultValue={item.quantity}
-// //               />
-// //               <img
-// //                 onClick={() => updateQuantity(item._id, item.size, 0)}
-// //                 className="w-4 mr-4 sm:w-5 cursor-pointer"
-// //                 src={assets.bin_icon}
-// //                 alt=""
-// //               />
-// //             </div>
-// //           );
-// //         })}
-// //         <div className="flex justify-end my-20">
-// //           <div className="w-full sm:w-[450px]">
-// //             <CartTotal />
-// //             <div className="w-full text-end">
-// //               <button
-// //                 onClick={() => navigate("/place-order")}
-// //                 className="bg-black text-white text-sm my-8 px-8 py-3 "
-// //               >
-// //                 THANH TOÁN
-// //               </button>
-// //             </div>
-// //           </div>
-// //         </div>
-// //       </div>
-// //     </div>
-// //   );
-// // };
-// // export default Cart;
-// //#endregion
+"use client";
+import { getAllCartAPI } from "@/api/cart/cart.api";
+//#region  version 01 full
+// import { useState, useEffect } from "react";
+// import { useRouter } from "next/router";
 // import Title from "@/components/ui/title";
-// import { ICart } from "@/interface/order/cart.interface";
-// import { useQuery } from "@tanstack/react-query";
-// import Image from "next/image";
-// import Link from "next/link";
-// import { useState } from "react";
-
-// // const mockCartData = [
-// //   {
-// //     _id: "1",
-// //     size: "M",
-// //     quantity: 2,
-// //     name: "Thuốc bổ mắt",
-// //     price: 150000,
-// //     image: ["/thuoc-test-02.jpeg"],
-// //   },
-// //   {
-// //     _id: "2",
-// //     size: "L",
-// //     quantity: 1,
-// //     name: "Viên uống vitamin C",
-// //     price: 100000,
-// //     image: ["/thuoc-test-02.jpeg"],
-// //   },
-// // ];
+// import { assets } from "../../../public/assets";
+// import { useNavigate } from "react-router-dom";
+// import CartTotal from "./components/cart-total";
 
 // const Cart = () => {
-//   const [setType] = useState([]);
-//   const { data, isLoading, isError } = useQuery({
-//     queryKey: ["get-cart"],
-//     queryFn: () => getAllCartAPI(),
-//   });
-
-//   console.log("Category", data);
-
-//   if (isLoading) return "isLoading...";
-//   if (isError) return "Fetching data error";
+//   const [navigate] = useNavigate;
+//   const [cartData, setCartData] = useState<
+//     { _id: string; size: string; quantity: number }[]
+//   >([]);
 //   return (
 //     <div className="border-t pt-14">
 //       <div className="text-2xl mb-3">
-//         <Title text1={"Giỏ Hàng"} text2={" Của Bạn"} />
+//         <Title text1={"Giỏ Hàng"} text2={"Của Bạn"} />
 //       </div>
-
-//       {/* {mockCartData.map((item, index) => (
-//         <div
-//           key={index}
-//           className="py-4 border-t border-b text-gray-700 grid grid-cols-[3fr_2fr_1fr] sm:grid-cols-[4fr_2fr_0.5fr] items-center gap-4"
-//         >
-//           <div className="flex items-start gap-4">
-//             <img className="w-16 sm:w-20" src={item.image[0]} alt="" />
-//             <div>
-//               <p className="text-xs sm:text-lg font-medium">{item.name}</p>
-//               <div className="flex items-center gap-5 mt-2">
-//                 <p>{item.price.toLocaleString()} VND</p>
-//                 <p className="px-2 sm:px-3 sm:py-1 border bg-slate-50">
-//                   {item.size}
-//                 </p>
+//       <div>
+//         {cartData.map((item, index) => {
+//           const productData = products.find(
+//             (product) => product._id === item._id
+//           );
+//           if (!productData) {
+//             return null; // hoặc hiển thị một thông báo lỗi
+//           }
+//           return (
+//             <div
+//               key={index}
+//               className="py-4 border-t border-b text-gray-700 grid grid-cols-[4fr_0.5fr] sm:grid-cols-[4fr_2fr_0.5fr] items-center gap-4"
+//             >
+//               <div className="flex items-start gap-6">
+//                 <img
+//                   className="w-16 sm:w-20"
+//                   src={productData.image[0]}
+//                   alt=""
+//                 />
+//                 <div>
+//                   <p className="text-xs sm:text-lg font-medium">
+//                     {productData.name}
+//                   </p>
+//                   <div className="flex items-center gap-5 mt-2">
+//                     <p>
+//                       {currency}
+//                       {productData.price}
+//                     </p>
+//                     <p className="px-2 sm:px-3 sm:py-1 border bg-slate-50">
+//                       {item.size}
+//                     </p>
+//                   </div>
+//                 </div>
 //               </div>
+//               <input
+//                 onChange={(e) =>
+//                   e.target.value === `` || e.target.value === "0"
+//                     ? null
+//                     : updateQuantity(
+//                         item._id,
+//                         item.size,
+//                         Number(e.target.value)
+//                       )
+//                 }
+//                 className="border max-w-10 sm:max-w-20 px-1 sm:px-2 py-1"
+//                 type="number"
+//                 min={1}
+//                 defaultValue={item.quantity}
+//               />
+//               <img
+//                 onClick={() => updateQuantity(item._id, item.size, 0)}
+//                 className="w-4 mr-4 sm:w-5 cursor-pointer"
+//                 src={assets.bin_icon}
+//                 alt=""
+//               />
 //             </div>
-//           </div>
-//           <div className="flex items-start gap-1">
-//             <Image
-//               src="/icon/icon_minus.png"
-//               alt="icon minus"
-//               width={24}
-//               height={24}
-//             />
-//             <input
-//               className="border max-w-10 sm:max-w-20 px-1 sm:px-2 py-1 mr-2"
-//               type="number"
-//               min={1}
-//               defaultValue={item.quantity}
-//               disabled
-//             />{" "}
-//             <Image
-//               src="/icon/icon_plus.png"
-//               alt="icon plus"
-//               width={24}
-//               height={24}
-//             />
-//           </div>
-//           <div className="flex flex-row">
-//             <p className="mr-5">300.000VND</p>{" "}
-//             <img
-//               className="w-6 mr-4 sm:w-5 opacity-30"
-//               src="/icon/icon_trash.png"
-//               alt="delete"
-//             />
-//           </div>
-//         </div>
-//       ))} */}
-//       <div
-//         key={index}
-//         className="py-4 border-t border-b text-gray-700 grid grid-cols-[3fr_2fr_1fr] sm:grid-cols-[4fr_2fr_0.5fr] items-center gap-4"
-//       >
-       
-//       </div>
-//       {data?.data?.map((item: ICart> (
-//         <MedicineItem
-//           key={item._id}
-//           _id={item._id}
-//           name={item.name}
-//           thumbnail={item.thumbnail}
-//         />
-//       ))}
-
-//       <div className="flex justify-end my-20">
-//         <div className="w-full sm:w-[450px]">
-//           <div className="border p-4 bg-gray-50 rounded-lg">
-//             <div className="flex justify-between text-sm font-semibold">
-//               <span>Tổng tiền:</span>
-//               <span>
-//                 {mockCartData
-//                   .reduce((acc, item) => acc + item.price * item.quantity, 0)
-//                   .toLocaleString()}{" "}
-//                 VND
-//               </span>
-//             </div>
-//           </div>
-//           <div className="w-full text-end">
-//             <Link href="/checkout">
-//               {" "}
+//           );
+//         })}
+//         <div className="flex justify-end my-20">
+//           <div className="w-full sm:w-[450px]">
+//             <CartTotal />
+//             <div className="w-full text-end">
 //               <button
-//                 className="bg-black text-white text-sm my-8 px-8 py-3 cursor-not-allowed opacity-50"
-//                 disabled
+//                 onClick={() => navigate("/place-order")}
+//                 className="bg-black text-white text-sm my-8 px-8 py-3 "
 //               >
 //                 THANH TOÁN
 //               </button>
-//             </Link>
+//             </div>
 //           </div>
 //         </div>
 //       </div>
 //     </div>
 //   );
 // };
-
 // export default Cart;
+//#endregion
+import Title from "@/components/ui/title";
+import { ICart } from "@/interface/order/cart.interface";
+import { useQuery } from "@tanstack/react-query";
+import Link from "next/link";
+import { useMemo } from "react";
+import CartItem from "./components/cart-item";
+const Cart = () => {
+  // const [setType] = useState([]);
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ["get-cart"],
+    queryFn: () => getAllCartAPI(),
+  });
+  const cartItems: ICart[] = data?.data || [];
+  // Tính tổng tiền
+  const totalPrice = useMemo(() => {
+    return cartItems.reduce(
+      (acc, item) =>
+        acc + item.medicine_item.price * item.medicine_item.quantity,
+      0
+    );
+  }, [cartItems]);
+
+  // if (isLoading) {
+  //   return (
+  //     <div className="border-t pt-14 text-center">
+  //       <p className="text-gray-500">Đang tải giỏ hàng...</p>
+  //     </div>
+  //   );
+  // }
+  if (isError) {
+    return (
+      <div className="border-t pt-14 text-center">
+        <p className="text-red-500">
+          Không thể tải dữ liệu giỏ hàng. Vui lòng thử lại sau.
+        </p>
+      </div>
+    );
+  }
+  console.log("Category", data);
+
+  if (isLoading) return "isLoading...";
+  if (isError) return "Fetching data error";
+  return (
+    <div className="border-t pt-14">
+      <div className="text-2xl mb-3">
+        <Title text1={"Giỏ Hàng"} text2={" Của Bạn"} />
+      </div>
+
+      {/* {mockCartData.map((item, index) => (
+        <div
+          key={index}
+          className="py-4 border-t border-b text-gray-700 grid grid-cols-[3fr_2fr_1fr] sm:grid-cols-[4fr_2fr_0.5fr] items-center gap-4"
+        >
+          <div className="flex items-start gap-4">
+            <img className="w-16 sm:w-20" src={item.image[0]} alt="" />
+            <div>
+              <p className="text-xs sm:text-lg font-medium">{item.name}</p>
+              <div className="flex items-center gap-5 mt-2">
+                <p>{item.price.toLocaleString()} VND</p>
+                <p className="px-2 sm:px-3 sm:py-1 border bg-slate-50">
+                  {item.size}
+                </p>
+              </div>
+            </div>
+          </div>
+          <div className="flex items-start gap-1">
+            <Image
+              src="/icon/icon_minus.png"
+              alt="icon minus"
+              width={24}
+              height={24}
+            />
+            <input
+              className="border max-w-10 sm:max-w-20 px-1 sm:px-2 py-1 mr-2"
+              type="number"
+              min={1}
+              defaultValue={item.quantity}
+              disabled
+            />{" "}
+            <Image
+              src="/icon/icon_plus.png"
+              alt="icon plus"
+              width={24}
+              height={24}
+            />
+          </div>
+          <div className="flex flex-row">
+            <p className="mr-5">300.000VND</p>{" "}
+            <img
+              className="w-6 mr-4 sm:w-5 opacity-30"
+              src="/icon/icon_trash.png"
+              alt="delete"
+            />
+          </div>
+        </div>
+      ))} */}
+      {/* Danh sách sản phẩm */}
+      {cartItems.length > 0 ? (
+        cartItems.map((item) => (
+          <CartItem key={item.medicine_item._id} item={item} />
+        ))
+      ) : (
+        <p className="text-center text-gray-500 mt-4">
+          Giỏ hàng của bạn đang trống.
+        </p>
+      )}
+      {/* <div
+        key={index}
+        className="py-4 border-t border-b text-gray-700 grid grid-cols-[3fr_2fr_1fr] sm:grid-cols-[4fr_2fr_0.5fr] items-center gap-4"
+      >
+      </div>
+      {data?.data?.map((item: ICart> (
+        <MedicineItem
+          key={item._id}
+          _id={item._id}
+          name={item.name}
+          thumbnail={item.thumbnail}
+        />
+      ))} */}
+      {/* Tổng tiền và nút thanh toán */}
+      <div className="flex justify-end my-20">
+        <div className="w-full sm:w-[450px]">
+          <div className="border p-4 bg-gray-50 rounded-lg">
+            <div className="flex justify-between text-sm font-semibold">
+              <span>Tổng tiền:</span>
+              <span>{totalPrice.toLocaleString()} VND</span>
+            </div>
+          </div>
+          <div className="w-full text-end">
+            <Link href="/checkout">
+              {" "}
+              {/* <button
+                className="bg-black text-white text-sm my-8 px-8 py-3 cursor-not-allowed opacity-50"
+                disabled
+              >
+                THANH TOÁN
+              </button> */}
+              <button
+                className={`bg-black text-white text-sm my-8 px-8 py-3 ${
+                  cartItems.length === 0 ? "cursor-not-allowed opacity-50" : ""
+                }`}
+                disabled={cartItems.length === 0}
+              >
+                THANH TOÁN
+              </button>
+            </Link>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Cart;
 
 // //#region version 02
 // /* eslint-disable react/no-unescaped-entities */

@@ -1,33 +1,35 @@
 "use client";
-import { useParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { getMedicineAPI } from "@/api/medicine/medicine.api";
 import MedicineDetail from "../components/layout/medicine-detail";
 import NavbarInfo from "../components/layout/navbar-info";
+import { useParams } from "next/navigation";
 
 const MedicineDetailPage = () => {
-  const params = useParams();
-  const id = params?.id as string;
+  const params = useParams<{ _id: string }>();
+  const id = params._id
+  console.log(id);
+  const isIdReady = !!id;
   const { data, isLoading, isError } = useQuery({
     queryKey: ["medicine-detail", id],
     queryFn: () => getMedicineAPI(id),
+    enabled: isIdReady,
   });
-
   console.log("Detail", data);
-  if (isLoading) return "isLoading...";
-  if (isError) return "Fetching data error";
-
+  if (!isIdReady) return "Đang lấy ID...";
+  if (isLoading) return "Đang tải dữ liệu...";
+  if (isError) return "Lỗi khi lấy dữ liệu thuốc.";
   return (
     <>
       {" "}
       <MedicineDetail
+        _id={data?.data._id}
         name={data?.data.name}
         thumbnail={data?.data.thumbnail}
         image={data?.data.image}
         packaging={data?.data.packaging}
-        dosage={data?.data.dosageForm}
+        dosageForm={data?.data.dosageForm}
         stock_id={data?.data.stock_id}
-      
       />
       <NavbarInfo
         note={data?.data.note}

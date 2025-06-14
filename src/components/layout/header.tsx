@@ -4,16 +4,8 @@ import Image from "next/image";
 import { assets } from "../../../public/assets";
 import SearchBar from "./search-bar";
 import NavItem from "../home/nav-item";
-import DropMenu from "../home/drop-menu";
-// import DropdownMenu from "../home/drop-dow";
-// import { useContext } from "react";
 
 const Header = () => {
-  // const cart: ICart = {
-  // user_id: String,
-  // medicine_item: String,
-  // };
-  // const { getCartCount } = useContext(ShopContext);
   return (
     <div className="grid grid-cols-[auto_1fr_auto] font-medium border-b px-4">
       <div className="flex items-center">
@@ -35,7 +27,7 @@ const Header = () => {
             <NavItem href="/medicine" label="Thuốc" />
           </li>
           <li>
-            <NavItem href="/" label="Bệnh" />
+            <NavItem href="/disease" label="Bệnh" />
           </li>
           <li>
             <NavItem href="/" label="Khuyến nghị thuốc" />
@@ -61,10 +53,10 @@ const Header = () => {
             />
           </Link>
           {/* <DropdownMenu /> */}
-          <div className="group-hover:block hidden absolute dropdown-menu right-0 pt-4 z-50">
+          {/* <div className="group-hover:block hidden absolute dropdown-menu right-0 pt-4 z-50">
             <DropMenu />
-          </div>
-          {/* <div className="group-hover:block hidden absolute dropdown-menu right-0 pt-4">
+          </div> */}
+          <div className="group-hover:block hidden absolute dropdown-menu right-0 pt-4">
             <div className="flex flex-col gap-2 w-50 py-3 px-5 bg-slate-100 text-gray-500 rounded">
               <p className="cursor-pointer hover:text-black">
                 Thông tin cá nhân
@@ -75,7 +67,7 @@ const Header = () => {
               <p className="cursor-pointer hover:text-black">Mã giảm giá</p>
               <p className="cursor-pointer hover:text-black">Đăng xuất</p>
             </div>
-          </div> */}
+          </div>
         </div>
         <Link href="/cart" className="relative">
           <Image
