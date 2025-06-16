@@ -8,6 +8,10 @@ export interface ISignIn {
   email: string;
   password: string;
 }
+export interface IVerify {
+  email: string;
+  otp: string;
+}
 export interface IInfo {
   fullName: string;
   email: string;
@@ -20,10 +24,7 @@ export interface IInfo {
   width: number;
   role: string;
 }
-export interface IVerify {
-  email: string;
-  otp: string;
-}
+
 export interface IForgotPassword {
   email: string;
 }

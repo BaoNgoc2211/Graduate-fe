@@ -21,7 +21,6 @@ export const getMedicineAPI = async (
     throw error;
   }
 };
-
 export const getALLMedicineAPI = async (): Promise<{ data: IMedicine[] }> => {
   const response = await APIConfig.get(`/api/medicine/`);
   return response.data as Promise<{ data: IMedicine[] }>;

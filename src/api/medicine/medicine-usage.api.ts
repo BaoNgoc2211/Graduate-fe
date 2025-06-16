@@ -27,3 +27,4 @@ export const getAllMedUsageAPI = async (): Promise<{
   const res = await APIConfig.get(`/api/medicine/`);
   return res.data as Promise<{ data: IMedicineUsageGroup[] }>;
 };
+

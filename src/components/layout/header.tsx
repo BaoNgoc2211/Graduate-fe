@@ -30,7 +30,7 @@ const Header = () => {
             <NavItem href="/disease" label="Bệnh" />
           </li>
           <li>
-            <NavItem href="/" label="Khuyến nghị thuốc" />
+            <NavItem href="/symptom-checker" label="Khuyến nghị thuốc" />
           </li>
           <li>
             <NavItem href="/" label="Mã giảm giá" />
@@ -61,9 +61,12 @@ const Header = () => {
               <p className="cursor-pointer hover:text-black">
                 Thông tin cá nhân
               </p>
-              <p className="cursor-pointer hover:text-black">
-                Lịch sử đơn hàng
-              </p>
+              <Link href="/order">
+                <p className="cursor-pointer hover:text-black">
+                  Lịch sử đơn hàng
+                </p>
+              </Link>
+
               <p className="cursor-pointer hover:text-black">Mã giảm giá</p>
               <p className="cursor-pointer hover:text-black">Đăng xuất</p>
             </div>

@@ -1,11 +1,12 @@
+import { LoaderCircle } from "lucide-react";
 import React from "react";
 
 interface ButtonProps {
   text: string;
-  onClick?: () => void;
+  onClick?: (e?: React.FormEvent) => void;
   className?: string;
+  isLoading?: boolean;
 }
-//bg-gradient-to-r from-indigo-600 to-blue-600
 const Button = (props: ButtonProps) => {
   return (
     <button
@@ -19,7 +20,14 @@ const Button = (props: ButtonProps) => {
         props.className || ""
       }`}
     >
-      {props.text}
+      {props.isLoading ? (
+        <div className="flex gap-x-2 w-full items-center justify-center">
+          <LoaderCircle className="animate-spin text-white" />
+          Please wait
+        </div>
+      ) : (
+        props.text
+      )}
     </button>
   );
 };

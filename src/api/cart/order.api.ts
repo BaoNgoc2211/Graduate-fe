@@ -1,18 +1,28 @@
 import { ICart } from "@/interface/order/cart.interface";
 import APIConfig from "../api.config";
-export const createCartAPI = async (data: ICart) => {
-  const res = await APIConfig.post(`/api/cart/create`, data);
+export const checkoutAPI = async (data: ICart) => {
+  const res = await APIConfig.post(`/api/order/checkout/`, data);
   return res.data;
 };
-export const deleteCartAPI = async (id: string) => {
-  const res = await APIConfig.delete(`/api/cart/delete/${id}`);
+export const getAllByUserIdAPI = async (userId: string) => {
+  const res = await APIConfig.get(`/api/order/status/${userId}`);
+  return res.data;
+}
+export const getOrderByStatusAPI = async (userId: string, status: string) => {
+  const res = await APIConfig.get(`/api/order/status/${userId}/${status}`);
+  return res.data;
+}
+export const getOrderByIdAPI = async (id: string) => {
+  const res = await APIConfig.get(`/api/order/${id}`);
+  return res.data;
+}
+export const cancelOrderAPI = async (id: string) => {
+  const res = await APIConfig.put(`/api/order/cancel/${id}`);
   return res.data;
 };
-export const updateCartAPI = async (id: string, data: ICart) => {
-  const res = await APIConfig.put(`/api/cart/update/${id}`, data);
+export const confirmOrderAPI = async (id: string) => {
+  const res = await APIConfig.put(`/api/order/confirm/${id}`);
   return res.data;
 };
-export const getAllCartAPI = async () => {
-  const res = await APIConfig.put(`/api/cart/getAll`);
-  return res.data;
-};
+
+
