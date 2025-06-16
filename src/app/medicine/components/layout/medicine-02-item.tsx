@@ -7,13 +7,13 @@ interface Props {
 const Medicine02Item = ({ name, icon }: Props) => {
   const [activeIcon] = useState(icon);
   return (
-    <div className="flex flex-col items-center justify-center bg-white  rounded-xl shadow-xl w-full max-w-sm py-3 px-5 hover:border hover:border-blue-900 ">
+    <div className="flex flex-col items-center justify-center bg-white shadow-xl w-full max-w-sm py-3 px-5 hover:border hover:border-blue-900 ">
       <div className=" overflow-hidden">
         <Image
           src={activeIcon ?? "/images/default-thumbnail.jpg"}
           alt={name}
-          width={80}
-          height={80}
+          width={40}
+          height={40}
           className="hover:scale-110 transition ease-in-out"
         />
       </div>

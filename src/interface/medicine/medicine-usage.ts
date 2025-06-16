@@ -1,7 +1,7 @@
-import { MedUsageGroup } from "@/enum/medicine/medicine-usage";
-
+import { IMedicine } from "./medicine.interface";
 export interface IMedicineUsageGroup {
-  code: string;
-  name: MedUsageGroup;
+  _id: string;
+  name: string;
   icon: string;
+  medicine: IMedicine[];
 }

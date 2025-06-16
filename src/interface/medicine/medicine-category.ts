@@ -1,7 +1,8 @@
-import { MedCategoryEnum } from "@/enum/medicine/medicine-category";
 
+import { IMedicine } from "./medicine.interface";
 export interface IMedicineCategory {
-  code: string;
-  name: MedCategoryEnum;
+  _id: string;
+  name: string;
   icon: string;
+  medicine: IMedicine[];
 }

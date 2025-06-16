@@ -30,6 +30,6 @@
     "src/app/medicine/collection",
     "src/app/medicine/detail",
     "src/app/medicine/[_id]"
-  ],
+, "src/app/medicine/category"  ],
   "exclude": ["node_modules"]
 }

@@ -37,11 +37,16 @@ const MedicineDetail: React.FC<Partial<IMedicine>> = ({
               quantity={stock_id?.quantity ?? 0}
             />
           </div>
-
           {/* Tab Mua ngay */}
           <div className="lg:basis-1/3">
             <div className="border border-blue-900 overflow-hidden shadow-md p-4 bg-white">
-              <MedicineTabs name={name ?? ""} packaging={packaging ?? ""} />
+              <MedicineTabs
+                medicineId={_id ?? ""}
+                name={name ?? ""}
+                packaging={packaging ?? ""}
+                thumbnail={thumbnail ?? ""}
+                price={stock_id?.sellingPrice ?? 0}
+              />
             </div>
           </div>
         </div>

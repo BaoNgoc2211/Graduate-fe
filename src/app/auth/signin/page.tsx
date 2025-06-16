@@ -5,14 +5,36 @@ import Input from "@/components/input";
 import { Lock, Phone } from "lucide-react";
 import Image from "next/image";
 import React, { useState } from "react";
+import { ISignIn } from "@/interface/auth/auth.interface";
+import { useMutation } from "@tanstack/react-query";
+import { signInAPI } from "@/api/auth.api";
+import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
 const SignIn = () => {
+  const router = useRouter();
   const [signIn, setSignIn] = useState({
     email: "",
     password: "",
   });
-  // bg-gradient-to-br from-green-200 to-green-500
+  console.log(signIn);
+  const mutation = useMutation({
+    mutationKey: ["signIn"],
+    mutationFn: (data: ISignIn) => signInAPI(data),
+    onSuccess: () => {
+      toast.success("Vui lòng nhập OTP!");
+      router.push("/auth/verify-email");
+    },
+    onError: (error: unknown) => {
+      const err = error as { message: string };
+      toast.error("Đăng nhập thất bại " + err.message);
+    },
+  });
+  const handleSignIn = () => {
+    console.log("Handle sign in");
+    mutation.mutate(signIn);
+  };
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#00416A] px-4">
+    <div className="min-h-screen flex items-center bg-gray-100 justify-center px-4">
       <div className="bg-white rounded-xl shadow-xl w-full max-w-md p-8">
         <h2 className="font-bold text-center text-2xl text-[#1850a3] mb-1">
           Sign In
@@ -46,7 +68,11 @@ const SignIn = () => {
             }
             icon={<Lock size={16} className="text-[#628CA9] opacity-80" />}
           />
-          <Button text="Sign In" onClick={() => alert("SignIn Click")} />
+          <Button
+            text="Sign In"
+            isLoading={mutation.isPending}
+            onClick={handleSignIn}
+          />
         </form>
         <p className="text-sm text text-center text-gray-700 mb-4">
           Join the community today!

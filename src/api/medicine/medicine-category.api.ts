@@ -1,25 +1,18 @@
 import { IMedicineCategory } from "@/interface/medicine/medicine-category";
 import APIConfig from "../api.config";
-import { IMedicine } from "@/interface/medicine/medicine.interface";
 
-export const getMedCategoryAPI = async (id: string) => {
-  const res = await APIConfig.get(`/api/medicine/cate/${id}`);
-  return res.data;
-};
 export const getALLMedCategoryAPI = async (): Promise<{
   data: IMedicineCategory[];
 }> => {
-  const res = await APIConfig.get(`/api/medicine/cate`);
-  return res.data as Promise<{ data: IMedicineCategory[] }>;
+  const response = await APIConfig.get(`/api/medicine/cate`);
+  return response.data as Promise<{ data: IMedicineCategory[] }>;
 };
-export const getListMedicine = async (
-  status: string
-): Promise<{ data: IMedicine }> => {
-  try {
-    const res = await APIConfig.get<{ data: IMedicine }>(`/api/medicine/`);
-    return res.data;
-  } catch (error) {
-    console.error("Error fetching medicine:", error);
-    throw error;
-  }
+
+export const getMedCateById = async (
+  medCategory_id: string
+): Promise<{ data: IMedicineCategory }> => {
+  const response = await APIConfig.get<{ data: IMedicineCategory }>(
+    `/api/medicine/cate/${medCategory_id}`
+  );
+  return response.data;
 };
