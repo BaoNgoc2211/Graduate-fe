@@ -1,8 +1,8 @@
-import { DisUsageGroupEnum } from "../../enum/disease/disease-usage.enum";
+import { IDisease } from "./disease.interface";
 
 export interface IDiseaseUsageGroup {
-  code: string;
-  name: DisUsageGroupEnum;
+  _id: string;
+  name: string;
   icon: string;
-  disCategory: string[];
+  disCategory: IDisease[];
 }

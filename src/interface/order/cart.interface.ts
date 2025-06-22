@@ -1,14 +1,15 @@
 export interface ICart {
+  _id?: string;
   user_id: string;
-  medicine_item: [
-    {
-      _id: string;
-      thumbnail: string;
-      name: string;
-      price: number;
-      quantity: number;
-    }
-  ];
-  totalItems: number;
-  totalPrice: number;
+  medicine_item: ICartItem;
+  quantity?: number;
+}
+export interface ICartItem {
+  medicine_id: {
+    _id: string;
+    name: string;
+    price: number;
+    thumbnail: string;
+  };
+  quantity: number;
 }

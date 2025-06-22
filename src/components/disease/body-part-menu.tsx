@@ -13,10 +13,10 @@ export default function BodyPartMenu({
         <button
           key={part}
           onClick={() => onSelect(part)}
-          className={`px-3 py-2 rounded-lg text-sm font-medium border transition ${
+          className={`border border-blue-900 w-full p-1 bg-white text-blue-900 shadow-lg text-sm font-medium transition ${
             selected === part
-              ? "bg-blue-600 text-white"
-              : "bg-white text-gray-700 hover:bg-gray-100"
+              ? "bg-while text-while"
+              : "text-while hover:bg-gray-100"
           }`}
         >
           {BodyPartEnum[part]}

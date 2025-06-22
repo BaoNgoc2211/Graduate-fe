@@ -5,7 +5,6 @@ import Input from "@/components/input";
 import { Lock, Phone } from "lucide-react";
 import Image from "next/image";
 import React, { useState } from "react";
-import { ISignIn } from "@/interface/auth/auth.interface";
 import { useMutation } from "@tanstack/react-query";
 import { signInAPI } from "@/api/auth.api";
 import { toast } from "react-toastify";
@@ -19,19 +18,21 @@ const SignIn = () => {
   console.log(signIn);
   const mutation = useMutation({
     mutationKey: ["signIn"],
-    mutationFn: (data: ISignIn) => signInAPI(data),
+    mutationFn: () => signInAPI(signIn),
     onSuccess: () => {
-      toast.success("Vui lòng nhập OTP!");
-      router.push("/auth/verify-email");
+      toast.success("Đăng nhập thành công");
+      router.push("/");
     },
     onError: (error: unknown) => {
       const err = error as { message: string };
+
       toast.error("Đăng nhập thất bại " + err.message);
     },
   });
-  const handleSignIn = () => {
-    console.log("Handle sign in");
-    mutation.mutate(signIn);
+
+  const handleSignIn = (e: React.FormEvent<HTMLElement>) => {
+    e.preventDefault();
+    mutation.mutate();
   };
   return (
     <div className="min-h-screen flex items-center bg-gray-100 justify-center px-4">
@@ -47,7 +48,7 @@ const SignIn = () => {
           <span>Use Google account</span>
         </button>
         <div className="text-center text-[#628CA9] text-sm mb-4">or</div>
-        <form className="mb-2">
+        <form className="mb-2" onSubmit={handleSignIn}>
           <Input
             placeholder="Enter your mobile or email"
             type="text"
@@ -68,11 +69,7 @@ const SignIn = () => {
             }
             icon={<Lock size={16} className="text-[#628CA9] opacity-80" />}
           />
-          <Button
-            text="Sign In"
-            isLoading={mutation.isPending}
-            onClick={handleSignIn}
-          />
+          <Button text="Sign In" isLoading={mutation.isPending} type="submit" />
         </form>
         <p className="text-sm text text-center text-gray-700 mb-4">
           Join the community today!

@@ -5,13 +5,6 @@ import Disease02 from "./components/ui/disease-02";
 import Disease03 from "./components/ui/disease-03";
 
 const DiseasePage = () => {
-  // const { data, isLoading, isError } = useQuery({
-  //   queryKey: ["get-category-disease"],
-  //   queryFn: getALLDisCategoryAPI,
-  // });
-
-  // if (isLoading) return <div>Đang tải dữ liệu...</div>;
-  // if (isError) return <div>Lỗi khi tải danh mục bệnh</div>;
   return (
     <div>
       <div className="flex flex-col mb-5">

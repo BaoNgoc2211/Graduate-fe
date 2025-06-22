@@ -3,7 +3,7 @@ import TitleFilter from "@/components/filter/title-filter";
 import Filter from "@/components/filter/filter";
 import Title from "@/components/ui/title";
 import Button from "@/components/ui/button";
-import { useMedicineCategoryById } from "@/hooks/medicine-category.hook";
+import { useMedicineCategoryById } from "@/hooks/medicine/medicine-category.hook";
 import MedicineItemCate from "../../components/layout/medicine-item-cate";
 
 const MedicineCategoryPage = () => {
@@ -14,7 +14,7 @@ const MedicineCategoryPage = () => {
 
   return (
     <div className="min-h-screen mb-5">
-      <div className="flex flex-col lg:flex-row gap-4 lg:gap-10 pt-10 lg:px-10 xl:px-20 items-center">
+      <div className="flex flex-col lg:flex-row gap-4 lg:gap-10 pt-10  items-center">
         <aside className="w-full lg:w-1/6">
           <TitleFilter title="Bộ lọc" />
           <Filter
@@ -56,7 +56,6 @@ const MedicineCategoryPage = () => {
                 medicine={item}
               />
             ))}
-           
           </div>
 
           <div className="w-2xl mt-5 justify-center">

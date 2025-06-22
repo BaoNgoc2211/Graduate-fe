@@ -3,6 +3,7 @@ import React from "react";
 
 interface ButtonProps {
   text: string;
+  type: "button" | "submit" | "reset";
   onClick?: (e?: React.FormEvent) => void;
   className?: string;
   isLoading?: boolean;
@@ -10,6 +11,7 @@ interface ButtonProps {
 const Button = (props: ButtonProps) => {
   return (
     <button
+      type={props.type}
       onClick={props.onClick}
       // className="w-full py-2 rounded-full bg-[#00416A] text-white font-semibold transition-all duration-300 hover:bg-gradient-to-r hover:from-[#00416A] hover:to-[#006994] active:translate-y-[1px] shadow-md hover:shadow-md"
       className={`w-full py-2 rounded-full 

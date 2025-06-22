@@ -2,13 +2,13 @@ import { BodyPart } from "@/mock/disease";
 import Image from "next/image";
 
 export const positions: Record<BodyPart, { top: string; left: string }> = {
-  HEAD: { top: "10%", left: "45%" },
-  NECK: { top: "18%", left: "46%" },
-  CHEST: { top: "28%", left: "45%" },
-  ABDOMEN: { top: "45%", left: "45%" },
-  GENITAL: { top: "60%", left: "47%" },
-  LIMBS: { top: "70%", left: "30%" },
-  SKIN: { top: "85%", left: "60%" },
+  HEAD: { top: "6%", left: "48.5%" },
+  NECK: { top: "16.4%", left: "48.5%" },
+  CHEST: { top: "26%", left: "45%" },
+  ABDOMEN: { top: "39%", left: "49%" },
+  GENITAL: { top: "47%", left: "49%" },
+  LIMBS: { top: "72%", left: "55.5%" },
+  SKIN: { top: "56%", left: "43%" },
 };
 
 export default function BodyMap({
@@ -19,13 +19,13 @@ export default function BodyMap({
   selectedPart: BodyPart;
 }) {
   return (
-    <div className="relative w-[400px]bg-white rounded-xl shadow-lg p-2 mx-auto">
+    <div className="relative w-[200px]bg-white rounded-xl shadow-lg p-2 mx-auto">
       <Image
-        src="/image/body.jpg"
+        src="/image/body.png"
         alt="Cơ thể người"
         width={400}
         height={700}
-        className="w-full h-auto"
+        className="w-full h-full"
       />
       {Object.entries(positions).map(([part, pos]) => (
         <button

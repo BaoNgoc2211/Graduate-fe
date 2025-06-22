@@ -272,7 +272,7 @@ const PlaceOrder = () => {
   };
 
   return (
-    <div className="flex flex-col sm:flex-row justify-between gap-4 sm:pt-8 min-h-[60vh] border border-blue-900 px-10">
+    <div className="flex flex-col sm:flex-row justify-between gap-4 sm:pt-8 min-h-[60vh] border border-blue-900 p-10">
       {/* Left Side */}
       <div className="flex flex-col gap-4 w-full sm:max-w-[500px]">
         <Title text1="Thông tin đơn hàng" text2="" />

@@ -1,6 +1,6 @@
 "use client";
 import { getMedCateById } from "@/api/medicine/medicine-category.api";
-import { IMedicineCategory } from "@/interface/medicine/medicine-category";
+import { IMedicineCategory } from "@/interface/medicine/medicine-category.interface";
 import { useQuery } from "@tanstack/react-query";
 import TitleFilter from "@/components/filter/title-filter";
 import Filter from "@/components/filter/filter";
@@ -34,7 +34,7 @@ const MedicinePage: React.FC<Props> = ({ categoryId }) => {
         <TitleMedicine text1="Thuốc theo nhóm điều trị" />
         <Medicine02 />
       </div>
-      <div className="flex flex-col lg:flex-row gap-4 lg:gap-10 pt-10 lg:px-10 xl:px-20 items-center">
+      <div className="flex flex-col lg:flex-row gap-4 lg:gap-10 pt-10 lg:px-5 xl:px-10 items-center">
         <aside className="w-full lg:w-1/6">
           <TitleFilter title="Bộ lọc" />
           <Filter

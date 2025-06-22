@@ -1,6 +1,6 @@
 import Medicine01Item from "../layout/medicine-01-item";
-import { IMedicineCategory } from "@/interface/medicine/medicine-category";
-import { useMedicineCategories } from "@/hooks/medicine-category.hook";
+import { IMedicineCategory } from "@/interface/medicine/medicine-category.interface";
+import { useMedicineCategories } from "@/hooks/medicine/medicine-category.hook";
 
 const Medicine01 = () => {
   const { data, isLoading, isError } = useMedicineCategories();

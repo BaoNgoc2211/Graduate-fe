@@ -1,7 +1,7 @@
 import { DisCategoryEnum } from "@/enum/disease/disease-category.enum";
 
 export interface IDisCategory {
-  code: string;
+  _id: string;
   name: DisCategoryEnum;
   icon: string;
   disUsage?: string[];

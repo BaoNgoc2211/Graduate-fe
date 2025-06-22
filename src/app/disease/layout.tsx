@@ -4,7 +4,7 @@ const DiseaseLayout = ({
   children,
 }: Readonly<{ children: React.ReactNode }>) => {
   return (
-    <div className="px-20 lg:px-20 lg:py-5">
+    <div className=" lg:px-20 lg:py-5">
       {/* <Heading /> */}
       {children}
     </div>
