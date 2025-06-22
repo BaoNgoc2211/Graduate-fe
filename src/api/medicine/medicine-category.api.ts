@@ -1,4 +1,4 @@
-import { IMedicineCategory } from "@/interface/medicine/medicine-category";
+import { IMedicineCategory } from "@/interface/medicine/medicine-category.interface";
 import APIConfig from "../api.config";
 
 export const getALLMedCategoryAPI = async (): Promise<{

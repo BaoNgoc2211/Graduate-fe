@@ -1,34 +1,26 @@
 "use client";
-import { getALLMedicineAPI } from "@/api/medicine/medicine.api";
-import Filter from "@/components/filter/filter";
-import { IMedicine } from "@/interface/medicine/medicine.interface";
-import { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
 import TitleFilter from "@/components/filter/title-filter";
-import Button from "@/components/ui/button";
+import Filter from "@/components/filter/filter";
 import Title from "@/components/ui/title";
-import MedicineItem from "../components/layout/medicine-item";
-const MedicineUsagePage = () => {
-  const [setType] = useState([]);
-  const { data, isLoading, isError } = useQuery({
-    queryKey: ["get-latest-collection"],
-    queryFn: () => getALLMedicineAPI(),
-  });
+import Button from "@/components/ui/button";
+import { useMedicineUsageGroupById } from "@/hooks/medicine/medicine-usage.hooks";
+import MedicineItemUsage from "../../components/layout/medicine-item-usage";
 
-  console.log("Data", data);
-
-  if (isLoading) return "isLoading...";
-  if (isError) return "Fetching data error";
+const MedicineCategoryPage = () => {
+  const { data, isLoading, isError } = useMedicineUsageGroupById();
+  const usage = data?.data;
+  if (isLoading) return <p>Loading...</p>;
+  if (isError || !usage?.medicine) return <p>Error loading data</p>;
 
   return (
     <div className="min-h-screen mb-5">
-      <div className="flex flex-col lg:flex-row gap-4 lg:gap-10 pt-10 lg:px-10 xl:px-20 items-center">
+      <div className="flex flex-col lg:flex-row gap-4 lg:gap-10 pt-10  items-center">
         <aside className="w-full lg:w-1/6">
           <TitleFilter title="Bộ lọc" />
           <Filter
             titleFilter="Khoảng giá"
             value="type"
-            onChange={() => setType}
+            onChange={() => {}}
             filterDetail_01="Dưới 100.000 đ"
             filterDetail_02="100.000 đ - 300.000 đ"
             filterDetail_03="300.000 đ - 500.000 đ"
@@ -37,41 +29,31 @@ const MedicineUsagePage = () => {
           <Filter
             titleFilter="Thương hiệu "
             value="type"
-            onChange={() => setType}
+            onChange={() => {}}
             filterDetail_01="Panadol"
             filterDetail_02="Decolgen"
             filterDetail_03="Paracetamol"
             filterDetail_04="Efferalgan"
           />
         </aside>
-        {/* Collection right */}
+
         <main className="w-full lg:flex-1">
-          {/* flex-1 */}
           <div className="flex items-center justify-between mb-4">
             <Title text1="SẢN PHẨM" text2="CHÍNH HÃNG" />
-            {/* select */}
             <select className="border-2 border-gray-300 text-sm px-2">
               <option value="relavent">Sắp xếp: Phù hợp</option>
               <option value="low-high">Giá: Thấp đến Cao</option>
               <option value="high-low">Giá: Cao đến Thấp</option>
             </select>
           </div>
-          {/* map Medicine  */}
-          {/* grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 gap-y-6 */}
+
           <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4">
-            {/* {filterMedicine.map((item, index) => (
-              <MedicineItem
-              key={index}
-              name={item.name}
-              thumbnail={item.thumbnail}
-            />
-          ))} */}
-            {data?.data?.map((item: IMedicine, W) => (
-              <MedicineItem
+            {usage.medicine.map((item) => (
+              <MedicineItemUsage
                 key={item._id}
                 _id={item._id}
                 name={item.name}
-                thumbnail={item.thumbnail}
+                medicine={item}
               />
             ))}
           </div>
@@ -84,4 +66,5 @@ const MedicineUsagePage = () => {
     </div>
   );
 };
-export default MedicineUsagePage;
+
+export default MedicineCategoryPage;

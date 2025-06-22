@@ -1,7 +1,7 @@
-const MedicineLayout = ({children}: Readonly<{children: React.ReactNode}>) => {
-  return (
-    <div className="px-20 md:max-w-full">{children}</div>
-  )
-}
+const MedicineUsageGroupLayout = ({
+  children,
+}: Readonly<{ children: React.ReactNode }>) => {
+  return <div className=" lg:px-20 lg:py-5">{children}</div>;
+};
 
-export default MedicineLayout
+export default MedicineUsageGroupLayout;

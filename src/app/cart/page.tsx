@@ -1,5 +1,4 @@
 "use client";
-import { getAllCartAPI } from "@/api/cart/cart.api";
 //#region  version 01 full
 // import { useState, useEffect } from "react";
 // import { useRouter } from "next/router";
@@ -97,33 +96,28 @@ import { getAllCartAPI } from "@/api/cart/cart.api";
 //#endregion
 import Title from "@/components/ui/title";
 import { ICart } from "@/interface/order/cart.interface";
-import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
 import { useMemo } from "react";
 import CartItem from "./components/cart-item";
+import { useCart } from "@/hooks/cart.hooks";
 const Cart = () => {
-  // const [setType] = useState([]);
-  const { data, isLoading, isError } = useQuery({
-    queryKey: ["get-cart"],
-    queryFn: () => getAllCartAPI(),
-  });
-  const cartItems: ICart[] = data?.data || [];
-  // Tính tổng tiền
-  const totalPrice = useMemo(() => {
-    return cartItems.reduce(
-      (acc, item) =>
-        acc + item.medicine_item.price * item.medicine_item.quantity,
-      0
-    );
-  }, [cartItems]);
+  const { data, isLoading, isError } = useCart();
+  const cartItems: ICart[] = useMemo(() => data?.data || [], [data]);
 
-  // if (isLoading) {
-  //   return (
-  //     <div className="border-t pt-14 text-center">
-  //       <p className="text-gray-500">Đang tải giỏ hàng...</p>
-  //     </div>
-  //   );
-  // }
+  const totalPrice = useMemo(() => {
+    return cartItems.reduce((acc, item) => {
+      const medicine = item.medicine_item.medicine_id;
+      const quantity = item.medicine_item.quantity;
+      return acc + medicine.price * quantity;
+    }, 0);
+  }, [cartItems]);
+  if (isLoading) {
+    return (
+      <div className="border-t pt-14 text-center">
+        <p className="text-gray-500">Đang tải giỏ hàng...</p>
+      </div>
+    );
+  }
   if (isError) {
     return (
       <div className="border-t pt-14 text-center">
@@ -133,88 +127,19 @@ const Cart = () => {
       </div>
     );
   }
-  console.log("Category", data);
 
-  if (isLoading) return "isLoading...";
-  if (isError) return "Fetching data error";
   return (
     <div className="border-t pt-14">
       <div className="text-2xl mb-3">
         <Title text1={"Giỏ Hàng"} text2={" Của Bạn"} />
       </div>
-
-      {/* {mockCartData.map((item, index) => (
-        <div
-          key={index}
-          className="py-4 border-t border-b text-gray-700 grid grid-cols-[3fr_2fr_1fr] sm:grid-cols-[4fr_2fr_0.5fr] items-center gap-4"
-        >
-          <div className="flex items-start gap-4">
-            <img className="w-16 sm:w-20" src={item.image[0]} alt="" />
-            <div>
-              <p className="text-xs sm:text-lg font-medium">{item.name}</p>
-              <div className="flex items-center gap-5 mt-2">
-                <p>{item.price.toLocaleString()} VND</p>
-                <p className="px-2 sm:px-3 sm:py-1 border bg-slate-50">
-                  {item.size}
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="flex items-start gap-1">
-            <Image
-              src="/icon/icon_minus.png"
-              alt="icon minus"
-              width={24}
-              height={24}
-            />
-            <input
-              className="border max-w-10 sm:max-w-20 px-1 sm:px-2 py-1 mr-2"
-              type="number"
-              min={1}
-              defaultValue={item.quantity}
-              disabled
-            />{" "}
-            <Image
-              src="/icon/icon_plus.png"
-              alt="icon plus"
-              width={24}
-              height={24}
-            />
-          </div>
-          <div className="flex flex-row">
-            <p className="mr-5">300.000VND</p>{" "}
-            <img
-              className="w-6 mr-4 sm:w-5 opacity-30"
-              src="/icon/icon_trash.png"
-              alt="delete"
-            />
-          </div>
-        </div>
-      ))} */}
-      {/* Danh sách sản phẩm */}
       {cartItems.length > 0 ? (
-        cartItems.map((item) => (
-          <CartItem key={item.medicine_item._id} item={item} />
-        ))
+        cartItems.map((item) => <CartItem key={item._id} item={item} />)
       ) : (
         <p className="text-center text-gray-500 mt-4">
           Giỏ hàng của bạn đang trống.
         </p>
       )}
-      {/* <div
-        key={index}
-        className="py-4 border-t border-b text-gray-700 grid grid-cols-[3fr_2fr_1fr] sm:grid-cols-[4fr_2fr_0.5fr] items-center gap-4"
-      >
-      </div>
-      {data?.data?.map((item: ICart> (
-        <MedicineItem
-          key={item._id}
-          _id={item._id}
-          name={item.name}
-          thumbnail={item.thumbnail}
-        />
-      ))} */}
-      {/* Tổng tiền và nút thanh toán */}
       <div className="flex justify-end my-20">
         <div className="w-full sm:w-[450px]">
           <div className="border p-4 bg-gray-50 rounded-lg">
@@ -225,13 +150,6 @@ const Cart = () => {
           </div>
           <div className="w-full text-end">
             <Link href="/checkout">
-              {" "}
-              {/* <button
-                className="bg-black text-white text-sm my-8 px-8 py-3 cursor-not-allowed opacity-50"
-                disabled
-              >
-                THANH TOÁN
-              </button> */}
               <button
                 className={`bg-black text-white text-sm my-8 px-8 py-3 ${
                   cartItems.length === 0 ? "cursor-not-allowed opacity-50" : ""

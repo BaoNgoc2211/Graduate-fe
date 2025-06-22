@@ -26,7 +26,7 @@ const OrderTabs: React.FC<Props> = ({ activeTab, onChangeTab, orders }) => {
           <button
             key={tab}
             onClick={() => onChangeTab(tab)}
-            className={`px-4 py-2  border ${
+            className={`px-4 py-2  border border-none ${
               activeTab === tab
                 ? "bg-blue-600 rounded-r-full text-white"
                 : "bg-white text-gray-700"

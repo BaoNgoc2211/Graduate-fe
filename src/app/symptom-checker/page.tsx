@@ -6,20 +6,8 @@ import Step03 from "./components/form/step-03";
 import Step04 from "./components/form/step-04";
 import Step05 from "./components/form/step-05";
 import NavbarForm from "./components/ui/navbar-form";
-// import Step1 from "@/app/symptom-checker/components/form/step-01";
 
 const SymptomCheckerPage = () => {
-  // const [step, setStep] = useState(1);
-  // const [formData, setFormData] = useState({
-  //   gender: "",
-  //   age: "",
-  //   symptom: [],
-  // });
-  // const next = () => setStep((prev) => prev + 1);
-  // const back = () => setStep((prev) => prev - 1);
-  // const handleChange = (data) => {
-  //   setFormData((prev) => ({ ...prev, ...data }));
-  // };
   const [step, setStep] = useState(1);
 
   const renderStepComponent = () => {

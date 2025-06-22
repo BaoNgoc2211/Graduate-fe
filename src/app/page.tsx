@@ -1,28 +1,47 @@
 // import CountrySlider from "@/components/country-slide";
-
+"use client";
+import { checkAuthAPI } from "@/api/auth.api";
 import BestSeller from "@/components/home/best-seller";
 import Hero from "@/components/home/hero";
 import LatestCollection from "@/components/home/lastest-collection";
 import OurPolicy from "@/components/home/our-policy";
-// import { Sidebar } from "@/components/ui/sidebar";
-// import { Sidebar } from "@/components/ui/sidebar";
-// import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
+import { toast } from "sonner";
 
 export default function Home() {
+  const router = useRouter();
+  useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        const res = await checkAuthAPI();
+        if (!res?.data) {
+          toast.error("Bạn cần đăng nhập để truy cập trang này.");
+          router.push("/auth");
+        }
+      } catch (error) {
+        toast.error("Chưa đăng nhập. Vui lòng đăng nhập để tiếp tục.");
+        router.push("/auth");
+      }
+    };
+
+    checkAuth();
+
+    const handleClick = () => {
+      console.log("User clicked - check auth if needed");
+    };
+
+    document.addEventListener("click", handleClick);
+    return () => document.removeEventListener("click", handleClick);
+  }, [router]);
   return (
     <div className="font-sans px-10">
       <div className="flex flex-col">
-        {" "}
         <Hero />
         <div className="flex justify-center">
-          {/* <div className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5 "> */}
-          {/* <Sidebar /> */}
-          {/* <CountrySlider /> */}
-          {/* <MedicineDetail /> */}
-          {/* </div> */}
           <div className="w-full px-5 py-5">
             <LatestCollection />
-            <OurPolicy/>
+            <OurPolicy />
             <BestSeller />
           </div>
         </div>

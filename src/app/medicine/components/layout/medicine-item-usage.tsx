@@ -8,7 +8,7 @@ interface MedicineItemUsageProps {
   name: string;
   medicine: IMedicine;
 }
-const MedicineItemCate: React.FC<Partial<MedicineItemUsageProps>> = ({
+const MedicineItemUsage: React.FC<Partial<MedicineItemUsageProps>> = ({
   _id,
   name,
   medicine,
@@ -46,4 +46,4 @@ const MedicineItemCate: React.FC<Partial<MedicineItemUsageProps>> = ({
     </Link>
   );
 };
-export default MedicineItemCate;
+export default MedicineItemUsage;

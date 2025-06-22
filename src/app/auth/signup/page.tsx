@@ -3,18 +3,41 @@ import Input from "@/components/input";
 import React, { useState } from "react";
 import Image from "next/image";
 import Button from "@/components/ui/button";
-import { Mail, Lock, User } from "lucide-react"; //CircleCheckBig, Circle
+import { Mail, Lock, User } from "lucide-react";
 import { assets } from "../../../../public/assets";
-
+import { useRouter } from "next/navigation";
+import { useMutation } from "@tanstack/react-query";
+import { signupAPI } from "@/api/auth.api";
+import { toast } from "sonner";
+import Link from "next/link";
 const SignUp = () => {
+  const router = useRouter();
   const [signUp, setSignUp] = useState({
     name: "",
     email: "",
     password: "",
   });
+  const mutation = useMutation({
+    mutationKey: ["signUp"],
+    mutationFn: () => signupAPI(signUp),
+    onSuccess: () => {
+      toast.success("Đăng ký thành công");
+      router.push(
+        `/auth/verify-email?email=${encodeURIComponent(signUp.email)}`
+      );
+    },
+    onError: () => {
+      toast.error("Đăng ký thất bại ");
+    },
+  });
+  const handleSignUp = (e: React.FormEvent<HTMLElement>) => {
+    e.preventDefault();
+    mutation.mutate();
+  };
+
   //bg-gradient-to-br from{#7BAFD4} to-blue-500 #1850a3 #00416A #628CA9 #628CA9
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#1850a3] px-4">
+    <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
       <div className="bg-white rounded-xl shadow-xl w-full max-w-md p-8">
         <h2 className="text-2xl font-bold text-center text-[#67b448] mb-1">
           Create Account
@@ -30,7 +53,7 @@ const SignUp = () => {
 
         <div className="text-center text-[#70b678] text-sm mb-4">or</div>
 
-        <form>
+        <form onSubmit={handleSignUp}>
           <Input
             placeholder="Enter your name"
             type="text"
@@ -61,14 +84,17 @@ const SignUp = () => {
             }
             icon={<Lock size={16} className="text-[#628CA9] opacity-80" />}
           />
-          <Button text="Sign up" onClick={() => alert("Signup clicked")} />
+          <Button text="Sign up" type="submit" isLoading={mutation.isPending} />
         </form>
 
         <p className="text-sm text-center text-gray-400 mt-4">
           Already a member?{" "}
-          <span className="text-[#628CA9] hover:underline cursor-pointer">
-            Sign in
-          </span>
+          <Link href={"/auth"}>
+            {" "}
+            <span className="text-[#628CA9] hover:underline cursor-pointer">
+              Sign in
+            </span>
+          </Link>
         </p>
       </div>
     </div>

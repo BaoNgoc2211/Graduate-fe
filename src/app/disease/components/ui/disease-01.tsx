@@ -1,15 +1,9 @@
-import {
-  getALLDisCategoryAPI,
-} from "@/api/disease/disease-category.api";
 import Disease01Item from "../layout/disease-01-item";
-import { useQuery } from "@tanstack/react-query";
 import { IDisCategory } from "@/interface/disease/disease-category.interface";
+import { useDiseaseCategories } from "@/hooks/disease/disease-category.hooks";
 
 const Disease01 = () => {
-  const { data, isLoading, isError } = useQuery({
-    queryKey: ["get-disease-category"],
-    queryFn: () => getALLDisCategoryAPI(),
-  });
+  const { data, isLoading, isError } = useDiseaseCategories();
   console.log("Data", data);
 
   if (isLoading) return "isLoading...";
@@ -17,8 +11,13 @@ const Disease01 = () => {
   return (
     <div className="w-full overflow-x-auto md:overflow-x-visible">
       <div className="flex flex-col lg:flex-row justify-between  items-center gap-2 py-3 rounded-2xl transition-all cursor-pointer ">
-        {data?.data?.map((item: IDisCategory, index: number) => (
-          <Disease01Item key={index} name={item.name} icon={item.icon} />
+        {data?.data?.map((item: IDisCategory) => (
+          <Disease01Item
+            key={item._id}
+            _id={item._id}
+            name={item.name}
+            icon={item.icon}
+          />
         ))}
       </div>
     </div>

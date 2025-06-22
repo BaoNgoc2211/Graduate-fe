@@ -6,7 +6,7 @@ export interface IOrder {
   shippingVoucher: number;
   totalVoucher: number;
   orderDate: Date;
-  order_id: {
+  order_id: [{
     stock_id: {
       medicine_id: {
         thumbnail: string;
@@ -18,7 +18,7 @@ export interface IOrder {
     quantity: number;
     totalAmount: number;
     note: string;
-  };
+  }];
   info: {
     address: string;
     name: string;

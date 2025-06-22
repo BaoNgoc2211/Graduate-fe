@@ -11,26 +11,27 @@ import Medicine01 from "./components/ui/medicine-01";
 import Medicine02 from "./components/ui/medicine-02";
 import TitleMedicine from "./components/layout/title";
 import Title from "@/components/ui/title";
-const MedicinePage = () => {
+interface Props {
+  usageGroupId: string;
+}
+const MedicinePage: React.FC<Props> = () => {
   const [setType] = useState([]);
   const { data, isLoading, isError } = useQuery<{ data: IMedicine[] }>({
     queryKey: ["get-latest-collection"],
     queryFn: () => getALLMedicineAPI(),
   });
-  
-
   console.log("Category", data);
-
   if (isLoading) return "isLoading...";
   if (isError) return "Fetching data error";
 
   return (
-    <div className="min-h-screen mb-5">
-      <div>
+    // min-h-screen mb-5 px-10
+    <div>
+      <div className=" flex flex-col mb-5">
         <TitleMedicine text1="Danh sách thuốc theo loại" />
         <Medicine01 />
       </div>
-      <div className="pt-10">
+      <div className=" flex flex-col mb-5">
         <TitleMedicine text1="Thuốc theo nhóm điều trị" />
         <Medicine02 />
       </div>
@@ -66,7 +67,6 @@ const MedicinePage = () => {
             </select>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4">
-       
             {data?.data?.map((item: IMedicine) => (
               <MedicineItem
                 key={item._id}

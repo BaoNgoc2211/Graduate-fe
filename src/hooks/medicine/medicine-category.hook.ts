@@ -2,7 +2,7 @@ import {
   getALLMedCategoryAPI,
   getMedCateById,
 } from "@/api/medicine/medicine-category.api";
-import { IMedicineCategory } from "@/interface/medicine/medicine-category";
+import { IMedicineCategory } from "@/interface/medicine/medicine-category.interface";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "next/navigation";
 
@@ -12,7 +12,7 @@ export const useMedicineCategories = () => {
     queryFn: getALLMedCategoryAPI,
   });
 };
-export const useMedicineCategoryById  = () => {
+export const useMedicineCategoryById = () => {
   const params = useParams<{ _id: string }>();
   const categoryId = params._id;
   console.log("Category ID:", categoryId);

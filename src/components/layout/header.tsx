@@ -7,7 +7,7 @@ import NavItem from "../home/nav-item";
 
 const Header = () => {
   return (
-    <div className="grid grid-cols-[auto_1fr_auto] font-medium border-b px-4">
+    <div className="grid grid-cols-[auto_1fr_auto] font-medium border-b border-gray-300 px-4">
       <div className="flex items-center">
         <Link href="/">
           <Image
@@ -33,10 +33,10 @@ const Header = () => {
             <NavItem href="/symptom-checker" label="Khuyến nghị thuốc" />
           </li>
           <li>
-            <NavItem href="/" label="Mã giảm giá" />
+            <NavItem href="/voucher" label="Mã giảm giá" />
           </li>
           <li>
-            <NavItem href="/" label="Về chúng tôi" />
+            <NavItem href="/about" label="Về chúng tôi" />
           </li>
         </ul>
         <SearchBar />
@@ -52,15 +52,13 @@ const Header = () => {
               className="cursor-pointer"
             />
           </Link>
-          {/* <DropdownMenu /> */}
-          {/* <div className="group-hover:block hidden absolute dropdown-menu right-0 pt-4 z-50">
-            <DropMenu />
-          </div> */}
           <div className="group-hover:block hidden absolute dropdown-menu right-0 pt-4">
             <div className="flex flex-col gap-2 w-50 py-3 px-5 bg-slate-100 text-gray-500 rounded">
-              <p className="cursor-pointer hover:text-black">
-                Thông tin cá nhân
-              </p>
+              <Link href="/profile">
+                <p className="cursor-pointer hover:text-black">
+                  Thông tin cá nhân
+                </p>
+              </Link>
               <Link href="/order">
                 <p className="cursor-pointer hover:text-black">
                   Lịch sử đơn hàng
@@ -94,13 +92,6 @@ const Header = () => {
           />
         </Link>
       </div>
-
-      {/* sidebar menu for small screens */}
-      {/* <div className="">
-        <div className="flex flex-col text-gray-600">
-          <div className="flex items-center gap-4 p-3 cursor-pointer"></div>
-        </div>
-      </div> */}
     </div>
   );
 };

@@ -76,7 +76,11 @@ const OrderCard: React.FC<OrderCardProps> = ({
         </p>
 
         <div className="flex justify-end gap-3">
-          <Button01 text=" Chi tiết" onClick={handleDetailClick} />
+          <Button01
+            variant="outline"
+            text=" Chi tiết"
+            onClick={handleDetailClick}
+          />
           <Button02 text="Hủy" onClick={handleCancelClick} />
           {/* <button
             onClick={handleDetailClick}

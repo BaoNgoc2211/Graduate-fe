@@ -1,21 +1,28 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   InputOTP,
   InputOTPGroup,
   InputOTPSlot,
 } from "@/components/ui/input-otp";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useMutation } from "@tanstack/react-query";
 import { IVerify } from "@/interface/auth/auth.interface";
 import { verifyEmailAPI } from "@/api/auth.api";
-import { toast } from "react-toastify";
+import { toast } from "sonner";
 const VerifyEmail = () => {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [verify, setVerify] = useState({
     email: "",
     otp: "",
   });
+  useEffect(() => {
+    const emailFromQuery = searchParams.get("email");
+    if (emailFromQuery) {
+      setVerify((prev) => ({ ...prev, email: emailFromQuery }));
+    }
+  }, [searchParams]);
   const mutation = useMutation({
     mutationKey: ["verifyEmail"],
     mutationFn: (data: IVerify) => verifyEmailAPI(data),
@@ -42,7 +49,12 @@ const VerifyEmail = () => {
           Verify OTP
         </p>
         <hr className="h-[2px] w-10 mx-auto bg-gray-800 mb-4 border-none"></hr>
-        <p className="text-center text-sm text-gray-500 mb-6">{verify.email}</p>
+        {/* {verify.email} */}
+        <p className="text-center text-sm text-gray-500 mb-6">
+          {verify.email
+            ? `Đang xác minh email: ${verify.email}`
+            : "Đang tải..."}
+        </p>
         <div className="flex justify-center mb-4">
           {" "}
           <InputOTP
@@ -69,6 +81,7 @@ const VerifyEmail = () => {
         </div>
         <button
           onClick={handleVerify}
+          type="submit"
           className="w-full bg-blue-600 text-white py-2.5 rounded-md hover:bg-blue-700 transition duration-200 font-semibold text-sm focus:outline-none focus:ring-2 focus:ring-blue-300"
         >
           Xác thực
