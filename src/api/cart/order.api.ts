@@ -27,9 +27,37 @@
 import APIConfig from "../api.config";
 import type {
   ICheckoutPayload,
+  IOrder,
   IOrderReview,
 } from "@/interface/order/order.interface";
+export const getAllOrdersAPI = async (): Promise<IOrder[]> => {
+  const response = await APIConfig.get<{ data: IOrder[] }>("/api/order");
+  return response.data.data;
+};
 
+export const getOrderByIdAPI = async (order_id: string): Promise<IOrder> => {
+  const response = await APIConfig.get<{ data: IOrder }>(
+    `/api/order/${order_id}`
+  );
+  return response.data.data;
+};
+export const checkAllOrderStatusAPI = async (): Promise<IOrder[]> => {
+  const response = await APIConfig.get<{ data: IOrder[] }>("/api/order/status");
+  return response.data.data;
+};
+
+export const checkOrderByStatusAPI = async ({
+  userId,
+  status,
+}: {
+  userId: string;
+  status: string;
+}): Promise<IOrder[]> => {
+  const response = await APIConfig.get<{ data: IOrder[] }>(
+    `/api/order/status/${userId}/${status}`
+  );
+  return response.data.data;
+};
 export const reviewOrderAPI = async (
   payload: ICheckoutPayload
 ): Promise<IOrderReview> => {

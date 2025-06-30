@@ -117,10 +117,16 @@ const OrderDetail: React.FC<OrderDetailProps> = ({ order, onClose }) => {
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 z-50">
       <div className="bg-white rounded-lg p-6 max-w-2xl w-full overflow-y-auto max-h-[90vh]">
-        <h2 className="text-lg font-semibold mb-4 text-center">Thông tin đơn hàng</h2>
+        <h2 className="text-lg font-semibold mb-4 text-center">
+          Thông tin đơn hàng
+        </h2>
 
-        <p><strong>Mã đơn hàng:</strong> {_id}</p>
-        <p><strong>Trạng thái:</strong> {status}</p>
+        <p>
+          <strong>Mã đơn hàng:</strong> {_id}
+        </p>
+        <p>
+          <strong>Trạng thái:</strong> {status}
+        </p>
         <hr className="my-2" />
 
         <p className="font-semibold">Thông tin khách hàng:</p>
@@ -145,7 +151,11 @@ const OrderDetail: React.FC<OrderDetailProps> = ({ order, onClose }) => {
                 <td>{index + 1}</td>
                 <td>{item.name}</td>
                 <td>
-                  <img src={item.image} alt={item.name} className="w-12 h-10 object-cover" />
+                  <img
+                    src={item.image}
+                    alt={item.name}
+                    className="w-12 h-10 object-cover"
+                  />
                 </td>
                 <td>{item.quantity}</td>
                 <td>{item.price.toLocaleString()} VND</td>
@@ -156,9 +166,16 @@ const OrderDetail: React.FC<OrderDetailProps> = ({ order, onClose }) => {
         </table>
 
         <div className="mt-4 space-y-1">
-          <p><strong>Tổng tiền hàng:</strong> {totalAmount.toLocaleString()} VND</p>
-          <p><strong>Phí vận chuyển:</strong> {shippingFee.toLocaleString()} VND</p>
-          <p><strong>Giảm giá:</strong> {(totalVoucher + shippingVoucher).toLocaleString()} VND</p>
+          <p>
+            <strong>Tổng tiền hàng:</strong> {totalAmount.toLocaleString()} VND
+          </p>
+          <p>
+            <strong>Phí vận chuyển:</strong> {shippingFee.toLocaleString()} VND
+          </p>
+          <p>
+            <strong>Giảm giá:</strong>{" "}
+            {(totalVoucher + shippingVoucher).toLocaleString()} VND
+          </p>
           <p className="font-semibold text-blue-600">
             Tổng thanh toán: {finalAmount.toLocaleString()} VND
           </p>

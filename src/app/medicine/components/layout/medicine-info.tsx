@@ -30,7 +30,7 @@ const MedicineInfo: React.FC<MedicineInfoProps> = ({
   const router = useRouter();
   const user_id =
     typeof window !== "undefined" ? localStorage.getItem("user_id") || "" : "";
-onst
+  onst;
   /*const mutation = useMutation({
     mutationKey: ["add-to-cart"],
     mutationFn: (cartData: ICart) => addToCartAPI(cartData),
@@ -66,7 +66,7 @@ onst
       user_id,
       medicine_item: [cartItem],
       totalItems: 1,
-      totalPrice:sellingPrice,
+      totalPrice: sellingPrice,
     };
 
     mutation.mutate(cartData);

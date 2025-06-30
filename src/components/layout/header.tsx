@@ -73,7 +73,7 @@ const Header = () => {
                   Thông tin cá nhân
                 </p>
               </Link>
-              <Link href="/order">
+              <Link href="/order-management">
                 <p className="cursor-pointer hover:text-black">
                   Lịch sử đơn hàng
                 </p>

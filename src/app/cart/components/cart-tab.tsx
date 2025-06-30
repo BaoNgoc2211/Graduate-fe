@@ -38,12 +38,7 @@ const CartTab: React.FC<Partial<ICart>> = ({
           defaultValue={item.quantity}
           disabled
         />{" "}
-        <img
-          src="/icon/icon_plus.png"
-          alt="icon plus"
-          width={24}
-          height={24}
-        />
+        <img src="/icon/icon_plus.png" alt="icon plus" width={24} height={24} />
       </div>
       <div className="flex flex-row">
         <p className="mr-5">300.000VND</p>{" "}
