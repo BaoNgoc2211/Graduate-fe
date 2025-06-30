@@ -1,10 +1,9 @@
-import { createCartAPI } from "@/api/cart/cart.api";
+"use client";
 import Button04 from "@/components/ui/button-04";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-import { ICart } from "@/interface/order/cart.interface";
-import { useMutation } from "@tanstack/react-query";
-import { toast } from "react-toastify";
-
+import { toast } from "sonner";
+import { useAddToCart } from "@/hooks/order/cart.hooks";
+import { useState } from "react";
 interface MedicineTabsProps {
   medicineId: string;
   name: string;
@@ -17,44 +16,30 @@ const MedicineTabs: React.FC<MedicineTabsProps> = ({
   medicineId,
   name,
   packaging,
-  thumbnail,
-  price,
 }) => {
-  const mutation = useMutation({
-    mutationKey: ["createCard"],
-    mutationFn: (data: ICart) => createCartAPI(data),
-    onSuccess: () => {
-      toast.success("Thêm vào giỏ hàng thành công!");
-    },
-    onError: (error: unknown) => {
-      const err = error as { message: string };
-      toast.error("Thêm vào giỏ hàng thất bại: " + err.message);
-    },
-  });
-  const handleBuyNow = () => {
-    toast.info("Chức năng mua ngay đang phát triển.");
+  const mutation = useAddToCart();
+  const [quantity, setQuantity] = useState(1);
+  const handleChangeQuantity = (type: "increment" | "decrement") => {
+    setQuantity((prev) => {
+      if (type === "increment") return prev + 1;
+      if (type === "decrement") return prev > 1 ? prev - 1 : 1;
+      return prev;
+    });
   };
-  const handleAddToCart = () => {
-    const userId = localStorage.getItem("user_id");
-    if (!userId) {
-      toast.error("Vui lòng đăng nhập để thêm sản phẩm vào giỏ hàng.");
+  const handleAddToCart = (
+    e?: React.FormEvent<HTMLButtonElement> | React.MouseEvent<HTMLButtonElement>
+  ) => {
+    e?.preventDefault();
+
+    if (!medicineId) {
+      toast.error("Thiếu ID thuốc", { duration: 2000 });
       return;
     }
-    const cartData: ICart = {
-      user_id: userId,
-      medicine_item: [
-        {
-          _id: medicineId,
-          thumbnail: thumbnail ?? "",
-          name,
-          quantity: 1,
-          price: price ?? 0,
-        },
-      ],
-      totalItems: 1,
-      totalPrice: price ?? 0,
-    };
-    mutation.mutate(cartData);
+
+    mutation.mutate({ medicine_id: medicineId, quantity });
+  };
+  const handleBuyNow = () => {
+    toast.info("Chức năng mua ngay đang phát triển.");
   };
   return (
     <div defaultValue="info" className="w-full">
@@ -76,24 +61,39 @@ const MedicineTabs: React.FC<MedicineTabsProps> = ({
             </p>
             <p className="text-blue-900 font-semibold">Số lượng: </p>
             <div className="flex space-x-4 justify-center">
-              <p className="border border-blue-900 rounded-full w-7 h-7 text-center font-semibold">
+              {/* <p className="border border-blue-900 rounded-full w-7 h-7 text-center font-semibold">
                 {" "}
                 -
-              </p>
-              <p className="rounded-full w-7 h-7 text-center font-medium text-[18px]">
+              </p> */}
+              <button
+                onClick={() => handleChangeQuantity("decrement")}
+                className="border border-blue-900 rounded-full w-7 h-7 text-center font-semibold hover:bg-blue-100"
+              >
+                -
+              </button>
+              {/* <p className="rounded-full w-7 h-7 text-center font-medium text-[18px]">
                 50
-              </p>
-              <p className="border border-blue-900 rounded-full w-7 h-7 text-center font-semibold">
+              </p> */}
+              <p className="w-8 text-center text-lg font-medium">{quantity}</p>
+              {/* <p className="border border-blue-900 rounded-full w-7 h-7 text-center font-semibold">
                 +
-              </p>
+              </p> */}
+              <button
+                onClick={() => handleChangeQuantity("increment")}
+                className="border border-blue-900 rounded-full w-7 h-7 text-center font-semibold hover:bg-blue-100"
+              >
+                +
+              </button>
             </div>
             <Button04
               text="Mua Ngay"
+              type="button"
               isLoading={mutation.isPending}
               onClick={handleBuyNow}
             />
             <Button04
               text="Thêm vào giỏ hàng"
+              type="button"
               isLoading={mutation.isPending}
               onClick={handleAddToCart}
             />

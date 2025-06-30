@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import { assets } from "../../../../../public/assets";
-import Button from "@/components/ui/button";
+import Button from "@/components/ui/button-01";
 
 const Step02 = () => {
   return (
@@ -78,7 +78,7 @@ const Step02 = () => {
 
       {/* Navigation buttons */}
       <div className="flex justify-between pt-6">
-        <Button className="w-auto px-6"  text="Quay về" />
+        <Button className="w-auto px-6" text="Quay về" />
         <Button className="w-auto px-6" text="Tiếp tục" />
         {/* <Button variant="outline">Previous</Button>
         <Button>Continue</Button> */}

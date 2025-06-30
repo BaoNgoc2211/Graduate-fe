@@ -3,11 +3,13 @@ import React from "react";
 
 interface ButtonProps {
   text: string;
-  onClick?: (e?: React.FormEvent) => void;
+  type: "button" | "submit" | "reset";
+  onClick?: (
+    e?: React.FormEvent<HTMLButtonElement> | React.MouseEvent<HTMLButtonElement>
+  ) => void;
   className?: string;
   isLoading?: boolean;
 }
-//bg-gradient-to-r from-indigo-600 to-blue-600
 const Button04 = (props: ButtonProps) => {
   return (
     <button

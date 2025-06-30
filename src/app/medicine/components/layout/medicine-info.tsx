@@ -1,10 +1,10 @@
 "use client";
 import { useRouter } from "next/navigation";
 import { useMutation } from "@tanstack/react-query";
-import { createCartAPI } from "@/api/cart/cart.api";
 import { toast } from "react-toastify";
 import { ICart } from "@/interface/order/cart.interface";
 import Image from "next/image";
+import { addToCartAPI } from "@/api/cart/cart.api";
 
 interface MedicineInfoProps {
   _id?: string;
@@ -30,10 +30,10 @@ const MedicineInfo: React.FC<MedicineInfoProps> = ({
   const router = useRouter();
   const user_id =
     typeof window !== "undefined" ? localStorage.getItem("user_id") || "" : "";
-
-  const mutation = useMutation({
+onst
+  /*const mutation = useMutation({
     mutationKey: ["add-to-cart"],
-    mutationFn: (cartData: ICart) => createCartAPI(cartData),
+    mutationFn: (cartData: ICart) => addToCartAPI(cartData),
     onSuccess: (res: any) => {
       if (res?.message === "Add Product On Cart Successful") {
         toast.success("Đã thêm vào giỏ hàng!");
@@ -47,7 +47,7 @@ const MedicineInfo: React.FC<MedicineInfoProps> = ({
       toast.error("Thêm vào giỏ hàng thất bại!");
     },
   });
-
+*/
   const handleBuyNow = () => {
     if (!_id || !sellingPrice) {
       toast.error("Thiếu thông tin sản phẩm!");

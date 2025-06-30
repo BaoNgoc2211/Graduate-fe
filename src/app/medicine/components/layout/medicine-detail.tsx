@@ -14,6 +14,7 @@ const MedicineDetail: React.FC<Partial<IMedicine>> = ({
   stock_id,
   manufacturer_id,
 }) => {
+ 
   return (
     <div className="container mx-auto py-5">
       <div className="flex flex-col lg:flex-row gap-4">

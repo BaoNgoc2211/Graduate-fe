@@ -1,408 +1,242 @@
-"use client";
-//#region  version 01 full
-// import { useState, useEffect } from "react";
-// import { useRouter } from "next/router";
-// import Title from "@/components/ui/title";
-// import { assets } from "../../../public/assets";
-// import { useNavigate } from "react-router-dom";
-// import CartTotal from "./components/cart-total";
+"use client"
 
-// const Cart = () => {
-//   const [navigate] = useNavigate;
-//   const [cartData, setCartData] = useState<
-//     { _id: string; size: string; quantity: number }[]
-//   >([]);
-//   return (
-//     <div className="border-t pt-14">
-//       <div className="text-2xl mb-3">
-//         <Title text1={"Giỏ Hàng"} text2={"Của Bạn"} />
-//       </div>
-//       <div>
-//         {cartData.map((item, index) => {
-//           const productData = products.find(
-//             (product) => product._id === item._id
-//           );
-//           if (!productData) {
-//             return null; // hoặc hiển thị một thông báo lỗi
-//           }
-//           return (
-//             <div
-//               key={index}
-//               className="py-4 border-t border-b text-gray-700 grid grid-cols-[4fr_0.5fr] sm:grid-cols-[4fr_2fr_0.5fr] items-center gap-4"
-//             >
-//               <div className="flex items-start gap-6">
-//                 <img
-//                   className="w-16 sm:w-20"
-//                   src={productData.image[0]}
-//                   alt=""
-//                 />
-//                 <div>
-//                   <p className="text-xs sm:text-lg font-medium">
-//                     {productData.name}
-//                   </p>
-//                   <div className="flex items-center gap-5 mt-2">
-//                     <p>
-//                       {currency}
-//                       {productData.price}
-//                     </p>
-//                     <p className="px-2 sm:px-3 sm:py-1 border bg-slate-50">
-//                       {item.size}
-//                     </p>
-//                   </div>
-//                 </div>
-//               </div>
-//               <input
-//                 onChange={(e) =>
-//                   e.target.value === `` || e.target.value === "0"
-//                     ? null
-//                     : updateQuantity(
-//                         item._id,
-//                         item.size,
-//                         Number(e.target.value)
-//                       )
-//                 }
-//                 className="border max-w-10 sm:max-w-20 px-1 sm:px-2 py-1"
-//                 type="number"
-//                 min={1}
-//                 defaultValue={item.quantity}
-//               />
-//               <img
-//                 onClick={() => updateQuantity(item._id, item.size, 0)}
-//                 className="w-4 mr-4 sm:w-5 cursor-pointer"
-//                 src={assets.bin_icon}
-//                 alt=""
-//               />
-//             </div>
-//           );
-//         })}
-//         <div className="flex justify-end my-20">
-//           <div className="w-full sm:w-[450px]">
-//             <CartTotal />
-//             <div className="w-full text-end">
-//               <button
-//                 onClick={() => navigate("/place-order")}
-//                 className="bg-black text-white text-sm my-8 px-8 py-3 "
-//               >
-//                 THANH TOÁN
-//               </button>
-//             </div>
-//           </div>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
-// export default Cart;
-//#endregion
-import Title from "@/components/ui/title";
-import { ICart } from "@/interface/order/cart.interface";
-import Link from "next/link";
-import { useMemo } from "react";
-import CartItem from "./components/cart-item";
-import { useCart } from "@/hooks/cart.hooks";
-const Cart = () => {
-  const { data, isLoading, isError } = useCart();
-  const cartItems: ICart[] = useMemo(() => data?.data || [], [data]);
+import { useState, useMemo } from "react"
+import { ShoppingCart, Trash2, Package } from "lucide-react"
+import { Card, CardContent, CardHeader } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
+import type { ICartItem, ICheckoutData, ICheckoutItem } from "@/interface/order/cart.interface"
 
-  const totalPrice = useMemo(() => {
-    return cartItems.reduce((acc, item) => {
-      const medicine = item.medicine_item.medicine_id;
-      const quantity = item.medicine_item.quantity;
-      return acc + medicine.price * quantity;
-    }, 0);
-  }, [cartItems]);
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog"
+import { toast } from "sonner"
+import { useCarts, useClearCart } from "@/hooks/order/cart.hooks"
+import CartSummary from "@/components/cart/cart-summary"
+import CartItemCard from "@/components/cart/cart-item-card"
+
+export default function CartPage() {
+  const [selectedItems, setSelectedItems] = useState<Set<string>>(new Set())
+  const [isClearDialogOpen, setIsClearDialogOpen] = useState(false)
+
+  // Lấy dữ liệu giỏ hàng
+  const { data: cartData, isLoading } = useCarts()
+  const cartItems = cartData?.data?.[0]?.medicine_item || []
+
+  // Hook xóa toàn bộ giỏ hàng
+  const clearCartMutation = useClearCart()
+
+  // Tính toán tổng tiền cho các sản phẩm được chọn
+  const checkoutData: ICheckoutData = useMemo(() => {
+    const selectedCartItems = cartItems.filter((item) => selectedItems.has(item.medicine_id._id))
+
+    const items: ICheckoutItem[] = selectedCartItems.map((item) => {
+      const sellingPrice = item.medicine_id.stock_id?.sellingPrice || 0
+      return {
+        medicine_id: item.medicine_id._id,
+        name: item.medicine_id.name,
+        price: sellingPrice,
+        thumbnail: item.medicine_id.thumbnail,
+        packaging: item.medicine_id.code, // Sử dụng code thay vì packaging
+        quantity: item.quantity,
+        totalPrice: sellingPrice * item.quantity,
+      }
+    })
+
+    const totalAmount = items.reduce((sum, item) => sum + item.totalPrice, 0)
+
+    return {
+      items,
+      totalAmount,
+      selectedCount: selectedCartItems.length,
+    }
+  }, [cartItems, selectedItems])
+
+  /**
+   * Xử lý chọn/bỏ chọn sản phẩm
+   */
+  const handleSelectItem = (medicineId: string, checked: boolean) => {
+    const newSelectedItems = new Set(selectedItems)
+    if (checked) {
+      newSelectedItems.add(medicineId)
+    } else {
+      newSelectedItems.delete(medicineId)
+    }
+    setSelectedItems(newSelectedItems)
+  }
+
+  /**
+   * Chọn/b�� chọn tất cả
+   */
+  const handleSelectAll = (checked: boolean) => {
+    if (checked) {
+      const allIds = new Set(cartItems.map((item) => item.medicine_id._id))
+      setSelectedItems(allIds)
+    } else {
+      setSelectedItems(new Set())
+    }
+  }
+
+  /**
+   * Xử lý xóa toàn bộ giỏ hàng
+   */
+  const handleClearCart = () => {
+    clearCartMutation.mutate(undefined, {
+      onSuccess: () => {
+        setSelectedItems(new Set())
+        setIsClearDialogOpen(false)
+      },
+    })
+  }
+
+  /**
+   * Xử lý thanh toán
+   */
+  const handleCheckout = () => {
+    if (checkoutData.selectedCount === 0) {
+      toast.error("Vui lòng chọn ít nhất một sản phẩm để thanh toán")
+      return
+    }
+
+    // Lưu dữ liệu checkout vào localStorage để sử dụng ở trang checkout
+    localStorage.setItem("checkoutData", JSON.stringify(checkoutData))
+
+    // Chuyển đến trang checkout (SỬA LẠI TỪ /medicine THÀNH /checkout)
+    window.location.href = "/checkout"
+  }
+
   if (isLoading) {
     return (
-      <div className="border-t pt-14 text-center">
-        <p className="text-gray-500">Đang tải giỏ hàng...</p>
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-900 mx-auto"></div>
+          <p className="mt-4 text-gray-600">Đang tải giỏ hàng...</p>
+        </div>
       </div>
-    );
-  }
-  if (isError) {
-    return (
-      <div className="border-t pt-14 text-center">
-        <p className="text-red-500">
-          Không thể tải dữ liệu giỏ hàng. Vui lòng thử lại sau.
-        </p>
-      </div>
-    );
+    )
   }
 
   return (
-    <div className="border-t pt-14">
-      <div className="text-2xl mb-3">
-        <Title text1={"Giỏ Hàng"} text2={" Của Bạn"} />
-      </div>
-      {cartItems.length > 0 ? (
-        cartItems.map((item) => <CartItem key={item._id} item={item} />)
-      ) : (
-        <p className="text-center text-gray-500 mt-4">
-          Giỏ hàng của bạn đang trống.
-        </p>
-      )}
-      <div className="flex justify-end my-20">
-        <div className="w-full sm:w-[450px]">
-          <div className="border p-4 bg-gray-50 rounded-lg">
-            <div className="flex justify-between text-sm font-semibold">
-              <span>Tổng tiền:</span>
-              <span>{totalPrice.toLocaleString()} VND</span>
+    <div className="min-h-screen bg-gray-50">
+      {/* Header */}
+      <div className="bg-white border-b border-gray-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-16">
+            <div className="flex items-center space-x-3">
+              <ShoppingCart className="h-6 w-6 text-blue-900" />
+              <h1 className="text-xl font-semibold text-gray-900">Giỏ hàng của bạn</h1>
+              {cartItems.length > 0 && (
+                <span className="bg-blue-100 text-blue-800 text-sm font-medium px-2.5 py-0.5 rounded-full">
+                  {cartItems.length} sản phẩm
+                </span>
+              )}
             </div>
-          </div>
-          <div className="w-full text-end">
-            <Link href="/checkout">
-              <button
-                className={`bg-black text-white text-sm my-8 px-8 py-3 ${
-                  cartItems.length === 0 ? "cursor-not-allowed opacity-50" : ""
-                }`}
-                disabled={cartItems.length === 0}
+            {cartItems.length > 0 && (
+              <Button
+                variant="outline"
+                onClick={() => setIsClearDialogOpen(true)}
+                className="text-red-600 border-red-200 hover:bg-red-50"
               >
-                THANH TOÁN
-              </button>
-            </Link>
+                <Trash2 className="h-4 w-4 mr-2" />
+                Xóa toàn bộ
+              </Button>
+            )}
           </div>
         </div>
       </div>
+
+      {/* Main Content */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {cartItems.length === 0 ? (
+          // Empty Cart State
+          <Card className="text-center py-12">
+            <CardContent>
+              <Package className="h-16 w-16 text-gray-400 mx-auto mb-4" />
+              <h3 className="text-lg font-medium text-gray-900 mb-2">Giỏ hàng trống</h3>
+              <p className="text-gray-500 mb-6">Bạn chưa có sản phẩm nào trong giỏ hàng</p>
+              <Button onClick={() => (window.location.href = "/medicine")} className="bg-blue-900 hover:bg-blue-800">
+                Tiếp tục mua sắm
+              </Button>
+            </CardContent>
+          </Card>
+        ) : (
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            {/* Cart Items */}
+            <div className="lg:col-span-2 space-y-6">
+              {/* Select All */}
+              <Card>
+                <CardHeader className="pb-3">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center space-x-3">
+                      <input
+                        type="checkbox"
+                        checked={selectedItems.size === cartItems.length && cartItems.length > 0}
+                        onChange={(e) => handleSelectAll(e.target.checked)}
+                        className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                      />
+                      <span className="text-sm font-medium text-gray-900">
+                        Chọn tất cả ({cartItems.length} sản phẩm)
+                      </span>
+                    </div>
+                    <span className="text-sm text-gray-500">
+                      Đã chọn: {selectedItems.size}/{cartItems.length}
+                    </span>
+                  </div>
+                </CardHeader>
+              </Card>
+
+              {/* Cart Items List */}
+              <div className="space-y-4">
+                {cartItems.map((item: ICartItem) => (
+                  <CartItemCard
+                    key={item.medicine_id._id}
+                    item={item}
+                    isSelected={selectedItems.has(item.medicine_id._id)}
+                    onSelect={handleSelectItem}
+                  />
+                ))}
+              </div>
+            </div>
+
+            {/* Cart Summary */}
+            <div className="lg:col-span-1">
+              <div className="sticky top-8">
+                <CartSummary checkoutData={checkoutData} onCheckout={handleCheckout} />
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Clear Cart Confirmation Dialog */}
+      <Dialog open={isClearDialogOpen} onOpenChange={setIsClearDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Xác nhận xóa toàn bộ giỏ hàng</DialogTitle>
+            <DialogDescription>
+              Bạn có chắc chắn muốn xóa toàn bộ {cartItems.length} sản phẩm trong giỏ hàng? Hành động này không thể hoàn
+              tác.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setIsClearDialogOpen(false)}>
+              Hủy
+            </Button>
+            <Button
+              variant="destructive"
+              onClick={handleClearCart}
+              disabled={clearCartMutation.isPending}
+              className="bg-red-600 hover:bg-red-700"
+            >
+              {clearCartMutation.isPending ? "Đang xóa..." : "Xóa toàn bộ"}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
-  );
-};
-
-export default Cart;
-
-// //#region version 02
-// /* eslint-disable react/no-unescaped-entities */
-// // import React, { useState } from "react";
-// // import Image from "next/image";
-// // import { useRouter } from "next/navigation";
-
-// // import { Button } from "@/components/ui/button";
-// // import { Card, CardContent } from "@/components/ui/card";
-// // import {
-// //   AlertDialog,
-// //   AlertDialogTrigger,
-// //   AlertDialogContent,
-// //   AlertDialogHeader,
-// //   AlertDialogTitle,
-// //   AlertDialogDescription,
-// //   AlertDialogFooter,
-// // } from "@/components/ui/alert-dialog";
-// // import { Input } from "@/components/ui/input";
-// // import { LoaderCircle, Minus, Plus, Trash2 } from "lucide-react";
-
-// // import { useAppSelector, useAppDispatch } from "@/lib/hooks";
-// // import { updateCart } from "@/lib/features/cart/cartSlice";
-// // import { CartType } from "@/types/cart";
-// // import BreadCrumb from "@/app/cart/components/bread-crumb";
-// // const emptyCart = "/assets/images/empt-cart.jpg";
-
-// // export default function CartPage() {
-// //   const dispatch = useAppDispatch();
-// //   const router = useRouter();
-// //   const [isDeleting, setIsDeleting] = useState(false);
-// //   const [isUpdating, setIsUpdating] = useState(false);
-// //   const [showConfirmDialog, setShowConfirmDialog] = useState<{
-// //     [id: string]: boolean;
-// //   }>({});
-// //   const cartArray: CartType[] = useAppSelector((state) => state.cart.cart);
-
-// //   const updateQuantity = (id: string, newQuantity: number) => {
-// //     if (newQuantity < 1 || newQuantity > 20) return;
-// //     const updatedCart = cartArray.map((item) =>
-// //       item.id === id ? { ...item, quantity: newQuantity } : item
-// //     );
-// //     dispatch(updateCart(updatedCart));
-// //   };
-
-// //   const removeItem = (id: string) => {
-// //     setIsDeleting(true);
-// //     setTimeout(() => {
-// //       const updatedCart = cartArray.filter((item: CartType) => item.id !== id);
-// //       dispatch(updateCart(updatedCart));
-// //       setIsDeleting(false);
-// //     }, 2000);
-// //   };
-
-// //   const calculateTotal = () => {
-// //     const total = cartArray.reduce(
-// //       (total, item) => total + item.price * item.quantity,
-// //       0
-// //     );
-// //     return total;
-// //   };
-
-// //   const handleCheckout = () => {
-// //     setIsUpdating(true);
-// //     dispatch(updateCart(cartArray));
-// //     setTimeout(() => {
-// //       router.push("/cart/checkout");
-// //       setIsUpdating(false);
-// //     }, 1000);
-// //   };
-
-// //   return (
-// //     <div className="container mx-auto px-4 min-h-[100vh]">
-// //       <BreadCrumb />
-// //       {cartArray.length === 0 ? (
-// //         <div className="flex flex-col items-center">
-// //           <div className=" w-[200px] h-[200px] md:w-[350px] md:h-[350px] relative">
-// //             <Image
-// //               src={emptyCart}
-// //               alt="empty cart"
-// //               fill={true}
-// //               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 400px"
-// //               className=" object-contain rounded-xl"
-// //             />
-// //           </div>
-// //           <p className="text-gray-600 mb-8">
-// //             Chưa có sản phẩm nào trong giỏ hàng hết bạn ơi !
-// //           </p>
-// //           <Button onClick={() => router.push("/iphone")}>
-// //             Tiếp tục mua sắm nhé!
-// //           </Button>
-// //         </div>
-// //       ) : (
-// //         <>
-// //           <div className="space-y-4">
-// //             {cartArray.map((item) => (
-// //               <Card key={item.id}>
-// //                 <CardContent className="flex flex-col md:flex-row justify-between gap-3 items-center p-4">
-// //                   <div className="flex items-center justify-between">
-// //                     <div className="relative h-24 w-24 flex-shrink-0">
-// //                       <Image
-// //                         src={item.image}
-// //                         alt={item.name}
-// //                         fill
-// //                         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 200px"
-// //                         className="object-contain rounded-md"
-// //                       />
-// //                     </div>
-// //                     <div className="ml-4 flex-grow">
-// //                       <h3 className="font-semibold">{item.name}</h3>
-// //                       <p className="text-gray-600">
-// //                         {item.price.toLocaleString()} VND
-// //                       </p>
-// //                     </div>
-// //                   </div>
-// //                   <div className="flex items-center justify-between">
-// //                     <div className="flex items-center space-x-2">
-// //                       <Button
-// //                         variant="outline"
-// //                         size="icon"
-// //                         onClick={() =>
-// //                           updateQuantity(item.id, item.quantity - 1)
-// //                         }
-// //                         disabled={item.quantity === 1}
-// //                       >
-// //                         <Minus className={`h-4 w-4 `} />
-// //                       </Button>
-// //                       <Input
-// //                         type="number"
-// //                         min="1"
-// //                         max="20"
-// //                         value={item.quantity}
-// //                         onChange={(e) =>
-// //                           updateQuantity(
-// //                             item.id,
-// //                             Math.min(parseInt(e.target.value), 20)
-// //                           )
-// //                         }
-// //                         className="text-xs w-10 md:w-16 text-center"
-// //                       />
-// //                       <Button
-// //                         variant="outline"
-// //                         size="icon"
-// //                         disabled={item.quantity === 20}
-// //                         onClick={() =>
-// //                           updateQuantity(item.id, item.quantity + 1)
-// //                         }
-// //                       >
-// //                         <Plus className="h-4 w-4" />
-// //                       </Button>
-// //                     </div>
-// //                     <div className="ml-4 text-right flex items-center">
-// //                       <p className="font-semibold text-xs md:text-base">
-// //                         {(item.price * item.quantity).toLocaleString()} VND
-// //                       </p>
-// //                       <AlertDialog
-// //                         open={!!showConfirmDialog[item.id]}
-// //                         onOpenChange={(open) => {
-// //                           setShowConfirmDialog((prev) => ({
-// //                             ...prev,
-// //                             [item.id]: open,
-// //                           }));
-// //                         }}
-// //                       >
-// //                         <AlertDialogTrigger asChild>
-// //                           <Button
-// //                             variant="ghost"
-// //                             size="sm"
-// //                             className="text-red-500 hover:text-red-700 cursor-pointer"
-// //                           >
-// //                             <Trash2 className="h-4 w-4" />
-// //                           </Button>
-// //                         </AlertDialogTrigger>
-// //                         <AlertDialogContent>
-// //                           <AlertDialogHeader>
-// //                             <AlertDialogTitle>
-// //                               Xác nhận xóa sản phẩm khỏi giỏ hàng
-// //                             </AlertDialogTitle>
-// //                             <AlertDialogDescription>
-// //                               Bạn có chắc chắn muốn xóa khỏi giỏ hàng không?
-// //                             </AlertDialogDescription>
-// //                           </AlertDialogHeader>
-// //                           <AlertDialogFooter>
-// //                             <Button
-// //                               variant="secondary"
-// //                               onClick={() =>
-// //                                 setShowConfirmDialog((prev) => ({
-// //                                   ...prev,
-// //                                   [item.id]: false,
-// //                                 }))
-// //                               }
-// //                               disabled={isDeleting || isUpdating}
-// //                             >
-// //                               Hủy
-// //                             </Button>
-// //                             <Button
-// //                               onClick={() => removeItem(item.id)}
-// //                               className="text-white"
-// //                               disabled={isDeleting || isUpdating}
-// //                             >
-// //                               {isDeleting ? (
-// //                                 <LoaderCircle className="animate-spin" />
-// //                               ) : (
-// //                                 "Xác nhận"
-// //                               )}
-// //                             </Button>
-// //                           </AlertDialogFooter>
-// //                         </AlertDialogContent>
-// //                       </AlertDialog>
-// //                     </div>
-// //                   </div>
-// //                 </CardContent>
-// //               </Card>
-// //             ))}
-// //           </div>
-// //           <div className="mt-8 flex justify-between items-center">
-// //             <div>
-// //               <p className="text-sm md:text-lg font-semibold">Tổng đơn hàng:</p>
-// //               <p className="text-sm md:text-2xl font-bold">
-// //                 {calculateTotal().toLocaleString()} VND
-// //               </p>
-// //             </div>
-// //             <Button size="lg" onClick={handleCheckout} disabled={isUpdating}>
-// //               {isUpdating ? (
-// //                 <>
-// //                   <LoaderCircle className="animate-spin" />{" "}
-// //                   <div>Chờ tí nhé...</div>
-// //                 </>
-// //               ) : (
-// //                 "Tiến hành thanh toán"
-// //               )}
-// //             </Button>
-// //           </div>
-// //         </>
-// //       )}
-// //     </div>
-// //   );
-// // }
-// //#endregion
+  )
+}

@@ -2,7 +2,7 @@
 import TitleFilter from "@/components/filter/title-filter";
 import Filter from "@/components/filter/filter";
 import Title from "@/components/ui/title";
-import Button from "@/components/ui/button";
+import Button from "@/components/ui/button-01";
 import { useMedicineUsageGroupById } from "@/hooks/medicine/medicine-usage.hooks";
 import MedicineItemUsage from "../../components/layout/medicine-item-usage";
 

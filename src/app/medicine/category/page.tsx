@@ -5,7 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import TitleFilter from "@/components/filter/title-filter";
 import Filter from "@/components/filter/filter";
 import Title from "@/components/ui/title";
-import Button from "@/components/ui/button";
+import Button from "@/components/ui/button-01";
 import Medicine01 from "../components/ui/medicine-01";
 import Medicine02 from "../components/ui/medicine-02";
 import TitleMedicine from "../components/layout/title";

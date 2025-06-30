@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import Button from "@/components/ui/button";
+import Button from "@/components/ui/button-01";
 import ButtonStep from "../ui/button";
 
 const Step01 = () => {

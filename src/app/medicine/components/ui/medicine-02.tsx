@@ -4,13 +4,25 @@ import { useMedicineUsageGroup } from "@/hooks/medicine/medicine-usage.hooks";
 
 const Medicine02 = () => {
   const { data, isLoading, isError } = useMedicineUsageGroup();
-  console.log("Data", data);
 
-  if (isLoading) return "isLoading...";
-  if (isError) return "Fetching data error";
+  if (isLoading)
+    return (
+      <div className="text-center text-blue-900 py-4 font-medium">
+        Đang tải dữ liệu nhóm thuốc...
+      </div>
+    );
+
+  if (isError)
+    return (
+      <div className="text-center text-red-600 py-4 font-medium">
+        Lỗi khi lấy dữ liệu nhóm thuốc.
+      </div>
+    );
+
   return (
-    <div className="w-full overflow-x-auto md:overflow-x-visible">
-      <div className="flex flex-row justify-between py-3 px-5 gap-4 r md:flex-wrap lg:flex-wrap rounded-2xl ">
+    <div className="w-full">
+      <h2 className="text-xl font-bold text-blue-900 mb-4">Thuốc theo nhóm điều trị</h2>
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6 px-4 py-6">
         {data?.data?.map((item: IMedicineUsageGroup) => (
           <Medicine02Item
             key={item._id}
@@ -23,4 +35,5 @@ const Medicine02 = () => {
     </div>
   );
 };
+
 export default Medicine02;

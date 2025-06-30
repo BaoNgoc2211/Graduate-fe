@@ -4,8 +4,22 @@ import Image from "next/image";
 import { assets } from "../../../public/assets";
 import SearchBar from "./search-bar";
 import NavItem from "../home/nav-item";
+import { useRouter } from "next/navigation";
+import { logOutAPI } from "@/api/auth.api";
+import { toast } from "sonner";
 
 const Header = () => {
+  const router = useRouter();
+
+  const handleLogout = async () => {
+    try {
+      await logOutAPI();
+      toast.success("Đăng xuất thành công!");
+      router.push("/auth");
+    } catch {
+      toast.error("Có lỗi khi đăng xuất!");
+    }
+  };
   return (
     <div className="grid grid-cols-[auto_1fr_auto] font-medium border-b border-gray-300 px-4">
       <div className="flex items-center">
@@ -66,7 +80,12 @@ const Header = () => {
               </Link>
 
               <p className="cursor-pointer hover:text-black">Mã giảm giá</p>
-              <p className="cursor-pointer hover:text-black">Đăng xuất</p>
+              <p
+                className="cursor-pointer hover:text-black"
+                onClick={handleLogout}
+              >
+                Đăng xuất
+              </p>
             </div>
           </div>
         </div>

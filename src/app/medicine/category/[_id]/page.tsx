@@ -2,7 +2,7 @@
 import TitleFilter from "@/components/filter/title-filter";
 import Filter from "@/components/filter/filter";
 import Title from "@/components/ui/title";
-import Button from "@/components/ui/button";
+import Button from "@/components/ui/button-01";
 import { useMedicineCategoryById } from "@/hooks/medicine/medicine-category.hook";
 import MedicineItemCate from "../../components/layout/medicine-item-cate";
 

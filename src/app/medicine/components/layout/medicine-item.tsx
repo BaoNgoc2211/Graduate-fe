@@ -3,11 +3,23 @@ import Image from "next/image";
 import { IMedicineItem } from "@/interface/medicine/medicine.interface";
 import { assets } from "../../../../../public/assets";
 import Link from "next/link";
+import { toast } from "sonner";
+import { useAddToCart } from "@/hooks/order/cart.hooks";
 const MedicineItem: React.FC<Partial<IMedicineItem>> = ({
   _id,
   name,
   thumbnail,
 }) => {
+  const mutation = useAddToCart();
+  const handleAddToCart = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    e.preventDefault();
+    if (!_id) {
+      toast.error("Thiếu ID thuốc", { duration: 2000 });
+      return;
+    }
+    mutation.mutate({ medicine_id: _id, quantity: 1 });
+  };
+
   return (
     <Link href={`/medicine/${_id}`}>
       <div className="text-gray-700 bg-white rounded-xl shadow-md p-4 w-full max-w-[260px] relative cursor-copy">
@@ -27,7 +39,10 @@ const MedicineItem: React.FC<Partial<IMedicineItem>> = ({
             </p>
           </div>
 
-          <div className="w-9 h-9 border border-gray-300 rounded-full flex items-center justify-center hover:bg-gray-100 cursor-pointer transition shrink-0">
+          <div
+            className="w-9 h-9 border border-gray-300 rounded-full flex items-center justify-center hover:bg-gray-100 cursor-pointer transition shrink-0"
+            onClick={handleAddToCart}
+          >
             <Image
               src={assets.cart_icon}
               alt="Icon Cart"
