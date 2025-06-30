@@ -36,7 +36,6 @@ import React from "react";
 import { IOrder } from "@/interface/order/order.interface";
 import OrderItem from "./order-item";
 
-
 interface Props {
   orders: IOrder[];
   activeTab: string;

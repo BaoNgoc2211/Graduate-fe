@@ -1,10 +1,14 @@
-"use client"
+"use client";
 
-import { useState, useMemo } from "react"
-import { ShoppingCart, Trash2, Package } from "lucide-react"
-import { Card, CardContent, CardHeader } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import type { ICartItem, ICheckoutData, ICheckoutItem } from "@/interface/order/cart.interface"
+import { useState, useMemo } from "react";
+import { ShoppingCart, Trash2, Package } from "lucide-react";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import type {
+  ICartItem,
+  ICheckoutData,
+  ICheckoutItem,
+} from "@/interface/order/cart.interface";
 
 import {
   Dialog,
@@ -13,29 +17,31 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog"
-import { toast } from "sonner"
-import { useCarts, useClearCart } from "@/hooks/order/cart.hooks"
-import CartSummary from "@/components/cart/cart-summary"
-import CartItemCard from "@/components/cart/cart-item-card"
+} from "@/components/ui/dialog";
+import { toast } from "sonner";
+import { useCarts, useClearCart } from "@/hooks/order/cart.hooks";
+import CartSummary from "@/components/cart/cart-summary";
+import CartItemCard from "@/components/cart/cart-item-card";
 
 export default function CartPage() {
-  const [selectedItems, setSelectedItems] = useState<Set<string>>(new Set())
-  const [isClearDialogOpen, setIsClearDialogOpen] = useState(false)
+  const [selectedItems, setSelectedItems] = useState<Set<string>>(new Set());
+  const [isClearDialogOpen, setIsClearDialogOpen] = useState(false);
 
   // Lấy dữ liệu giỏ hàng
-  const { data: cartData, isLoading } = useCarts()
-  const cartItems = cartData?.data?.[0]?.medicine_item || []
+  const { data: cartData, isLoading } = useCarts();
+  const cartItems = cartData?.data?.[0]?.medicine_item || [];
 
   // Hook xóa toàn bộ giỏ hàng
-  const clearCartMutation = useClearCart()
+  const clearCartMutation = useClearCart();
 
   // Tính toán tổng tiền cho các sản phẩm được chọn
   const checkoutData: ICheckoutData = useMemo(() => {
-    const selectedCartItems = cartItems.filter((item) => selectedItems.has(item.medicine_id._id))
+    const selectedCartItems = cartItems.filter((item) =>
+      selectedItems.has(item.medicine_id._id)
+    );
 
     const items: ICheckoutItem[] = selectedCartItems.map((item) => {
-      const sellingPrice = item.medicine_id.stock_id?.sellingPrice || 0
+      const sellingPrice = item.medicine_id.stock_id?.sellingPrice || 0;
       return {
         medicine_id: item.medicine_id._id,
         name: item.medicine_id.name,
@@ -44,42 +50,42 @@ export default function CartPage() {
         packaging: item.medicine_id.code, // Sử dụng code thay vì packaging
         quantity: item.quantity,
         totalPrice: sellingPrice * item.quantity,
-      }
-    })
+      };
+    });
 
-    const totalAmount = items.reduce((sum, item) => sum + item.totalPrice, 0)
+    const totalAmount = items.reduce((sum, item) => sum + item.totalPrice, 0);
 
     return {
       items,
       totalAmount,
       selectedCount: selectedCartItems.length,
-    }
-  }, [cartItems, selectedItems])
+    };
+  }, [cartItems, selectedItems]);
 
   /**
    * Xử lý chọn/bỏ chọn sản phẩm
    */
   const handleSelectItem = (medicineId: string, checked: boolean) => {
-    const newSelectedItems = new Set(selectedItems)
+    const newSelectedItems = new Set(selectedItems);
     if (checked) {
-      newSelectedItems.add(medicineId)
+      newSelectedItems.add(medicineId);
     } else {
-      newSelectedItems.delete(medicineId)
+      newSelectedItems.delete(medicineId);
     }
-    setSelectedItems(newSelectedItems)
-  }
+    setSelectedItems(newSelectedItems);
+  };
 
   /**
    * Chọn/b�� chọn tất cả
    */
   const handleSelectAll = (checked: boolean) => {
     if (checked) {
-      const allIds = new Set(cartItems.map((item) => item.medicine_id._id))
-      setSelectedItems(allIds)
+      const allIds = new Set(cartItems.map((item) => item.medicine_id._id));
+      setSelectedItems(allIds);
     } else {
-      setSelectedItems(new Set())
+      setSelectedItems(new Set());
     }
-  }
+  };
 
   /**
    * Xử lý xóa toàn bộ giỏ hàng
@@ -87,27 +93,27 @@ export default function CartPage() {
   const handleClearCart = () => {
     clearCartMutation.mutate(undefined, {
       onSuccess: () => {
-        setSelectedItems(new Set())
-        setIsClearDialogOpen(false)
+        setSelectedItems(new Set());
+        setIsClearDialogOpen(false);
       },
-    })
-  }
+    });
+  };
 
   /**
    * Xử lý thanh toán
    */
   const handleCheckout = () => {
     if (checkoutData.selectedCount === 0) {
-      toast.error("Vui lòng chọn ít nhất một sản phẩm để thanh toán")
-      return
+      toast.error("Vui lòng chọn ít nhất một sản phẩm để thanh toán");
+      return;
     }
 
     // Lưu dữ liệu checkout vào localStorage để sử dụng ở trang checkout
-    localStorage.setItem("checkoutData", JSON.stringify(checkoutData))
+    localStorage.setItem("checkoutData", JSON.stringify(checkoutData));
 
     // Chuyển đến trang checkout (SỬA LẠI TỪ /medicine THÀNH /checkout)
-    window.location.href = "/checkout"
-  }
+    window.location.href = "/checkout";
+  };
 
   if (isLoading) {
     return (
@@ -117,7 +123,7 @@ export default function CartPage() {
           <p className="mt-4 text-gray-600">Đang tải giỏ hàng...</p>
         </div>
       </div>
-    )
+    );
   }
 
   return (
@@ -128,7 +134,9 @@ export default function CartPage() {
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center space-x-3">
               <ShoppingCart className="h-6 w-6 text-blue-900" />
-              <h1 className="text-xl font-semibold text-gray-900">Giỏ hàng của bạn</h1>
+              <h1 className="text-xl font-semibold text-gray-900">
+                Giỏ hàng của bạn
+              </h1>
               {cartItems.length > 0 && (
                 <span className="bg-blue-100 text-blue-800 text-sm font-medium px-2.5 py-0.5 rounded-full">
                   {cartItems.length} sản phẩm
@@ -156,9 +164,16 @@ export default function CartPage() {
           <Card className="text-center py-12">
             <CardContent>
               <Package className="h-16 w-16 text-gray-400 mx-auto mb-4" />
-              <h3 className="text-lg font-medium text-gray-900 mb-2">Giỏ hàng trống</h3>
-              <p className="text-gray-500 mb-6">Bạn chưa có sản phẩm nào trong giỏ hàng</p>
-              <Button onClick={() => (window.location.href = "/medicine")} className="bg-blue-900 hover:bg-blue-800">
+              <h3 className="text-lg font-medium text-gray-900 mb-2">
+                Giỏ hàng trống
+              </h3>
+              <p className="text-gray-500 mb-6">
+                Bạn chưa có sản phẩm nào trong giỏ hàng
+              </p>
+              <Button
+                onClick={() => (window.location.href = "/medicine")}
+                className="bg-blue-900 hover:bg-blue-800"
+              >
                 Tiếp tục mua sắm
               </Button>
             </CardContent>
@@ -174,7 +189,10 @@ export default function CartPage() {
                     <div className="flex items-center space-x-3">
                       <input
                         type="checkbox"
-                        checked={selectedItems.size === cartItems.length && cartItems.length > 0}
+                        checked={
+                          selectedItems.size === cartItems.length &&
+                          cartItems.length > 0
+                        }
                         onChange={(e) => handleSelectAll(e.target.checked)}
                         className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
                       />
@@ -205,7 +223,10 @@ export default function CartPage() {
             {/* Cart Summary */}
             <div className="lg:col-span-1">
               <div className="sticky top-8">
-                <CartSummary checkoutData={checkoutData} onCheckout={handleCheckout} />
+                <CartSummary
+                  checkoutData={checkoutData}
+                  onCheckout={handleCheckout}
+                />
               </div>
             </div>
           </div>
@@ -218,12 +239,15 @@ export default function CartPage() {
           <DialogHeader>
             <DialogTitle>Xác nhận xóa toàn bộ giỏ hàng</DialogTitle>
             <DialogDescription>
-              Bạn có chắc chắn muốn xóa toàn bộ {cartItems.length} sản phẩm trong giỏ hàng? Hành động này không thể hoàn
-              tác.
+              Bạn có chắc chắn muốn xóa toàn bộ {cartItems.length} sản phẩm
+              trong giỏ hàng? Hành động này không thể hoàn tác.
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>
-            <Button variant="outline" onClick={() => setIsClearDialogOpen(false)}>
+            <Button
+              variant="outline"
+              onClick={() => setIsClearDialogOpen(false)}
+            >
               Hủy
             </Button>
             <Button
@@ -238,5 +262,5 @@ export default function CartPage() {
         </DialogContent>
       </Dialog>
     </div>
-  )
+  );
 }

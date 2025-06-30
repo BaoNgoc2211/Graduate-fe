@@ -1,19 +1,22 @@
-"use client"
+"use client";
 
-import { CreditCard, ShoppingBag, Calculator } from "lucide-react"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Separator } from "@/components/ui/separator"
-import type { ICheckoutData } from "@/interface/order/cart.interface"
-import { formatPrice } from "@/lib/format-price"
+import { CreditCard, ShoppingBag, Calculator } from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
+import type { ICheckoutData } from "@/interface/order/cart.interface";
+import { formatPrice } from "@/lib/format-price";
 
 interface CartSummaryProps {
-  checkoutData: ICheckoutData
-  onCheckout: () => void
+  checkoutData: ICheckoutData;
+  onCheckout: () => void;
 }
 
-export default function CartSummary({ checkoutData, onCheckout }: CartSummaryProps) {
-  const { items, totalAmount, selectedCount } = checkoutData
+export default function CartSummary({
+  checkoutData,
+  onCheckout,
+}: CartSummaryProps) {
+  const { items, totalAmount, selectedCount } = checkoutData;
 
   return (
     <Card className="shadow-lg">
@@ -40,7 +43,10 @@ export default function CartSummary({ checkoutData, onCheckout }: CartSummaryPro
               <h4 className="text-sm font-medium text-gray-700">Chi tiết:</h4>
               <div className="max-h-40 overflow-y-auto space-y-2">
                 {items.map((item) => (
-                  <div key={item.medicine_id} className="flex justify-between items-center text-sm">
+                  <div
+                    key={item.medicine_id}
+                    className="flex justify-between items-center text-sm"
+                  >
                     <div className="flex-1 min-w-0">
                       <p className="truncate font-medium" title={item.name}>
                         {item.name}
@@ -49,7 +55,9 @@ export default function CartSummary({ checkoutData, onCheckout }: CartSummaryPro
                         {formatPrice(item.price)} x {item.quantity}
                       </p>
                     </div>
-                    <span className="font-medium text-green-600 ml-2">{formatPrice(item.totalPrice)}</span>
+                    <span className="font-medium text-green-600 ml-2">
+                      {formatPrice(item.totalPrice)}
+                    </span>
                   </div>
                 ))}
               </div>
@@ -70,8 +78,12 @@ export default function CartSummary({ checkoutData, onCheckout }: CartSummaryPro
             </div>
             <Separator />
             <div className="flex justify-between items-center">
-              <span className="text-lg font-semibold text-gray-900">Tổng thanh toán:</span>
-              <span className="text-2xl font-bold text-blue-900">{formatPrice(totalAmount)}</span>
+              <span className="text-lg font-semibold text-gray-900">
+                Tổng thanh toán:
+              </span>
+              <span className="text-2xl font-bold text-blue-900">
+                {formatPrice(totalAmount)}
+              </span>
             </div>
           </div>
 
@@ -83,22 +95,30 @@ export default function CartSummary({ checkoutData, onCheckout }: CartSummaryPro
             size="lg"
           >
             <CreditCard className="h-5 w-5 mr-2" />
-            {selectedCount === 0 ? "Chọn sản phẩm để thanh toán" : `Tiến hành thanh toán (${selectedCount} sản phẩm)`}
+            {selectedCount === 0
+              ? "Chọn sản phẩm để thanh toán"
+              : `Tiến hành thanh toán (${selectedCount} sản phẩm)`}
           </Button>
 
           {/* Continue Shopping - ĐÃ ĐÚNG, GIỮ NGUYÊN */}
-          <Button variant="outline" onClick={() => (window.location.href = "/medicine")} className="w-full">
+          <Button
+            variant="outline"
+            onClick={() => (window.location.href = "/medicine")}
+            className="w-full"
+          >
             Tiếp tục mua sắm
           </Button>
 
           {/* Note */}
           {selectedCount === 0 && (
             <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3">
-              <p className="text-sm text-yellow-800">💡 Vui lòng chọn ít nhất một sản phẩm để tiến hành thanh toán</p>
+              <p className="text-sm text-yellow-800">
+                💡 Vui lòng chọn ít nhất một sản phẩm để tiến hành thanh toán
+              </p>
             </div>
           )}
         </div>
       </CardContent>
     </Card>
-  )
+  );
 }
