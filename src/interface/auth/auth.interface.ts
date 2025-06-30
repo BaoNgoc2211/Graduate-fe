@@ -24,7 +24,10 @@ export interface IInfo {
   width: number;
   role: string;
 }
-
+export interface ICheckAuth {
+  message: string;
+  data: string;
+}
 export interface IForgotPassword {
   email: string;
 }

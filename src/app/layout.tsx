@@ -27,13 +27,11 @@ export default function RootLayout({
       <body
         className={cn("bg-background", open_sans.variable, urbanist.className)}
       >
-        {" "}
         <QueryProvider>
           <Header />
           <main className="min-h-screen">
             <div className="container mx-auto px-4">
               <div className="flex flex-wrap gap-4">
-                {/* Nếu muốn áp dụng class như bạn nói, có thể truyền qua props hoặc dùng ở children */}
                 <section className="w-full">{children}</section>
               </div>
             </div>

@@ -2,7 +2,7 @@
 import Input from "@/components/input";
 import React, { useState } from "react";
 import Image from "next/image";
-import Button from "@/components/ui/button";
+import Button from "@/components/ui/button-01";
 import { Mail, Lock, User } from "lucide-react";
 import { assets } from "../../../../public/assets";
 import { useRouter } from "next/navigation";

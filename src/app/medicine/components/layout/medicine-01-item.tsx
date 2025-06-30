@@ -12,7 +12,7 @@ const Medicine01Item: React.FC<Partial<IMedicineCategory>> = ({
     <Link href={`/medicine/category/${_id}`}>
       <div className="min-w-[140px] md:min-w-0 w-fit flex items-center gap-2 border border-[#00416A] px-4 py-3 rounded-2xl hover:bg-[#00416A] hover:text-white transition-all cursor-pointer shadow-sm hover:shadow-md">
         <Image
-          src={icon ?? "cart_icon.svg"}
+          src={icon ?? "cart_icon.png"}
           alt={name ?? "Medicine image"}
           width={24}
           height={24}

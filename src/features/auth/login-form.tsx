@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Input from "@/components/input";
-import Button from "@/components/ui/button";
+import Button from "@/components/ui/button-01";
 // import { login } from "./authAPI";
 import { FaUser, FaLock } from "react-icons/fa";
 

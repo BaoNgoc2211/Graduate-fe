@@ -11,7 +11,7 @@ export default function Layout({
       <div className="bg-white">
         <div className="container max-w-7xl mx-auto sm:px-10">
           <FakeShopProvider>
-            <div className="w-full px-5 sm:px-0 py-5">{children}</div>
+            <div className="w-full sm:px-0 py-5">{children}</div>
           </FakeShopProvider>
         </div>
       </div>

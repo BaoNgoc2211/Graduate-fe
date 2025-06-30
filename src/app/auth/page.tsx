@@ -1,6 +1,6 @@
 "use client";
 import { assets } from "../../../public/assets";
-import Button from "@/components/ui/button";
+import Button from "@/components/ui/button-01";
 import Input from "@/components/input";
 import { Lock, Phone } from "lucide-react";
 import Image from "next/image";

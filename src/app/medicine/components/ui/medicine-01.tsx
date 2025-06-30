@@ -10,6 +10,7 @@ const Medicine01 = () => {
   if (isError) return "Fetching data error";
   return (
     <div className="w-full overflow-x-auto md:overflow-x-visible">
+      <h2 className="text-xl font-bold text-blue-900 mb-4">Thuốc theo nhóm điều trị</h2>
       <div className="flex flex-col  px-5 lg:flex-row items-center gap-3 5 py-3 rounded-2xl transition-all cursor-pointer shadow-sm hover:shadow-md">
         {data?.data?.map((item: IMedicineCategory) => (
           <Medicine01Item
