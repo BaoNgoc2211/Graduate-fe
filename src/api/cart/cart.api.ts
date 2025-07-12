@@ -119,7 +119,7 @@ export const removeCartAPI = async (
   payload: RemoveCartPayload
 ): Promise<RemoveCartResponse> => {
   const response = await APIConfig.post<RemoveCartResponse>(
-    "/api/cart/remove",
+    `/api/cart/remove`,
     payload
   );
   return response.data;

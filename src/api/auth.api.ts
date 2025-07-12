@@ -1,4 +1,4 @@
-import { ICheckAuth, IReset } from "./../interface/auth/auth.interface";
+import { ICheckAuth, IInfo, IReset } from "./../interface/auth/auth.interface";
 import { ISignIn, IVerify } from "@/interface/auth/auth.interface";
 import APIConfig from "./api.config";
 export const signupAPI = async (data: ISignIn) => {
@@ -21,8 +21,11 @@ export const checkAuthAPI = async () => {
   const response = await APIConfig.get("/api/auth/check-auth", {
     withCredentials: true,
   });
-
   return response.data as ICheckAuth;
+};
+export const updateInfo = async (data: IInfo) => {
+  const response = await APIConfig.post("/api/auth/profile", data);
+  return response.data;
 };
 export const forgotPasswordAPI = async (data: { email: string }) => {
   const response = await APIConfig.post("/api/auth/forgot-password", data);
