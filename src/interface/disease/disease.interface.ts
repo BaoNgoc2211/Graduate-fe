@@ -1,6 +1,7 @@
 import { SeverityLevelEnum } from "../../enum/disease/disease.enum";
 import { RiskGroup } from "../../enum/disease/disease.enum";
 export interface IDisease {
+  _id?: string;
   code: string;
   name: string;
   nameDiff?: string;

@@ -1,31 +1,32 @@
 "use client";
-import { IDisCategory } from "@/interface/disease/disease-category.interface";
+
 import Image from "next/image";
 import Link from "next/link";
 
-const Disease01Item: React.FC<Partial<IDisCategory>> = ({
-  _id,
-  name,
-  icon,
-}) => {
+interface DiseaseItemProps {
+  _id?: string;
+  name?: string;
+  icon?: string;
+}
+
+const Disease01Item: React.FC<DiseaseItemProps> = ({ _id, name, icon }) => {
   return (
-    <Link href={`disease/category/${_id}`}>
-      <div className="flex flex-col items-center justify-center bg-white  rounded-xl shadow-xl w-full max-w-sm py-2 px-2 hover:border hover:border-blue-900 ">
-        <div className=" overflow-hidden">
+    <Link href={`/disease/category/${_id ?? "#"}`}>
+      <div className="flex flex-col items-center justify-center bg-white rounded-2xl shadow-md w-full py-4 px-3 hover:border hover:border-blue-900 transition">
+        <div className="w-20 h-20 rounded-full bg-blue-50 flex items-center justify-center overflow-hidden">
           <Image
-            src={icon ?? "cart_icon.svg"}
-            alt={name ?? "Medicine image"}
-            width={24}
-            height={24}
-            className="hover:scale-110 transition ease-in-out"
+            src={icon ?? "/placeholder.svg"}
+            alt={name ?? "Disease category"}
+            width={64}
+            height={64}
+            className="object-contain transition-transform group-hover:scale-110"
           />
         </div>
-        <p className="h-16 text-center pt-3 text-[#00416A] pb-1 font-medium mt-5">
-          {name}
+        <p className="text-center mt-4 text-blue-900 font-medium text-sm line-clamp-2">
+          {name ?? "Danh mục bệnh"}
         </p>
       </div>
     </Link>
   );
 };
-
 export default Disease01Item;

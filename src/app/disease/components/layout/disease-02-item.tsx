@@ -12,7 +12,6 @@ const Disease02Item: React.FC<Partial<IDisCategory>> = ({
     <Link href={`disease/usage/${_id}`}>
       <div className="flex flex-col items-center justify-center bg-white  rounded-xl shadow-xl w-full max-w-sm py-3 px-5 ">
         <div className=" overflow-hidden">
-          {/* <image src={icon} className="hover:scale-110 transition ease-in-out" /> */}
           <Image
             src={icon ?? "cart_icon.svg"}
             alt={name ?? "Medicine image"}

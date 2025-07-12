@@ -12,17 +12,22 @@ export interface IVerify {
   email: string;
   otp: string;
 }
+
 export interface IInfo {
-  fullName: string;
-  email: string;
-  password: string;
-  phone: number;
-  gender?: string;
-  birthday?: Date;
+  name?: string;
+  phone?: string;
   avatar?: string;
-  address: string;
-  width: number;
-  role: string;
+  gender?: string;
+  point?: number;
+  birthday?: Date;
+  address?: string;
+  // address?: {
+  //   provinceId: string;
+  //   provinceName: string;
+  //   wardId: string;
+  //   wardName: string;
+  //   street?: string;
+  // };
 }
 export interface ICheckAuth {
   message: string;
