@@ -1,441 +1,336 @@
-import { IOrder, IOrderStats } from "@/interface/order/order-management.interface"
+import APIConfig from "../api.config";
+import type {
+  IOrder,
+  IOrderStats,
+} from "@/interface/order/order-management.interface";
 
-// Mock data for demonstration
-const MOCK_ORDERS: IOrder[] = [
-  {
-    _id: "ORD001",
-    user_id: {
-      _id: "USER001",
-      name: "Nguyễn Văn A",
-      email: "nguyenvana@email.com",
-      phone: "0123456789",
-      address: "123 Đường ABC, Quận 1, TP.HCM",
-    },
-    orderItems: [
-      {
-        _id: "ITEM001",
-        medicine_id: {
-          _id: "MED001",
-          name: "Paracetamol 500mg",
-          code: "PAR500",
-          thumbnail: "/placeholder.svg?height=80&width=80",
-          dosageForm: "Viên nén",
-        },
-        stock_id: {
-          _id: "STOCK001",
-          sellingPrice: 25000,
-        },
-        quantity: 2,
-        price: 25000,
-        totalAmount: 50000,
-        note: "Uống sau ăn",
-      },
-      {
-        _id: "ITEM002",
-        medicine_id: {
-          _id: "MED002",
-          name: "Vitamin C 1000mg",
-          code: "VTC1000",
-          thumbnail: "/placeholder.svg?height=80&width=80",
-          dosageForm: "Viên sủi",
-        },
-        stock_id: {
-          _id: "STOCK002",
-          sellingPrice: 150000,
-        },
-        quantity: 1,
-        price: 150000,
-        totalAmount: 150000,
-      },
-    ],
-    totalAmount: 200000,
-    shippingFee: 25000,
-    discount: 10000,
-    finalAmount: 215000,
-    status: "Pending Confirmation",
-    paymentMethod: "COD",
-    shippingMethod: "Giao hàng tiêu chuẩn",
-    shippingAddress: {
-      name: "Nguyễn Văn A",
-      phone: "0123456789",
-      address: "123 Đường ABC",
-      city: "TP.HCM",
-      district: "Quận 1",
-      ward: "Phường Bến Nghé",
-    },
-    orderDate: "2024-01-15T10:30:00Z",
-    estimatedDelivery: "2024-01-20T17:00:00Z",
-    trackingNumber: "VN123456789",
-    isReviewed: false,
-    createdAt: "2024-01-15T10:30:00Z",
-    updatedAt: "2024-01-15T10:30:00Z",
-  },
-  {
-    _id: "ORD002",
-    user_id: {
-      _id: "USER002",
-      name: "Trần Thị B",
-      email: "tranthib@email.com",
-      phone: "0987654321",
-      address: "456 Đường XYZ, Quận 3, TP.HCM",
-    },
-    orderItems: [
-      {
-        _id: "ITEM003",
-        medicine_id: {
-          _id: "MED003",
-          name: "Amoxicillin 250mg",
-          code: "AMX250",
-          thumbnail: "/placeholder.svg?height=80&width=80",
-          dosageForm: "Viên nang",
-        },
-        stock_id: {
-          _id: "STOCK003",
-          sellingPrice: 45000,
-        },
-        quantity: 3,
-        price: 45000,
-        totalAmount: 135000,
-      },
-    ],
-    totalAmount: 135000,
-    shippingFee: 30000,
-    discount: 0,
-    finalAmount: 165000,
-    status: "Shipping",
-    paymentMethod: "Bank Transfer",
-    shippingMethod: "Giao hàng nhanh",
-    shippingAddress: {
-      name: "Trần Thị B",
-      phone: "0987654321",
-      address: "456 Đường XYZ",
-      city: "TP.HCM",
-      district: "Quận 3",
-      ward: "Phường Võ Thị Sáu",
-    },
-    orderDate: "2024-01-14T14:20:00Z",
-    estimatedDelivery: "2024-01-18T16:00:00Z",
-    trackingNumber: "VN987654321",
-    isReviewed: false,
-    createdAt: "2024-01-14T14:20:00Z",
-    updatedAt: "2024-01-16T09:15:00Z",
-  },
-  {
-    _id: "ORD003",
-    user_id: {
-      _id: "USER003",
-      name: "Lê Văn C",
-      email: "levanc@email.com",
-      phone: "0369852147",
-      address: "789 Đường DEF, Quận 7, TP.HCM",
-    },
-    orderItems: [
-      {
-        _id: "ITEM004",
-        medicine_id: {
-          _id: "MED004",
-          name: "Omega 3 Fish Oil",
-          code: "OMG3",
-          thumbnail: "/placeholder.svg?height=80&width=80",
-          dosageForm: "Viên nang mềm",
-        },
-        stock_id: {
-          _id: "STOCK004",
-          sellingPrice: 320000,
-        },
-        quantity: 1,
-        price: 320000,
-        totalAmount: 320000,
-      },
-    ],
-    totalAmount: 320000,
-    shippingFee: 0,
-    discount: 32000,
-    finalAmount: 288000,
-    status: "Completed",
-    paymentMethod: "Credit Card",
-    shippingMethod: "Miễn phí vận chuyển",
-    shippingAddress: {
-      name: "Lê Văn C",
-      phone: "0369852147",
-      address: "789 Đường DEF",
-      city: "TP.HCM",
-      district: "Quận 7",
-      ward: "Phường Tân Thuận Đông",
-    },
-    orderDate: "2024-01-10T09:45:00Z",
-    estimatedDelivery: "2024-01-15T17:00:00Z",
-    deliveredDate: "2024-01-14T15:30:00Z",
-    trackingNumber: "VN147258369",
-    isReviewed: false,
-    createdAt: "2024-01-10T09:45:00Z",
-    updatedAt: "2024-01-14T15:30:00Z",
-  },
-]
+interface APIOrderListResponse {
+  orderId: string;
+  status: string;
+  totalAmount: number;
+  finalAmount: number;
+  items: APIOrderItem[];
+  orderDetailId?: string;
+}
 
+interface APIOrderItem {
+  order_item: string;
+  medicineName: string;
+  quantity: number;
+  price: number;
+  total: number;
+  thumbnail: string;
+}
+
+interface APIOrderDetailResponse {
+  _id: string;
+  order_items: {
+    medicine_id: string;
+    stock_id: string;
+    thumbnail: string;
+    name: string;
+    price: number;
+    quantity: number;
+    totalAmount: number;
+    note: string;
+  }[];
+  totalOrder: number;
+  createdAt: string;
+  updatedAt: string;
+}
+
+// Get all orders
 export const getAllOrdersAPI = async (): Promise<IOrder[]> => {
-  // Simulate API delay
-  await new Promise((resolve) => setTimeout(resolve, 800))
+  const response = await APIConfig.get<{ data: APIOrderListResponse[] }>(
+    "/api/order/status/"
+  );
+  return response.data.data.map(mapOrderFromListAPI);
+};
 
-  // In production: const response = await APIConfig.get<{ data: IOrder[] }>("/api/order")
-  // return response.data.data
-
-  return MOCK_ORDERS
-}
-
+// Get order by ID - Cần call 2 API để lấy đủ thông tin
 export const getOrderByIdAPI = async (order_id: string): Promise<IOrder> => {
-  await new Promise((resolve) => setTimeout(resolve, 500))
-
-  const order = MOCK_ORDERS.find((o) => o._id === order_id)
-  if (!order) {
-    throw new Error("Không tìm thấy đơn hàng")
+  try {
+    console.log(`🔍 Getting order details for ID: ${order_id}`);
+    
+    // API trả về orderDetail, không phải order info
+    const response = await APIConfig.get<{ data: APIOrderDetailResponse }>(
+      `/api/order/orderdetail/${order_id}`
+    );
+    
+    // Tạm thời map từ orderDetail, thiếu nhiều thông tin
+    return mapOrderFromDetailAPI(response.data.data, order_id);
+  } catch (error) {
+    console.error(`❌ Error getting order ${order_id}:`, error);
+    throw error;
   }
+};
 
-  return order
-}
-
-export const checkAllOrderStatusAPI = async (): Promise<IOrder[]> => {
-  await new Promise((resolve) => setTimeout(resolve, 600))
-  return MOCK_ORDERS
-}
-
-export const checkOrderByStatusAPI = async ({
-  userId,
-  status,
-}: {
-  userId: string
+// Get orders by status
+export const getOrdersByStatusAPI = async (
   status: string
-}): Promise<IOrder[]> => {
-  await new Promise((resolve) => setTimeout(resolve, 400))
-
-  return MOCK_ORDERS.filter((order) => order.user_id._id === userId && order.status === status)
-}
-
-export const getOrdersByStatusAPI = async (status: string): Promise<IOrder[]> => {
-  await new Promise((resolve) => setTimeout(resolve, 400))
-
-  if (status === "all") {
-    return MOCK_ORDERS
+): Promise<IOrder[]> => {
+  try {
+    console.log(`🔍 Getting orders with frontend status: ${status}`);
+    
+    if (status === "all") {
+      console.log("📋 Getting all orders from: /api/order/status/");
+      const response = await APIConfig.get<{ data: APIOrderListResponse[] }>(
+        "/api/order/status/"
+      );
+      const mappedOrders = response.data.data.map(mapOrderFromListAPI);
+      console.log(`✅ Retrieved ${mappedOrders.length} total orders`);
+      return mappedOrders;
+    } else {
+      // Map frontend status sang backend status
+      const apiStatus = mapStatusToAPI(status);
+      console.log(`🔄 Mapped to backend status: ${status} -> ${apiStatus}`);
+      
+      const endpoint = `/api/order/status/${apiStatus}`;
+      console.log(`📡 Calling endpoint: ${endpoint}`);
+      
+      const response = await APIConfig.get<{ data: APIOrderListResponse[] }>(endpoint);
+      const mappedOrders = response.data.data.map(mapOrderFromListAPI);
+      
+      console.log(`✅ Retrieved ${mappedOrders.length} orders for status: ${status}`);
+      return mappedOrders;
+    }
+  } catch (error) {
+    console.error(`❌ Error getting orders by status ${status}:`, error);
+    throw error;
   }
+};
 
-  return MOCK_ORDERS.filter((order) => order.status === status)
-}
-
+// Calculate stats from orders
 export const getOrderStatsAPI = async (): Promise<IOrderStats> => {
-  await new Promise((resolve) => setTimeout(resolve, 300))
+  try {
+    console.log("📊 Calculating stats from all orders...");
+    const allOrders = await getAllOrdersAPI();
 
-  const stats = MOCK_ORDERS.reduce(
-    (acc, order) => {
-      acc.total++
-      switch (order.status) {
-        case "Pending Confirmation":
-          acc.pending++
-          break
-        case "Awaiting Shipment":
-          acc.awaiting++
-          break
-        case "Shipping":
-          acc.shipping++
-          break
-        case "Completed":
-          acc.completed++
-          break
-        case "Cancelled":
-          acc.cancelled++
-          break
+    const stats = allOrders.reduce(
+      (acc, order) => {
+        acc.total++;
+        switch (order.status) {
+          case "Pending Confirmation":
+            acc.pending++;
+            break;
+          case "Awaiting Shipment":
+            acc.awaiting++;
+            break;
+          case "Shipping":
+            acc.shipping++;
+            break;
+          case "Completed":
+            acc.completed++;
+            break;
+          case "Cancelled":
+            acc.cancelled++;
+            break;
+        }
+        return acc;
+      },
+      {
+        total: 0,
+        pending: 0,
+        awaiting: 0,
+        shipping: 0,
+        completed: 0,
+        cancelled: 0,
       }
-      return acc
-    },
-    {
-      total: 0,
-      pending: 0,
-      awaiting: 0,
-      shipping: 0,
-      completed: 0,
-      cancelled: 0,
-    },
-  )
+    );
 
-  return stats
-}
-
-export const cancelOrderAPI = async (orderId: string, reason: string): Promise<IOrder> => {
-  await new Promise((resolve) => setTimeout(resolve, 1000))
-
-  // In production, this would update the order status
-  const order = MOCK_ORDERS.find((o) => o._id === orderId)
-  if (!order) {
-    throw new Error("Không tìm thấy đơn hàng")
+    console.log("📈 Calculated stats:", stats);
+    return stats;
+  } catch (error) {
+    console.error("❌ Get order stats error:", error);
+    throw error;
   }
+};
 
-  // Mock update
-  order.status = "Cancelled"
-  order.cancelledDate = new Date().toISOString()
-  order.cancelReason = reason
-  order.updatedAt = new Date().toISOString()
+// Cancel order - Cần implement khi có API
+export const cancelOrderAPI = async (
+  orderId: string,
+  reason: string
+): Promise<IOrder> => {
+  console.log(`🚫 Cancelling order ${orderId} with reason: ${reason}`);
+  // TODO: Implement when backend provides cancel API
+  throw new Error("Cancel order API not implemented yet");
+};
 
-  return order
+// Update order status - Cần implement khi có API
+export const updateOrderStatusAPI = async (
+  orderId: string,
+  status: string
+): Promise<IOrder> => {
+  const backendStatus = mapStatusToAPI(status);
+  console.log(`🔄 Updating order ${orderId} status: ${status} -> ${backendStatus}`);
+  // TODO: Implement when backend provides update status API
+  throw new Error("Update order status API not implemented yet");
+};
+
+// Search orders - Cần implement khi có API
+export const searchOrdersAPI = async (
+  searchTerm: string
+): Promise<IOrder[]> => {
+  console.log(`🔍 Searching orders with term: ${searchTerm}`);
+  // TODO: Implement when backend provides search API
+  // Tạm thời search trong tất cả orders
+  const allOrders = await getAllOrdersAPI();
+  const searchLower = searchTerm.toLowerCase();
+  return allOrders.filter(order => 
+    order._id.toLowerCase().includes(searchLower) ||
+    order.orderItems.some(item => 
+      item.medicine_id.name.toLowerCase().includes(searchLower)
+    )
+  );
+};
+
+// Get orders by user - Cần implement khi có API
+export const getOrdersByUserAPI = async (userId: string): Promise<IOrder[]> => {
+  console.log(`👤 Getting orders for user: ${userId}`);
+  // TODO: Implement when backend provides user orders API
+  throw new Error("Get orders by user API not implemented yet");
+};
+
+// Helper function để map status từ frontend sang backend
+function mapStatusToAPI(frontendStatus: string): string {
+  const statusMap: { [key: string]: string } = {
+    "all": "",
+    "Pending Confirmation": "pending",
+    "Awaiting Shipment": "confirmed", 
+    "Shipping": "delivering",
+    "Completed": "completed",
+    "Cancelled": "cancelled",
+  };
+
+  const mapped = statusMap[frontendStatus] || frontendStatus.toLowerCase();
+  console.log(`🗺️ Status mapping: "${frontendStatus}" -> "${mapped}"`);
+  return mapped;
 }
 
-// import type { IOrder, IOrderStats } from "@/interface/order/order-management.interface"
-// import APIConfig from "../api.config"
+// Helper function để map status từ backend sang frontend
+function mapStatusFromAPI(apiStatus: string): string {
+  const statusMap: { [key: string]: string } = {
+    "đang chờ xác nhận": "Pending Confirmation",
+    "xác nhận": "Awaiting Shipment",
+    "đang giao": "Shipping",
+    "hoàn thành": "Completed",
+    "huỷ": "Cancelled",
+  };
 
-// // Commented out mock data - now using real API calls
-// /*
-// const MOCK_ORDERS: IOrder[] = [
-//   // Mock data removed - using real API calls now
-// ]
-// */
+  const mapped = statusMap[apiStatus] || apiStatus;
+  console.log(`🗺️ Status mapping from API: "${apiStatus}" -> "${mapped}"`);
+  return mapped;
+}
 
-// export const getAllOrdersAPI = async (): Promise<IOrder[]> => {
-//   try {
-//     const response = await APIConfig.get<{ data: IOrder[] }>("/api/order")
-//     return response.data.data
-//   } catch (error) {
-//     console.error("Error fetching all orders:", error)
-//     throw new Error("Không thể tải danh sách đơn hàng")
-//   }
-// }
+// Map order list response từ backend
+function mapOrderFromListAPI(apiOrder: APIOrderListResponse): IOrder {
+  console.log("🔍 Mapping order from list API:", {
+    orderId: apiOrder.orderId,
+    status: apiOrder.status,
+    itemsCount: apiOrder.items?.length || 0
+  });
 
-// export const getOrderByIdAPI = async (order_id: string): Promise<IOrder> => {
-//   try {
-//     const response = await APIConfig.get<{ data: IOrder }>(`/api/order/${order_id}`)
-//     return response.data.data
-//   } catch (error) {
-//     console.error("Error fetching order by ID:", error)
-//     throw new Error("Không thể tải thông tin đơn hàng")
-//   }
-// }
+  const mappedStatus = mapStatusFromAPI(apiOrder.status);
 
-// export const checkAllOrderStatusAPI = async (): Promise<IOrder[]> => {
-//   try {
-//     const response = await APIConfig.get<{ data: IOrder[] }>("/api/order/status")
-//     return response.data.data
-//   } catch (error) {
-//     console.error("Error fetching all order statuses:", error)
-//     throw new Error("Không thể tải trạng thái đơn hàng")
-//   }
-// }
+  return {
+    _id: apiOrder.orderId,
+    user_id: {
+      _id: "unknown",
+      name: "Unknown User",
+      email: "",
+      phone: "",
+      address: "",
+    },
+    orderItems: apiOrder.items?.map((item, index) => ({
+      _id: item.order_item || `item-${index}`,
+      medicine_id: {
+        _id: item.order_item || "unknown",
+        name: item.medicineName || "Unknown Medicine",
+        code: "",
+        thumbnail: item.thumbnail || "/placeholder.svg",
+        dosageForm: "Unknown",
+      },
+      stock_id: {
+        _id: "unknown",
+        sellingPrice: item.price || 0,
+      },
+      quantity: item.quantity || 0,
+      price: item.price || 0,
+      totalAmount: item.total || 0,
+    })) || [],
+    totalAmount: apiOrder.totalAmount || 0,
+    shippingFee: 0,
+    discount: 0,
+    finalAmount: apiOrder.finalAmount || 0,
+    status: mappedStatus as IOrder["status"],
+    paymentMethod: "COD",
+    shippingMethod: "Standard Shipping",
+    shippingAddress: {
+      name: "",
+      phone: "",
+      address: "",
+      city: "",
+      district: "",
+      ward: "",
+    },
+    orderDate: new Date().toISOString(),
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
+  };
+}
 
-// export const checkOrderByStatusAPI = async ({
-//   status,
-// }: {
-//   userId: string
-//   status: string
-// }): Promise<IOrder[]> => {
-//   try {
-//     const response = await APIConfig.get<{ data: IOrder[] }>(`/api/order/status/${status}`)
-//     return response.data.data
-//   } catch (error) {
-//     console.error("Error fetching orders by status:", error)
-//     throw new Error("Không thể tải đơn hàng theo trạng thái")
-//   }
-// }
+// Map order detail response từ backend
+function mapOrderFromDetailAPI(apiOrderDetail: APIOrderDetailResponse, orderId: string): IOrder {
+  console.log("🔍 Mapping order from detail API:", {
+    orderId: orderId,
+    detailId: apiOrderDetail._id,
+    itemsCount: apiOrderDetail.order_items?.length || 0
+  });
 
-// export const getOrdersByStatusAPI = async (status: string): Promise<IOrder[]> => {
-//   try {
-//     if (status === "all") {
-//       return await getAllOrdersAPI()
-//     }
-
-//     const response = await APIConfig.get<{ data: IOrder[] }>(`/api/order/filter/status/${status}`)
-//     return response.data.data
-//   } catch (error) {
-//     console.error("Error fetching orders by status:", error)
-//     throw new Error("Không thể tải đơn hàng theo trạng thái")
-//   }
-// }
-
-// export const getOrderStatsAPI = async (): Promise<IOrderStats> => {
-//   try {
-//     const response = await APIConfig.get<{ data: IOrderStats }>("/api/order/statistics")
-//     return response.data.data
-//   } catch (error) {
-//     console.error("Error fetching order statistics:", error)
-//     // Fallback: calculate stats from all orders if stats endpoint fails
-//     try {
-//       const orders = await getAllOrdersAPI()
-//       const stats = orders.reduce(
-//         (acc, order) => {
-//           acc.total++
-//           switch (order.status) {
-//             case "Pending Confirmation":
-//               acc.pending++
-//               break
-//             case "Awaiting Shipment":
-//               acc.awaiting++
-//               break
-//             case "Shipping":
-//               acc.shipping++
-//               break
-//             case "Completed":
-//               acc.completed++
-//               break
-//             case "Cancelled":
-//               acc.cancelled++
-//               break
-//           }
-//           return acc
-//         },
-//         {
-//           total: 0,
-//           pending: 0,
-//           awaiting: 0,
-//           shipping: 0,
-//           completed: 0,
-//           cancelled: 0,
-//         },
-//       )
-//       return stats
-//     } catch (fallbackError) {
-//       console.error("Error calculating fallback stats:", fallbackError)
-//       throw new Error("Không thể tải thống kê đơn hàng")
-//     }
-//   }
-// }
-
-// export const cancelOrderAPI = async (orderId: string, reason: string): Promise<IOrder> => {
-//   try {
-//     const response = await APIConfig.put<{ data: IOrder }>(`/api/order/${orderId}/cancel`, {
-//       reason,
-//       cancelledDate: new Date().toISOString(),
-//     })
-//     return response.data.data
-//   } catch (error) {
-//     console.error("Error cancelling order:", error)
-//     throw new Error("Không thể hủy đơn hàng")
-//   }
-// }
-
-// export const updateOrderStatusAPI = async (orderId: string, status: string): Promise<IOrder> => {
-//   try {
-//     const response = await APIConfig.put<{ data: IOrder }>(`/api/order/${orderId}/status`, {
-//       status,
-//       updatedAt: new Date().toISOString(),
-//     })
-//     return response.data.data
-//   } catch (error) {
-//     console.error("Error updating order status:", error)
-//     throw new Error("Không thể cập nhật trạng thái đơn hàng")
-//   }
-// }
-
-// export const getOrdersByUserAPI = async (userId: string): Promise<IOrder[]> => {
-//   try {
-//     const response = await APIConfig.get<{ data: IOrder[] }>(`/api/order/user/${userId}`)
-//     return response.data.data
-//   } catch (error) {
-//     console.error("Error fetching orders by user:", error)
-//     throw new Error("Không thể tải đơn hàng của người dùng")
-//   }
-// }
-
-// export const searchOrdersAPI = async (searchTerm: string): Promise<IOrder[]> => {
-//   try {
-//     const response = await APIConfig.get<{ data: IOrder[] }>(`/api/order/search?q=${encodeURIComponent(searchTerm)}`)
-//     return response.data.data
-//   } catch (error) {
-//     console.error("Error searching orders:", error)
-//     throw new Error("Không thể tìm kiếm đơn hàng")
-//   }
-// }
+  return {
+    _id: orderId,
+    user_id: {
+      _id: "unknown",
+      name: "Unknown User", 
+      email: "",
+      phone: "",
+      address: "",
+    },
+    orderItems: apiOrderDetail.order_items?.map((item, index) => ({
+      _id: item.medicine_id || `item-${index}`,
+      medicine_id: {
+        _id: item.medicine_id || "unknown",
+        name: item.name || "Unknown Medicine",
+        code: "",
+        thumbnail: item.thumbnail || "/placeholder.svg",
+        dosageForm: "Unknown",
+      },
+      stock_id: {
+        _id: item.stock_id || "unknown",
+        sellingPrice: item.price || 0,
+      },
+      quantity: item.quantity || 0,
+      price: item.price || 0,
+      totalAmount: item.totalAmount || 0,
+      note: item.note,
+    })) || [],
+    totalAmount: apiOrderDetail.totalOrder || 0,
+    shippingFee: 0,
+    discount: 0,
+    finalAmount: apiOrderDetail.totalOrder || 0,
+    status: "Pending Confirmation", // Không có trong orderDetail API
+    paymentMethod: "COD",
+    shippingMethod: "Standard Shipping",
+    shippingAddress: {
+      name: "",
+      phone: "",
+      address: "",
+      city: "",
+      district: "",
+      ward: "",
+    },
+    orderDate: apiOrderDetail.createdAt || new Date().toISOString(),
+    createdAt: apiOrderDetail.createdAt || new Date().toISOString(),
+    updatedAt: apiOrderDetail.updatedAt || new Date().toISOString(),
+  };
+}

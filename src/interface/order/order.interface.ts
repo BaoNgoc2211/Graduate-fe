@@ -1,62 +1,8 @@
-// // export interface IOrder {
-// //   _id: string;
-// //   status: string;
-// //   totalAmount: number;
-// //   shippingFee: number;
-// //   shippingVoucher: number;
-// //   totalVoucher: number;
-// //   orderDate: Date;
-// //   order_id: [{
-// //     stock_id: {
-// //       medicine_id: {
-// //         thumbnail: string;
-// //         packaging: string;
-// //       };
-// //     };
-// //     name: string;
-// //     price: string;
-// //     quantity: number;
-// //     totalAmount: number;
-// //     note: string;
-// //   }];
-// //   info: {
-// //     address: string;
-// //     name: string;
-// //     phone: number;
-// //   };
-// // }
-// // interfaces/order.interface.ts
-// export interface IOrderItem {
-//   medicine_id: string;
-//   stock_id: string;
-//   thumbnail: string;
-//   name: string;
-//   price: number;
-//   quantity: number;
-//   totalAmount: number;
-//   note: string;
-// }
-
-// export interface IOrderReview {
-//   orderItemsReview: IOrderItem[];
-//   totalAmount: number;
-//   shippingPrice: number;
-//   finalAmount: number;
-//   shippingMethod: string;
-//   userInfo: {
-//     name: string;
-//     phone: string;
-//     address: string;
-//   };
-// }
-
-// export interface ICheckoutPayload {
-//   selectItemIds: string[];
-//   shippingId: string;
-// }
 export interface ICheckoutPayload {
   selectItemIds: string[];
-  shippingId: string;
+  shippingId?: string;
+  paymentMethod?: string;
+  voucherId?: string;
 }
 
 export interface IOrderItem {
@@ -69,6 +15,7 @@ export interface IOrderItem {
   totalAmount: number;
   note?: string;
 }
+
 export interface IOrder {
   _id: string;
   user_id: string;
@@ -80,15 +27,41 @@ export interface IOrder {
   createdAt: string;
   updatedAt: string;
 }
+
 export interface IOrderReview {
-  orderItemsReview: IOrderItem[];
-  totalAmount: number;
-  shippingPrice: number;
-  finalAmount: number;
-  shippingMethod: string;
   userInfo: {
     name: string;
     phone: string;
     address: string;
   };
+  orderItemsReview: IOrderItem[];
+  shipping: {
+    _id: string;
+    type: string;
+    price: number;
+    createdAt: string;
+    updatedAt: string;
+  };
+  totalAmount: number;
+  paymentMethod: string;
+}
+
+// Response từ checkout API
+export interface ICheckoutResponse {
+  success: boolean;
+  paymentUrl?: string;
+  message?: string;
+  orderId?: string;
+}
+
+// Checkout session data interface
+export interface ICheckoutSession {
+  selectedItems: string[];
+  shippingMethodId?: string;
+  paymentMethod?: string;
+  voucherId?: string;
+  totalAmount: number;
+  shippingPrice: number;
+  discountAmount: number;
+  finalAmount: number;
 }

@@ -4,7 +4,8 @@ export const getAllMDisUsageAPI = async (): Promise<{
   data: IDiseaseUsageGroup[];
 }> => {
   const res = await APIConfig.get(`/api/disUsage/getAll/`);
-  return res.data as Promise<{ data: IDiseaseUsageGroup[] }>;
+  // return res.data as Promise<{ data: IDiseaseUsageGroup[] }>;
+  return res.data?.data;
 };
 export const getDisUsageAPI = async (
   disUsageGroup_id: string

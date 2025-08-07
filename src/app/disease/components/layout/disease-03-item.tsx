@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 export interface IDiseaseUsageGroup {
   id: string;
   name: string;
@@ -11,7 +13,7 @@ const Disease03Item = ({ name, icon }: IDiseaseUsageGroup) => {
         max-w-[9rem]p-3  transition cursor-pointer shadow-sm hover:shadow-md"
     >
       <div className="w-14 h-14 relative">
-        <img src={icon} alt={name} className="object-contain rounded-full" />
+        <Image src={icon} alt={name} className="object-contain rounded-full" width={50} height={50} />
       </div>
       <p className="text-sm text-center font-medium text-gray-800">{name}</p>
     </div>

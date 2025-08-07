@@ -1,18 +1,16 @@
-"use client"
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
-import { toast } from "sonner"
+"use client";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { toast } from "sonner";
 import {
   getAllOrdersAPI,
   getOrderByIdAPI,
-  checkAllOrderStatusAPI,
-  checkOrderByStatusAPI,
   getOrdersByStatusAPI,
   getOrderStatsAPI,
   cancelOrderAPI,
   updateOrderStatusAPI,
-  getOrdersByUserAPI,
   searchOrdersAPI,
-} from "@/api/cart/order-management.api"
+  getOrdersByUserAPI,
+} from "@/api/cart/order-management.api";
 
 export const useOrders = () => {
   return useQuery({
@@ -21,8 +19,8 @@ export const useOrders = () => {
     staleTime: 5 * 60 * 1000, // 5 minutes
     retry: 3,
     retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000),
-  })
-}
+  });
+};
 
 export const useOrderById = (id: string) => {
   return useQuery({
@@ -32,29 +30,8 @@ export const useOrderById = (id: string) => {
     staleTime: 2 * 60 * 1000, // 2 minutes
     retry: 3,
     retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000),
-  })
-}
-
-export const useOrderStatusAll = () => {
-  return useQuery({
-    queryKey: ["order-status-all"],
-    queryFn: checkAllOrderStatusAPI,
-    staleTime: 5 * 60 * 1000,
-    retry: 3,
-    retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000),
-  })
-}
-
-export const useOrderByStatus = (userId: string, status: string) => {
-  return useQuery({
-    queryKey: ["order-status", userId, status],
-    queryFn: () => checkOrderByStatusAPI({ userId, status }),
-    enabled: !!userId && !!status,
-    staleTime: 3 * 60 * 1000,
-    retry: 3,
-    retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000),
-  })
-}
+  });
+};
 
 export const useOrdersByStatus = (status: string) => {
   return useQuery({
@@ -64,8 +41,8 @@ export const useOrdersByStatus = (status: string) => {
     staleTime: 3 * 60 * 1000,
     retry: 3,
     retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000),
-  })
-}
+  });
+};
 
 export const useOrderStats = () => {
   return useQuery({
@@ -74,8 +51,8 @@ export const useOrderStats = () => {
     staleTime: 5 * 60 * 1000,
     retry: 3,
     retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000),
-  })
-}
+  });
+};
 
 export const useOrdersByUser = (userId: string) => {
   return useQuery({
@@ -85,8 +62,8 @@ export const useOrdersByUser = (userId: string) => {
     staleTime: 3 * 60 * 1000,
     retry: 3,
     retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000),
-  })
-}
+  });
+};
 
 export const useSearchOrders = (searchTerm: string) => {
   return useQuery({
@@ -95,45 +72,69 @@ export const useSearchOrders = (searchTerm: string) => {
     enabled: !!searchTerm && searchTerm.length >= 2,
     staleTime: 2 * 60 * 1000,
     retry: 2,
-  })
-}
+  });
+};
 
 export const useCancelOrder = () => {
-  const queryClient = useQueryClient()
+  const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({ orderId, reason }: { orderId: string; reason: string }) => cancelOrderAPI(orderId, reason),
+    mutationFn: ({ orderId, reason }: { orderId: string; reason: string }) =>
+      cancelOrderAPI(orderId, reason),
     onSuccess: (data) => {
-      toast.success("Hủy đơn hàng thành công!")
+      toast.success("Hủy đơn hàng thành công!");
       // Invalidate and refetch related queries
-      queryClient.invalidateQueries({ queryKey: ["orders"] })
-      queryClient.invalidateQueries({ queryKey: ["order-stats"] })
-      queryClient.invalidateQueries({ queryKey: ["orders-by-status"] })
-      queryClient.invalidateQueries({ queryKey: ["order", data._id] })
+      queryClient.invalidateQueries({ queryKey: ["orders"] });
+      queryClient.invalidateQueries({ queryKey: ["order-stats"] });
+      queryClient.invalidateQueries({ queryKey: ["orders-by-status"] });
+      queryClient.invalidateQueries({ queryKey: ["order", data._id] });
     },
     onError: (error: Error) => {
-      console.error("Cancel order error:", error)
-      toast.error(error.message || "Hủy đơn hàng thất bại!")
+      console.error("Cancel order error:", error);
+      toast.error(error.message || "Hủy đơn hàng thất bại!");
     },
-  })
-}
+  });
+};
 
 export const useUpdateOrderStatus = () => {
-  const queryClient = useQueryClient()
+  const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({ orderId, status }: { orderId: string; status: string }) => updateOrderStatusAPI(orderId, status),
+    mutationFn: ({ orderId, status }: { orderId: string; status: string }) =>
+      updateOrderStatusAPI(orderId, status),
     onSuccess: (data) => {
-      toast.success("Cập nhật trạng thái đơn hàng thành công!")
+      toast.success("Cập nhật trạng thái đơn hàng thành công!");
       // Invalidate and refetch related queries
-      queryClient.invalidateQueries({ queryKey: ["orders"] })
-      queryClient.invalidateQueries({ queryKey: ["order-stats"] })
-      queryClient.invalidateQueries({ queryKey: ["orders-by-status"] })
-      queryClient.invalidateQueries({ queryKey: ["order", data._id] })
+      queryClient.invalidateQueries({ queryKey: ["orders"] });
+      queryClient.invalidateQueries({ queryKey: ["order-stats"] });
+      queryClient.invalidateQueries({ queryKey: ["orders-by-status"] });
+      queryClient.invalidateQueries({ queryKey: ["order", data._id] });
     },
     onError: (error: Error) => {
-      console.error("Update order status error:", error)
-      toast.error(error.message || "Cập nhật trạng thái đơn hàng thất bại!")
+      console.error("Update order status error:", error);
+      toast.error(error.message || "Cập nhật trạng thái đơn hàng thất bại!");
     },
-  })
-}
+  });
+};
+
+// Thêm các hooks deprecated để backward compatibility
+export const useOrderStatusAll = () => {
+  return useQuery({
+    queryKey: ["order-status-all"],
+    queryFn: getAllOrdersAPI,
+    staleTime: 5 * 60 * 1000,
+    retry: 3,
+    retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000),
+  });
+};
+
+export const useOrderByStatus = (userId: string, status: string) => {
+  return useQuery({
+    queryKey: ["order-status", userId, status],
+    queryFn: () => getOrdersByStatusAPI(status),
+    enabled: !!status, // Bỏ userId requirement vì API không cần
+    staleTime: 3 * 60 * 1000,
+    retry: 3,
+    retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000),
+  });
+};

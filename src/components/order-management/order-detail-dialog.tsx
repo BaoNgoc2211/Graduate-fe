@@ -24,8 +24,6 @@ import { Card, CardContent } from "@/components/ui/card";
 import { useOrderById } from "@/hooks/order/order-management";
 import { ORDER_STATUSES } from "@/interface/order/order-management.interface";
 import Image from "next/image";
-// import { useOrderById } from "@/hooks/useOrderManagement"
-// import { ORDER_STATUSES } from "@/interface/order/order-management.interface"
 
 interface OrderDetailsDialogProps {
   orderId: string | null;
@@ -113,6 +111,12 @@ export default function OrderDetailsDialog({
                       <Calendar className="h-4 w-4 mr-1" />
                       Đặt hàng: {formatDate(order.createdAt)}
                     </p>
+                    {order.orderDate && order.orderDate !== order.createdAt && (
+                      <p className="text-sm text-gray-500 flex items-center mt-1">
+                        <Calendar className="h-4 w-4 mr-1" />
+                        Ngày đặt: {formatDate(order.orderDate)}
+                      </p>
+                    )}
                   </div>
                   <Badge
                     className={`${
@@ -141,6 +145,15 @@ export default function OrderDetailsDialog({
                         {order.shippingMethod}
                       </span>
                     </div>
+                    {order.estimatedDelivery && (
+                      <div className="flex items-center space-x-2">
+                        <Calendar className="h-4 w-4 text-gray-500" />
+                        <span className="text-sm text-gray-600">Dự kiến giao:</span>
+                        <span className="font-medium">
+                          {formatDate(order.estimatedDelivery)}
+                        </span>
+                      </div>
+                    )}
                   </div>
 
                   {order.trackingNumber && (
@@ -148,6 +161,19 @@ export default function OrderDetailsDialog({
                       <p className="text-sm text-blue-800 font-medium">
                         Mã vận đơn: {order.trackingNumber}
                       </p>
+                    </div>
+                  )}
+
+                  {order.status === "Cancelled" && order.cancelReason && (
+                    <div className="bg-red-50 rounded-lg p-3">
+                      <p className="text-sm text-red-800 font-medium">
+                        Lý do hủy: {order.cancelReason}
+                      </p>
+                      {order.cancelledDate && (
+                        <p className="text-xs text-red-600 mt-1">
+                          Ngày hủy: {formatDate(order.cancelledDate)}
+                        </p>
+                      )}
                     </div>
                   )}
                 </div>
@@ -165,22 +191,32 @@ export default function OrderDetailsDialog({
                   <div className="flex items-center space-x-3">
                     <User className="h-4 w-4 text-gray-500" />
                     <span className="font-medium">
-                      {order.shippingAddress.name}
+                      {order.shippingAddress.name || order.user_id.name}
                     </span>
                   </div>
                   <div className="flex items-center space-x-3">
                     <Phone className="h-4 w-4 text-gray-500" />
-                    <span>{order.shippingAddress.phone}</span>
+                    <span>
+                      {order.shippingAddress.phone || order.user_id.phone}
+                    </span>
                   </div>
                   <div className="flex items-start space-x-3">
                     <MapPin className="h-4 w-4 text-gray-500 mt-0.5" />
                     <div>
-                      <p>{order.shippingAddress.address}</p>
-                      <p className="text-sm text-gray-600">
-                        {order.shippingAddress.ward},{" "}
-                        {order.shippingAddress.district},{" "}
-                        {order.shippingAddress.city}
-                      </p>
+                      {order.shippingAddress.address ? (
+                        <>
+                          <p>{order.shippingAddress.address}</p>
+                          <p className="text-sm text-gray-600">
+                            {[
+                              order.shippingAddress.ward,
+                              order.shippingAddress.district,
+                              order.shippingAddress.city
+                            ].filter(Boolean).join(', ')}
+                          </p>
+                        </>
+                      ) : (
+                        <p>{order.user_id.address}</p>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -195,25 +231,27 @@ export default function OrderDetailsDialog({
                   Sản phẩm đã đặt ({order.orderItems.length} sản phẩm)
                 </h3>
                 <div className="space-y-4">
-                  {order.orderItems.map((item) => (
+                  {order.orderItems.map((item, index) => (
                     <div
-                      key={item._id}
+                      key={item._id || `item-${index}`}
                       className="flex items-start space-x-4 p-4 border rounded-lg"
                     >
                       <Image
                         src={item.medicine_id.thumbnail || "/placeholder.svg"}
                         alt={item.medicine_id.name}
                         className="w-16 h-16 object-cover rounded-lg border"
-                        width={20}
-                        height={20}
+                        width={64}
+                        height={64}
                       />
                       <div className="flex-1">
                         <h4 className="font-medium text-gray-900">
                           {item.medicine_id.name}
                         </h4>
-                        <p className="text-sm text-gray-500">
-                          Mã: {item.medicine_id.code}
-                        </p>
+                        {item.medicine_id.code && (
+                          <p className="text-sm text-gray-500">
+                            Mã: {item.medicine_id.code}
+                          </p>
+                        )}
                         <p className="text-sm text-gray-500">
                           Dạng: {item.medicine_id.dosageForm}
                         </p>
@@ -281,6 +319,33 @@ export default function OrderDetailsDialog({
                 </div>
               </CardContent>
             </Card>
+
+            {/* Additional Info */}
+            {(order.notes || order.deliveredDate) && (
+              <Card>
+                <CardContent className="p-6">
+                  <h3 className="text-lg font-semibold text-gray-900 mb-4">
+                    Thông tin bổ sung
+                  </h3>
+                  <div className="space-y-2">
+                    {order.deliveredDate && (
+                      <div className="flex justify-between">
+                        <span className="text-gray-600">Ngày giao hàng:</span>
+                        <span className="font-medium text-green-600">
+                          {formatDate(order.deliveredDate)}
+                        </span>
+                      </div>
+                    )}
+                    {order.notes && (
+                      <div>
+                        <span className="text-gray-600">Ghi chú:</span>
+                        <p className="mt-1 text-gray-900">{order.notes}</p>
+                      </div>
+                    )}
+                  </div>
+                </CardContent>
+              </Card>
+            )}
 
             {/* Action Buttons */}
             <div className="flex flex-col sm:flex-row gap-3 pt-4">

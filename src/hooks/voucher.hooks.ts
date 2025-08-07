@@ -1,86 +1,24 @@
-"use client";
+import { useQuery } from "@tanstack/react-query";
+import { getAllVoucherAPI, getValidVoucherAPI, getByIdVoucherAPI } from "@/api/voucher.api";
 
-import {
-  createVoucherAPI,
-  deleteVoucherAPI,
-  getAllVoucherAPI,
-  getByIdVoucherAPI,
-  getValidVoucherAPI,
-  updateVoucherAPI,
-} from "@/api/voucher.api";
-import { ICreateVoucherPayload, IVoucher } from "@/interface/voucher.interface";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useParams } from "next/navigation";
-import { toast } from "sonner";
-
-export const useVouchers = () => {
-  return useQuery<{ data: IVoucher[] }>({
-    queryKey: ["voucher"],
+export const useAllVouchers = () => {
+  return useQuery({
+    queryKey: ["vouchers-all"],
     queryFn: getAllVoucherAPI,
   });
 };
 
-export const useVouchersValidate = () => {
-  return useQuery<{ data: IVoucher[] }>({
-    queryKey: ["voucher-validate"],
+export const useValidVouchers = () => {
+  return useQuery({
+    queryKey: ["vouchers-valid"],
     queryFn: getValidVoucherAPI,
   });
 };
 
-export const useVoucherById = () => {
-  const params = useParams<{ _id: string }>();
-  const voucherId = params._id;
-  const isIdReady = !!voucherId;
+export const useVoucherById = (id: string) => {
   return useQuery({
-    queryKey: ["voucher-by-id", voucherId],
-    queryFn: () => getByIdVoucherAPI(voucherId),
-    enabled: isIdReady,
-  });
-};
-
-export const useCreateVoucher = () => {
-  const queryClient = useQueryClient();
-  return useMutation({
-    mutationKey: ["create-voucher"],
-    mutationFn: (payload: ICreateVoucherPayload) => createVoucherAPI(payload),
-    onSuccess: () => {
-      toast.success("Tạo voucher thành công!");
-      queryClient.invalidateQueries({ queryKey: ["voucher"] });
-    },
-    onError: () => {
-      console.error("Create voucher error:");
-      toast.error("Tạo voucher thất bại!");
-    },
-  });
-};
-
-export const useUpdateVoucher = () => {
-  const queryClient = useQueryClient();
-  return useMutation({
-    mutationFn: ({ id, data }: { id: string; data: ICreateVoucherPayload }) =>
-      updateVoucherAPI(id, data),
-    onSuccess: () => {
-      toast.success("Cập nhật voucher thành công!");
-      queryClient.invalidateQueries({ queryKey: ["voucher"] });
-    },
-    onError: (error) => {
-      console.error("Lỗi cập nhật:", error);
-      toast.error("Cập nhật voucher thất bại!");
-    },
-  });
-};
-
-export const useDeleteVoucher = () => {
-  const queryClient = useQueryClient();
-  return useMutation({
-    mutationKey: ["delete-voucher"],
-    mutationFn: (voucher_id: string) => deleteVoucherAPI(voucher_id),
-    onSuccess: () => {
-      toast.success("Xoá voucher thành công!");
-      queryClient.invalidateQueries({ queryKey: ["voucher"] });
-    },
-    onError: () => {
-      toast.error("Xoá voucher thất bại!");
-    },
+    queryKey: ["voucher", id],
+    queryFn: () => getByIdVoucherAPI(id),
+    enabled: !!id,
   });
 };

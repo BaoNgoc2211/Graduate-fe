@@ -1,6 +1,5 @@
-"use client";
 
-import { useState, useMemo } from "react";
+"use client";import { useState, useMemo } from "react";
 import {
   Package,
   Search,
@@ -32,8 +31,8 @@ import {
   useOrdersByStatus,
   useOrderStats,
 } from "@/hooks/order/order-management";
-import OrderCard from "@/components/order/order-card";
-import OrderDetailsDialog from "@/components/order/order-detail-dialog";
+import OrderCard from "@/components/order-management/order-card";
+import OrderDetailsDialog from "@/components/order-management/order-detail-dialog";
 
 export default function OrdersPage() {
   const [activeTab, setActiveTab] = useState<string>("all");
@@ -74,7 +73,8 @@ export default function OrdersPage() {
         order.shippingAddress.name.toLowerCase().includes(searchLower) ||
         order.shippingAddress.phone.includes(searchTerm) ||
         order.user_id.name.toLowerCase().includes(searchLower) ||
-        order.user_id.email.toLowerCase().includes(searchLower)
+        order.user_id.email.toLowerCase().includes(searchLower) ||
+        (order.trackingNumber && order.trackingNumber.toLowerCase().includes(searchLower))
     );
   }, [orders, searchTerm]);
 
@@ -284,7 +284,7 @@ export default function OrdersPage() {
               <div className="relative flex-1">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
                 <Input
-                  placeholder="Tìm kiếm theo mã đơn hàng, tên người nhận, số điện thoại hoặc email..."
+                  placeholder="Tìm kiếm theo mã đơn hàng, tên người nhận, số điện thoại, email hoặc mã vận đơn..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   className="pl-10"
@@ -329,6 +329,7 @@ export default function OrdersPage() {
             ))}
           </TabsList>
 
+          {/* Tab Content for All and Each Status */}
           <TabsContent value="all" className="space-y-4">
             {ordersLoading ? (
               <div className="flex items-center justify-center py-12">
