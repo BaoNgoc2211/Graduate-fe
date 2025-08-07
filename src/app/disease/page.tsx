@@ -1,7 +1,6 @@
 "use client";
 import TitleDisease from "./components/layout/title";
 import Disease01 from "./components/ui/disease-01";
-// import Disease02 from "./components/ui/disease-02";
 import Disease03 from "./components/ui/disease-03";
 import BodyMap from "@/components/disease/body-map";
 import BodyPartMenu from "@/components/disease/body-part-menu";
@@ -48,6 +47,7 @@ const DiseasePage = () => {
           <Pagination total={filtered.length} page={page} onChange={setPage} />
         </div>
       </div>
+      <DiseaseList />
     </div>
   );
 };

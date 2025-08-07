@@ -5,7 +5,8 @@ export const getALLMedCategoryAPI = async (): Promise<{
   data: IMedicineCategory[];
 }> => {
   const response = await APIConfig.get(`/api/medicine/cate`);
-  return response.data as Promise<{ data: IMedicineCategory[] }>;
+  // return response.data as Promise<{ data: IMedicineCategory[] }>;
+  return response.data?.data;
 };
 
 export const getMedCateById = async (

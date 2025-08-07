@@ -1,5 +1,5 @@
 "use client";
-import { BestSellerCollectionAPI, LatestCollectionAPI } from "@/api/home.api";
+import { LatestCollectionAPI } from "@/api/home.api";
 import MedicineItem from "@/app/medicine/components/layout/medicine-item";
 import Title from "@/components/ui/title";
 import { IMedicine } from "@/interface/medicine/medicine.interface";

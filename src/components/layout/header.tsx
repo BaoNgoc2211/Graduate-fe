@@ -50,6 +50,9 @@ const Header = () => {
             <NavItem href="/voucher" label="Mã giảm giá" />
           </li>
           <li>
+            <NavItem href="/voucher" label="Chat" />
+          </li>
+          <li>
             <NavItem href="/about" label="Về chúng tôi" />
           </li>
         </ul>

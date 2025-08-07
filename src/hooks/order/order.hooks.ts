@@ -6,6 +6,7 @@ import { toast } from "sonner";
 import type {
   ICheckoutPayload,
   IOrderReview,
+  ICheckoutResponse,
 } from "@/interface/order/order.interface";
 import {
   checkAllOrderStatusAPI,
@@ -22,13 +23,15 @@ export const useOrders = () => {
     queryFn: getAllOrdersAPI,
   });
 };
+
 export const useOrderById = (id: string) => {
   return useQuery({
     queryKey: ["order", id],
     queryFn: () => getOrderByIdAPI(id),
-    enabled: !!id, // tránh gọi khi chưa có id
+    enabled: !!id,
   });
 };
+
 export const useOrderStatusAll = () => {
   return useQuery({
     queryKey: ["order-status-all"],
@@ -43,6 +46,7 @@ export const useOrderByStatus = (userId: string, status: string) => {
     enabled: !!userId && !!status,
   });
 };
+
 export const useReviewOrder = () => {
   return useMutation<IOrderReview, Error, ICheckoutPayload>({
     mutationKey: ["review-order"],
@@ -51,7 +55,8 @@ export const useReviewOrder = () => {
       toast.success("Lấy thông tin đơn hàng thành công");
     },
     onError: (error) => {
-      toast.error(error.message || "Lỗi khi lấy đơn hàng");
+      console.error("Review order error:", error);
+      toast.error("Lỗi khi lấy thông tin đơn hàng");
     },
   });
 };
@@ -59,17 +64,46 @@ export const useReviewOrder = () => {
 export const useCheckoutOrder = () => {
   const router = useRouter();
 
-  return useMutation<IOrderReview, Error, ICheckoutPayload>({
+  return useMutation<ICheckoutResponse, Error, ICheckoutPayload>({
     mutationKey: ["checkout-order"],
     mutationFn: (payload) => checkoutAPI(payload),
-    onSuccess: () => {
-      toast.success("Đặt hàng thành công!");
-      // Clear checkout data from localStorage
-      localStorage.removeItem("checkoutData");
-      router.push("/order/success");
+    onSuccess: (data) => {
+      if (data.success) {
+        if (data.paymentUrl) {
+          // Có payment URL - chuyển hướng đến thanh toán
+          toast.success("Đang chuyển đến trang thanh toán...");
+          
+          // Lưu thông tin để xử lý callback
+          const pendingPayment = {
+            orderId: data.orderId,
+            paymentUrl: data.paymentUrl,
+            timestamp: Date.now()
+          };
+          localStorage.setItem("pendingPayment", JSON.stringify(pendingPayment));
+          
+          // Chuyển hướng đến payment URL
+          window.location.href = data.paymentUrl;
+        } else {
+          // COD - thanh toán thành công ngay
+          toast.success("Đặt hàng thành công!");
+          
+          // Lưu thông tin order cho success page
+          const orderInfo = {
+            orderId: data.orderId || `ORD-${Date.now().toString().slice(-6)}`,
+            success: true,
+            paymentMethod: "COD"
+          };
+          localStorage.setItem("orderSuccess", JSON.stringify(orderInfo));
+          
+          router.push("/order-success");
+        }
+      } else {
+        throw new Error(data.message || "Đặt hàng thất bại");
+      }
     },
     onError: (error) => {
-      toast.error(error.message || "Đặt hàng thất bại");
+      console.error("Checkout error:", error);
+      toast.error("Đặt hàng thất bại");
     },
   });
 };

@@ -74,25 +74,32 @@ export default function OrderCard({
             </Badge>
           </div>
 
-          {/* Customer Info */}
+          {/* Customer Info - Hiển thị thông tin từ shippingAddress thay vì user_id */}
           <div className="bg-gray-50 rounded-lg p-4 space-y-2">
             <div className="flex items-center space-x-2">
               <User className="h-4 w-4 text-gray-500" />
               <span className="font-medium text-gray-900">
-                {order.shippingAddress.name}
+                {order.shippingAddress.name || order.user_id.name}
               </span>
             </div>
             <div className="flex items-center space-x-2">
               <Phone className="h-4 w-4 text-gray-500" />
               <span className="text-gray-700">
-                {order.shippingAddress.phone}
+                {order.shippingAddress.phone || order.user_id.phone}
               </span>
             </div>
             <div className="flex items-start space-x-2">
               <MapPin className="h-4 w-4 text-gray-500 mt-0.5" />
               <span className="text-gray-700 text-sm">
-                {order.shippingAddress.address}, {order.shippingAddress.ward},{" "}
-                {order.shippingAddress.district}, {order.shippingAddress.city}
+                {order.shippingAddress.address && (
+                  <>
+                    {order.shippingAddress.address}
+                    {order.shippingAddress.ward && `, ${order.shippingAddress.ward}`}
+                    {order.shippingAddress.district && `, ${order.shippingAddress.district}`}
+                    {order.shippingAddress.city && `, ${order.shippingAddress.city}`}
+                  </>
+                )}
+                {!order.shippingAddress.address && order.user_id.address}
               </span>
             </div>
           </div>
@@ -156,6 +163,15 @@ export default function OrderCard({
             <div className="bg-blue-50 rounded-lg p-3">
               <p className="text-sm text-blue-800">
                 <strong>Mã vận đơn:</strong> {order.trackingNumber}
+              </p>
+            </div>
+          )}
+
+          {/* Cancel Reason */}
+          {order.status === "Cancelled" && order.cancelReason && (
+            <div className="bg-red-50 rounded-lg p-3">
+              <p className="text-sm text-red-800">
+                <strong>Lý do hủy:</strong> {order.cancelReason}
               </p>
             </div>
           )}

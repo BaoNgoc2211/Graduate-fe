@@ -4,7 +4,6 @@ import { createContext, useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import { useQuery } from "@tanstack/react-query";
-// import { getALLMedicineAPI } from "../api/medicine.api";
 import { IMedicine } from "@/interface/medicine/medicine.interface";
 import { getALLMedicineAPI } from "@/api/medicine/medicine.api";
 

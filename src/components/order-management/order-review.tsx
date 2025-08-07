@@ -17,7 +17,6 @@ import { Badge } from "@/components/ui/badge";
 import type { IOrderReview } from "@/interface/order/order.interface";
 import { formatPrice } from "@/lib/format-price";
 import Image from "next/image";
-// import { formatPrice } from "@/lib/formatPrice"
 
 interface OrderReviewComponentProps {
   orderReview: IOrderReview;

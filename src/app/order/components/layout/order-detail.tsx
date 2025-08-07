@@ -83,6 +83,7 @@
 // export default OrderDetail;
 import React from "react";
 import { IOrder } from "@/interface/order/order.interface";
+import Image from "next/image";
 
 interface OrderDetailProps {
   order: IOrder;
@@ -151,10 +152,12 @@ const OrderDetail: React.FC<OrderDetailProps> = ({ order, onClose }) => {
                 <td>{index + 1}</td>
                 <td>{item.name}</td>
                 <td>
-                  <img
+                  <Image
                     src={item.image}
                     alt={item.name}
                     className="w-12 h-10 object-cover"
+                    width={50}
+                    height={50}
                   />
                 </td>
                 <td>{item.quantity}</td>
