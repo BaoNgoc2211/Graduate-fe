@@ -70,10 +70,8 @@ export const useCheckoutOrder = () => {
     onSuccess: (data) => {
       if (data.success) {
         if (data.paymentUrl) {
-          // Có payment URL - chuyển hướng đến thanh toán
           toast.success("Đang chuyển đến trang thanh toán...");
           
-          // Lưu thông tin để xử lý callback
           const pendingPayment = {
             orderId: data.orderId,
             paymentUrl: data.paymentUrl,
@@ -81,13 +79,11 @@ export const useCheckoutOrder = () => {
           };
           localStorage.setItem("pendingPayment", JSON.stringify(pendingPayment));
           
-          // Chuyển hướng đến payment URL
           window.location.href = data.paymentUrl;
         } else {
-          // COD - thanh toán thành công ngay
           toast.success("Đặt hàng thành công!");
           
-          // Lưu thông tin order cho success page
+          
           const orderInfo = {
             orderId: data.orderId || `ORD-${Date.now().toString().slice(-6)}`,
             success: true,

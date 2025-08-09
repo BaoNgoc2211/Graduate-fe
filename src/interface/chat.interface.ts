@@ -26,7 +26,6 @@ export interface IStartChatPayload {
 export interface ISendMessagePayload {
   roomId: string
   content: string
-  // senderId: string
 }
 
 export interface IStartChatResponse {

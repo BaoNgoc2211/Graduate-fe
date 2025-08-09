@@ -2,11 +2,6 @@ import { MedicineResponse } from './../../interface/medicine/medicine.interface'
 import APIConfig from "../api.config";
 import { IMedicine } from "@/interface/medicine/medicine.interface";
 
-// export const getALLMedicineAPI = async (page: number = 1, pageSize: number = 20): Promise<{ data: IMedicine[] }> => {
-//   const response = await APIConfig.get(`/api/medicine?page=${page}&pageSize=${pageSize}`);
-//   // return response.data.data ;
-//   return response.data      ;
-// };
 export const getALLMedicineAPI = async (
   page: number = 1,
   pageSize: number = 20

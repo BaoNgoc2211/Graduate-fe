@@ -13,13 +13,6 @@ const DropMenu = () => {
         <div className="flex flex-col text-sm text-gray-700">
           <Button title="Tài khoản" />
           <Button title="Đơn hàng" />
-          {/* <Button title="Tài khoản" />
-          <Button title="Tài khoản" />
-          <Button title="Đăng xuất" /> */}
-          {/* <button className="flex items-center justify-between px-4 py-3 hover:bg-gray-100 transition">
-            <span>Ví Pointer</span>
-            <span className="text-lg">{">"}</span>
-          </button> */}
 
           {/* Logout */}
           <button className="flex items-center justify-between px-4 py-3 hover:bg-gray-100 text-red-500 transition">

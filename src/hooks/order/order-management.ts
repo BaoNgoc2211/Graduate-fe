@@ -27,7 +27,7 @@ export const useOrderById = (id: string) => {
     queryKey: ["order", id],
     queryFn: () => getOrderByIdAPI(id),
     enabled: !!id,
-    staleTime: 2 * 60 * 1000, // 2 minutes
+    staleTime: 2 * 60 * 1000, 
     retry: 3,
     retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000),
   });
@@ -104,7 +104,6 @@ export const useUpdateOrderStatus = () => {
       updateOrderStatusAPI(orderId, status),
     onSuccess: (data) => {
       toast.success("Cập nhật trạng thái đơn hàng thành công!");
-      // Invalidate and refetch related queries
       queryClient.invalidateQueries({ queryKey: ["orders"] });
       queryClient.invalidateQueries({ queryKey: ["order-stats"] });
       queryClient.invalidateQueries({ queryKey: ["orders-by-status"] });
@@ -117,7 +116,6 @@ export const useUpdateOrderStatus = () => {
   });
 };
 
-// Thêm các hooks deprecated để backward compatibility
 export const useOrderStatusAll = () => {
   return useQuery({
     queryKey: ["order-status-all"],
@@ -132,7 +130,7 @@ export const useOrderByStatus = (userId: string, status: string) => {
   return useQuery({
     queryKey: ["order-status", userId, status],
     queryFn: () => getOrdersByStatusAPI(status),
-    enabled: !!status, // Bỏ userId requirement vì API không cần
+    enabled: !!status, 
     staleTime: 3 * 60 * 1000,
     retry: 3,
     retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000),
