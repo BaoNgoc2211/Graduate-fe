@@ -2,10 +2,10 @@
 import TitleDisease from "./components/layout/title";
 import Disease01 from "./components/ui/disease-01";
 import Disease03 from "./components/ui/disease-03";
-import BodyMap from "@/components/disease/body-map";
-import BodyPartMenu from "@/components/disease/body-part-menu";
+import BodyMap from "@/components/disease/disease-body-map";
+import BodyPartMenu from "@/components/disease/disease-body-part-menu";
 import DiseaseList from "@/components/disease/disease-list";
-import Pagination from "@/components/disease/pagination";
+import Pagination from "@/components/disease/disease-pagination";
 import { BodyPartEnum, mockDiseases } from "@/mock/disease";
 import { useState } from "react";
 const DiseasePage = () => {

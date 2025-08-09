@@ -1,18 +1,3 @@
-// export interface IShipping {
-//   _id?: string;
-//   type: string;
-//   price: number;
-// }
-// export interface IShipping {
-//   _id: string;
-//   name: string;
-//   price: number;
-  // estimatedDays: number;
-  // description?: string;
-  // active: boolean;
-  // createdAt?: string;
-  // updatedAt?: string;
-// }
 export interface IShipping {
   _id?: string
   type: string // Tên phương thức vận chuyển

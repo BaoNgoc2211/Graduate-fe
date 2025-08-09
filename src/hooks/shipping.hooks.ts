@@ -6,8 +6,9 @@ export const useShippingMethods = () => {
   return useQuery({
     queryKey: ["shipping-methods"],
     queryFn: getAllShippingAPI,
-    staleTime: 5 * 60 * 1000, // Cache 5 phút
-    cacheTime: 10 * 60 * 1000, // Cache 10 phút
+    staleTime: 5 * 60 * 1000, 
+    // cacheTime: 10 * 60 * 1000, 
+    
     select: (data) => {
       // Sắp xếp theo thứ tự ưu tiên: active trước, sau đó theo giá
       const methods = data?.data || [];

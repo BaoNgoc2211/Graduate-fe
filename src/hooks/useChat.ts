@@ -33,48 +33,23 @@ export const useStartChat = () => {
   return useMutation<{ data: IStartChatResponse }, Error, IStartChatPayload>({
     mutationFn: (payload: IStartChatPayload) => startChat(payload),
     onSuccess: (response) => {
-      // Invalidate unassigned rooms to refresh the list
       queryClient.invalidateQueries({
         queryKey: ["chat-rooms-unassigned"],
       })
-
-      // Set the new messages in cache
       queryClient.setQueryData(["chat-messages", response.data.room._id], { data: [response.data.newMessage] })
     },
   })
 }
 
-// Gửi tin nhắn (admin hoặc staff)
-// export const useSendMessage = () => {
-//   const queryClient = useQueryClient()
-
-//   return useMutation<{ data: IMessage }, Error, ISendMessagePayload>({
-//     mutationFn: (payload: ISendMessagePayload) => sendMessage(payload),
-//     onSuccess: (_res, variables) => {
-//       // Refetch tin nhắn khi gửi thành công
-//       queryClient.invalidateQueries({
-//         queryKey: ["chat-messages", variables.roomId],
-//       })
-
-//       // Also invalidate unassigned rooms to update lastMessage
-//       queryClient.invalidateQueries({
-//         queryKey: ["chat-rooms-unassigned"],
-//       })
-//     },
-//   })
-// }
 export const useSendMessage = () => {
   const queryClient = useQueryClient()
 
   return useMutation<{ data: IMessage }, Error, ISendMessagePayload>({
     mutationFn: (payload: ISendMessagePayload) => sendMessage(payload),
     onSuccess: (_res, variables) => {
-      // Refetch tin nhắn khi gửi thành công
       queryClient.invalidateQueries({
         queryKey: ["chat-messages", variables.roomId],
       })
-
-      // Also invalidate unassigned rooms to update lastMessage
       queryClient.invalidateQueries({
         queryKey: ["chat-rooms-unassigned"],
       })

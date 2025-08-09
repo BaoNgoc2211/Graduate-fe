@@ -6,17 +6,6 @@ import { IMedicine } from "@/interface/medicine/medicine.interface";
 import { useQuery } from "@tanstack/react-query";
 
 const BestSeller = () => {
-  // const sevenDaysAgo = new Date();
-  // sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
-
-  // const { data, isLoading, isError } = useQuery({
-  //   queryKey: ["get-Best-Seller-collection"],
-  //   queryFn: () => BestSellerCollectionAPI(sevenDaysAgo),
-  // });
-
-  // console.log("Data", data);
-  // if (isLoading) return "isLoading...";
-  // if (isError) return "Fetching data error";
   const createAdd = new Date();
   createAdd.setDate(createAdd.getDate() - 30);
   const formattedDate = createAdd.toISOString().split("T")[0];

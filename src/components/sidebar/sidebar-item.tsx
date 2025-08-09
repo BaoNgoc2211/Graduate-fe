@@ -1,5 +1,4 @@
 import { ChevronRight } from "lucide-react";
-// import { ElementType } from "react";
 
 type Props = {
   // icon: ElementType; icon: Icon,

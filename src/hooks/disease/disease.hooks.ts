@@ -11,7 +11,7 @@ export const useDiseases = () => {
   return useQuery<{ data: IDisease[] }>({
     queryKey: ["diseases"],
     queryFn: getAllDiseasesAPI,
-    staleTime: 5 * 60 * 1000, // cache 5 minutes
+    staleTime: 5 * 60 * 1000, 
   })
 }
 

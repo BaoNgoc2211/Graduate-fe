@@ -1,50 +1,3 @@
-// "use client";
-// // import Image from "next/image";
-// // import assets from "@/assets"; // Giả định bạn đã import đường dẫn hình ảnh
-
-// const Hero = () => {
-//   return (
-//     <div className="flex flex-col lg:flex-row items-center justify-center px-4 md:px-8 lg:px-16 py-10 gap-8">
-//       {/* Hero Left Side */}
-//       <div className="w-full lg:w-1/2 flex flex-col items-start justify-center text-[#414141]">
-//         {/* Logo hoặc Label */}
-//         <div className="flex items-center gap-2 mb-2">
-//           <p className="font-bold text-blue-900 text-sm md:text-base uppercase tracking-wide">
-//             MEDIGO
-//           </p>
-//         </div>
-
-//         {/* Main Heading */}
-//         <h1 className="prata-regular text-3xl sm:text-4xl lg:text-5xl font-bold leading-relaxed mb-2">
-//           Trải nghiệm mua thuốc
-//         </h1>
-//         <h2 className="prata-regular text-3xl sm:text-4xl lg:text-5xl font-bold leading-relaxed text-blue-900 mb-4">
-//           An Toàn Và Thông Minh
-//         </h2>
-
-//         {/* Call to Action */}
-//         <div className="flex items-center gap-2 mt-2">
-//           <p className="font-semibold text-sm md:text-base">MUA NGAY</p>
-//           <div className="w-8 md:w-11 h-[1px] bg-[#414141]"></div>
-//         </div>
-//       </div>
-
-//       {/* Hero Right Side */}
-//       <div className="w-full lg:w-1/2 flex items-center justify-center">
-//         {/* <Image
-//           className="w-full max-w-[400px] sm:max-w-[450px] lg:max-w-full h-auto object-contain"
-//           src={assets.hero_img}
-//           alt="Hero Image"
-//           width={500}
-//           height={500}
-//           priority
-//         /> */}
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default Hero;
 "use client";
 
 const Hero = () => {
@@ -77,13 +30,13 @@ const Hero = () => {
         {/* Bullet Points */}
         <div className="flex flex-wrap justify-center gap-4 text-sm text-gray-600">
           <div className="flex items-center gap-2">
-            ✅ Dùng thử miễn phí
+             Dùng thử miễn phí
           </div>
           <div className="flex items-center gap-2">
-            ✅ Khuyến nghị thuốc bằng AI
+             Khuyến nghị thuốc bằng AI
           </div>
           <div className="flex items-center gap-2">
-            ✅ Theo dõi lịch sử đơn thuốc
+             Theo dõi lịch sử đơn thuốc
           </div>
         </div>
       </div>

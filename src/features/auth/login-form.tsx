@@ -1,13 +1,11 @@
 import { useState } from "react";
 import Input from "@/components/input";
 import Button from "@/components/ui/button-01";
-// import { login } from "./authAPI";
 import { FaUser, FaLock } from "react-icons/fa";
 
 export default function LoginForm() {
   const [userId, setUserId] = useState("");
   const [password, setPassword] = useState("");
-  // const [staySignedIn, setStaySignedIn] = useState(false);staySignedIn
 
   const handleSubmit = async () => {
     await login({ userId, password });
@@ -18,6 +16,7 @@ export default function LoginForm() {
       <div className="text-4xl mb-4">👤</div>
       <Input
         icon={<FaUser />}
+        type="text"
         placeholder="User Name / ID"
         value={userId}
         onChange={(e) => setUserId(e.target.value)}
@@ -34,8 +33,6 @@ export default function LoginForm() {
         <label>
           <input
             type="checkbox"
-            // checked={staySignedIn}
-            // onChange={() => setStaySignedIn(!staySignedIn)}
           />{" "}
           Stay signed in
         </label>
@@ -43,7 +40,7 @@ export default function LoginForm() {
           Forgot User ID or Password?
         </a>
       </div>
-      <Button label="LOGIN" onClick={handleSubmit} />
+      <Button text="LOGIN" onClick={handleSubmit} />
       <div className="text-xs mt-2">
         Not registered yet?{" "}
         <a href="#" className="underline">

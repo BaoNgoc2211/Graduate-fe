@@ -28,14 +28,12 @@ export const useChatSocket = ({
   const startChatMutation = useStartChat();
   const sendMessageMutation = useSendMessage();
   
-  // ✅ SỬA: Sử dụng useChatMessages để fetch tin nhắn
   const { 
     data: messagesResponse, 
     isLoading: messagesLoading,
     refetch: refetchMessages 
   } = useChatMessages(currentRoom?._id || "", !!currentRoom);
 
-  // ✅ SỬA: Cập nhật messages khi có dữ liệu mới từ API
   useEffect(() => {
     if (messagesResponse?.data) {
       setMessages(messagesResponse.data);
@@ -70,7 +68,6 @@ export const useChatSocket = ({
       });
       onNewMessage?.(message);
       
-      // ✅ SỬA: Refetch messages sau khi nhận tin nhắn mới
       refetchMessages();
     });
 
@@ -86,7 +83,6 @@ export const useChatSocket = ({
     };
   }, [onNewMessage, onRoomCreated, refetchMessages]);
 
-  // ✅ SỬA: Kiểm tra existing room khi component mount
   useEffect(() => {
     const checkExistingRoom = async () => {
       if (!userId) return;
@@ -135,12 +131,10 @@ export const useChatSocket = ({
       setCurrentRoom(room);
       setMessages([newMessage]);
 
-      // Join the new room via socket
       if (socket) {
         socket.emit("joinRoom", room._id);
       }
       
-      // ✅ SỬA: Lưu room ID vào localStorage để persistent
       localStorage.setItem("currentChatRoom", room._id);
       
     } catch (error) {
@@ -179,10 +173,8 @@ export const useChatSocket = ({
         socket.emit("sendMessage", payload);
       }
 
-      // Send via API for persistence
       await sendMessageMutation.mutateAsync(payload);
       
-      // ✅ SỬA: Refetch messages sau khi gửi
       setTimeout(() => {
         refetchMessages();
       }, 1000);

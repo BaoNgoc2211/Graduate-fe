@@ -1,4 +1,3 @@
-// components/NavItem.jsx
 import Link from "next/link";
 interface NavItemProp {
   href: string;
