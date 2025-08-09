@@ -1,7 +1,7 @@
 "use client"
 
 import type React from "react"
-import { useState, useRef, useEffect } from "react"
+import { useState, useRef, useEffect, useMemo } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
@@ -26,7 +26,9 @@ export function ChatWindow({ selectedRoom }: ChatWindowProps) {
   const { data: messagesResponse, isLoading, error } = useChatMessages(selectedRoom?._id || "")
   const sendMessageMutation = useSendMessage()
 
-  const messages = messagesResponse?.data || []
+  const messages = useMemo(() => messagesResponse?.data || [], [messagesResponse?.data])
+
+  // const messages = messagesResponse?.data || []
 
   // Auto-scroll to bottom when new messages arrive
   useEffect(() => {
@@ -42,7 +44,7 @@ export function ChatWindow({ selectedRoom }: ChatWindowProps) {
       await sendMessageMutation.mutateAsync({
         roomId: selectedRoom._id,
         content: message.trim(),
-        senderId: "current-staff-id", // Replace with actual staff ID
+        // senderId: "current-staff-id", // Replace with actual staff ID
       })
 
       setMessage("")

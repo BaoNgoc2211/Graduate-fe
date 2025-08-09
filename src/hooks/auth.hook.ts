@@ -1,29 +1,28 @@
-// import { create } from "zustand";
-
-import { updateInfo } from "@/api/auth.api";
-import { IInfo } from "@/interface/auth/auth.interface";
 import { useMutation } from "@tanstack/react-query";
-import { toast } from "sonner";
+import { toast } from "react-toastify";
+import { forgotPasswordAPI, resetPasswordAPI } from "@/api/auth.api";
+import { IForgotPassword, IReset } from "@/interface/auth/auth.interface";
 
-// interface AuthStore {
-//   userId: string | null;
-//   setUserId: (id: string) => void;
-// }
-
-// export const useAuth = create<AuthStore>((set) => ({
-//   userId: null,
-//   setUserId: (id) => set({ userId: id }),
-// }));
-export const useUpdateInfo = () => {
+export const useForgotPassword = () => {
   return useMutation({
-    mutationFn: ({ id, data }: { id: string; data: IInfo }) =>
-      updateInfo(id, data),
+    mutationFn: (data: IForgotPassword) => forgotPasswordAPI(data),
     onSuccess: () => {
-      toast.success("Cập nhật thuốc thành công!");
+      toast.success("Gửi OTP thành công! Vui lòng kiểm tra email của bạn để nhận mã OTP.");
     },
-    onError: (error) => {
-      console.error("Lỗi cập nhật:", error);
-      toast.error("Cập nhật thuốc thất bại!");
+    onError: () => {
+      toast.error("Đặt lại mật khẩu thất bại. Vui lòng thử lại sau.");
+    },
+  });
+};
+
+export const useResetPassword = () => {
+  return useMutation({
+    mutationFn: (data: IReset) => resetPasswordAPI(data),
+    onSuccess: () => {
+      toast.success("Đặt lại mật khẩu thành công! Vui lòng đăng nhập lại.");
+    },
+    onError: () => {
+      toast.error("Đặt lại mật khẩu thất bại. Vui lòng kiểm tra lại mã OTP và thử lại.");
     },
   });
 };

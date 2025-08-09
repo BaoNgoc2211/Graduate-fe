@@ -8,8 +8,8 @@ import { Badge } from "@/components/ui/badge";
 import { MessageCircle, X, Minimize2, Maximize2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useChatSocket } from "@/hooks/chat.hooks";
-import { ChatMessage } from "./ChatMessage";
-import { ChatInput } from "./ChatInput";
+import { ChatMessage } from "./chat-message";
+import { ChatInput } from "./chat-input";
 
 interface ChatBoxProps {
   userId?: string;

@@ -36,21 +36,21 @@ const SignIn = () => {
     <div className="min-h-screen flex items-center bg-gray-100 justify-center px-4">
       <div className="bg-white rounded-xl shadow-xl w-full max-w-md p-8">
         <h2 className="font-bold text-center text-2xl text-[#1850a3] mb-1">
-          Sign In
+          Đăng nhập
         </h2>
         <p className="text-center text-sm text-[#628CA9] mb-6">
           Join the community today!
         </p>
         <button className="w-full py-2 rounded-full font-bold border border-gray-300 text-[#1850a3]  flex items-center justify-center gap-1 mb-4 shadow-sm hover:bg-gray-100 transition">
           <Image src={assets.logoGoogle} alt="Google" width={20} height={20} />
-          <span>Use Google account</span>
+          <span>Đăng nhập với Google</span>
         </button>
         <div className="text-center text-[#628CA9] text-sm mb-4">or</div>
         <form className="mb-2" onSubmit={handleSignIn}>
           <Input
-            placeholder="Enter your mobile or email"
+            placeholder="Mời bạn nhập email vào đây"
             type="text"
-            label="Mobile number or Email"
+            label="Nhập Email vào đây nè"
             value={signIn.email}
             onChange={(text) =>
               setSignIn({ ...signIn, email: text.target.value })
@@ -58,22 +58,30 @@ const SignIn = () => {
             icon={<Phone size={16} className="text-[#628CA9] opacity-80" />}
           />
           <Input
-            placeholder="Enter your password"
+            placeholder="Mời bạn nhập password vào đây"
             type="password"
-            label="Password"
+            label="Còn đây là Password"
             value={signIn.password}
             onChange={(password) =>
               setSignIn({ ...signIn, password: password.target.value })
             }
             icon={<Lock size={16} className="text-[#628CA9] opacity-80" />}
           />
-          <Button text="Sign In" isLoading={mutation.isPending} type="submit" />
+          <div className="flex flex-col mb-4 space-y-2">
+            <Link
+              href={"/auth/forgot-password"}
+              className="text-sm text-[#628CA9] hover:underline"
+            >
+              Quên mật khẩu?
+            </Link>
+          <Button text="Đăng nhập" isLoading={mutation.isPending} type="submit" />
+          </div>
         </form>
         <p className="text-sm text text-center text-gray-700 mb-4">
           Join the community today!
           <Link href={"/auth/signup"}>
             <span className="ml-1 text-[#628CA9] hover:underline cursor-pointer">
-              Sign Up
+              Đăng ký
             </span>{" "}
           </Link>
         </p>

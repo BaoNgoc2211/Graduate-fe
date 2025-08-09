@@ -31,7 +31,7 @@ import { useShippingMethods } from "@/hooks/shipping.hooks";
 import { useValidVouchers } from "@/hooks/voucher.hooks";
 import { IVoucher } from "@/interface/voucher.interface";
 import { IShipping } from "@/interface/shipping.interface";
-import SelectedVoucherCard from "@/components/checkout/SelectedVoucherCard";
+import SelectedVoucherCard from "@/components/checkout/selected-voucher-card";
 
 const PAYMENT_METHODS = [
   {
