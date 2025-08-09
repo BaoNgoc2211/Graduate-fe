@@ -13,20 +13,19 @@ export const useUnassignedChatRooms = () => {
   return useQuery<{ data: IChatRoom[] }>({
     queryKey: ["chat-rooms-unassigned"],
     queryFn: getUnassignedRooms,
-    refetchInterval: 30000, // Refetch every 30 seconds
+    refetchInterval: 30000,
   })
 }
 
-// Lấy tin nhắn trong room
-export const useChatMessages = (roomId: string) => {
+export const useChatMessages = (roomId: string, enabled: boolean = true) => {
   return useQuery<{ data: IMessage[] }>({
     queryKey: ["chat-messages", roomId],
     queryFn: () => getMessages(roomId),
-    enabled: !!roomId,
-    refetchInterval: 5000, // Optional: polling mỗi 5s
-  })
-}
-
+    enabled: !!roomId && enabled, 
+    refetchInterval: 5000, 
+    staleTime: 0, 
+  });
+};
 // Bắt đầu cuộc trò chuyện (user)
 export const useStartChat = () => {
   const queryClient = useQueryClient()
@@ -46,6 +45,24 @@ export const useStartChat = () => {
 }
 
 // Gửi tin nhắn (admin hoặc staff)
+// export const useSendMessage = () => {
+//   const queryClient = useQueryClient()
+
+//   return useMutation<{ data: IMessage }, Error, ISendMessagePayload>({
+//     mutationFn: (payload: ISendMessagePayload) => sendMessage(payload),
+//     onSuccess: (_res, variables) => {
+//       // Refetch tin nhắn khi gửi thành công
+//       queryClient.invalidateQueries({
+//         queryKey: ["chat-messages", variables.roomId],
+//       })
+
+//       // Also invalidate unassigned rooms to update lastMessage
+//       queryClient.invalidateQueries({
+//         queryKey: ["chat-rooms-unassigned"],
+//       })
+//     },
+//   })
+// }
 export const useSendMessage = () => {
   const queryClient = useQueryClient()
 

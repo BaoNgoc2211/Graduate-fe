@@ -28,10 +28,15 @@ export const startChat = async (data: IStartChatPayload): Promise<{ data: IStart
   return res.data
 }
 
-// Gửi message (từ phía staff/admin)
 export const sendMessage = async (data: ISendMessagePayload): Promise<{ data: IMessage }> => {
   const res = await APIConfig.post(`/api/chat/send`, data, {
     withCredentials: true,
   })
   return res.data
 }
+export const getCurrentUserRoom = async (): Promise<{ data: IChatRoom | null }> => {
+  const res = await APIConfig.get(`/api/chat/user/current-room`, {
+    withCredentials: true,
+  });
+  return res.data;
+};
