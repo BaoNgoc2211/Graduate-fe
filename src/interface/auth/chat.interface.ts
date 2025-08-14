@@ -26,9 +26,40 @@ export interface IStartChatPayload {
 export interface ISendMessagePayload {
   roomId: string
   content: string
+  senderId: string
 }
 
 export interface IStartChatResponse {
   room: IChatRoom
   newMessage: IMessage
+}
+
+export interface ISendPrescriptionPayload {
+  image: File
+  roomId: string 
+}
+
+export interface IUpdatePrescriptionPayload {
+  prescriptionId: string
+  medicines: IMedicine[]
+  roomId: string
+}
+
+export interface IMedicine {
+  id: string
+  name: string
+  dosage: string
+  quantity: number
+  instructions: string
+  price?: number
+}
+
+export interface IPrescriptionMessage extends IMessage {
+  type: "prescription"
+  prescriptionData?: {
+    id: string
+    medicines: IMedicine[]
+    imageUrl: string
+    status: "pending" | "processed" | "updated"
+  }
 }

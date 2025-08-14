@@ -1,9 +1,9 @@
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
-import { IMessage } from "@/interface/chat.interface"
 import { cn } from "@/lib/utils"
 import { format } from "date-fns"
 import { vi } from "date-fns/locale"
+import type { IMessage } from "@/interface/auth/chat.interface"
 
 interface ChatMessageProps {
   message: IMessage
@@ -18,7 +18,6 @@ export function ChatMessage({ message, isCurrentUser = false }: ChatMessageProps
     <div className={cn("flex gap-2 mb-4", isOwn ? "justify-end" : "justify-start")}>
       {!isOwn && (
         <Avatar className="w-8 h-8 flex-shrink-0">
-          <AvatarImage src="/placeholder.svg?height=32&width=32" />
           <AvatarFallback className="bg-blue-100 text-blue-600 text-xs">{isUser ? "U" : "S"}</AvatarFallback>
         </Avatar>
       )}
@@ -46,8 +45,6 @@ export function ChatMessage({ message, isCurrentUser = false }: ChatMessageProps
 
       {isOwn && (
         <Avatar className="w-8 h-8 flex-shrink-0">
-          {/* <AvatarImage src="/placeholder.svg?height=32&width=32" /> */}
-          <AvatarImage src="/exchange_icon.png?height=32&width=32" /> 
           <AvatarFallback className="bg-blue-500 text-white text-xs">U</AvatarFallback>
         </Avatar>
       )}

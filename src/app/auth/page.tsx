@@ -6,7 +6,7 @@ import { Lock, Phone } from "lucide-react";
 import Image from "next/image";
 import React, { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
-import { signInAPI } from "@/api/auth.api";
+import { signInAPI } from "@/api/auth/auth.api";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import Link from "next/link";

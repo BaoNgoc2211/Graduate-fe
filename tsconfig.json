@@ -30,6 +30,6 @@
     "src/app/medicine/collection",
     "src/app/medicine/detail",
     "src/app/medicine/[_id]"
-, "src/app/medicine/category"  ],
+, "src/app/medicine/category", "src/components/csv-upload.tsx"  ],
   "exclude": ["node_modules"]
 }

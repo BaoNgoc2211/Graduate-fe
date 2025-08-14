@@ -1,4 +1,5 @@
-import { BodyPartEnum, BodyPart } from "@/mock/disease";
+import { BodyPartEnum } from "@/mock/disease";
+import { BodyPart } from "@/mock/disease";
 
 export default function BodyPartMenu({
   selected,

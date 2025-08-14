@@ -1,6 +1,7 @@
 // import CountrySlider from "@/components/country-slide";
 "use client";
-import { checkAuthAPI } from "@/api/auth.api";
+import { checkAuthAPI } from "@/api/auth/auth.api";
+// import { checkAuthAPI } from "@/api/auth.api";
 import BestSeller from "@/components/home/best-seller";
 import Hero from "@/components/home/hero";
 import LatestCollection from "@/components/home/lastest-collection";

@@ -10,7 +10,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import InputComponent from "@/components/auth/input";
 import ButtonComponent from "@/components/auth/button";
-import { useResetPassword } from "@/hooks/auth.hook";
+import { useResetPassword } from "@/hooks/auth/auth.hook";
 
 const ResetPassword = () => {
   const router = useRouter();
@@ -27,7 +27,7 @@ const ResetPassword = () => {
 
   useEffect(() => {
     // Get email from URL params or state
-    const emailFromParams = searchParams.get('email');
+    const emailFromParams = searchParams.get("email");
     if (emailFromParams) {
       setEmail(emailFromParams);
     }
@@ -38,25 +38,25 @@ const ResetPassword = () => {
     if (!email.trim()) {
       return;
     }
-    
+
     // Email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email.trim())) {
       return;
     }
-    
+
     if (!reset.otp || reset.otp.length !== 6) {
       return;
     }
-    
+
     if (!reset.newPassword.trim()) {
       return;
     }
-    
+
     if (reset.newPassword.length < 6) {
       return;
     }
-    
+
     if (reset.newPassword !== reset.confirmPassword) {
       return;
     }
@@ -70,7 +70,7 @@ const ResetPassword = () => {
       {
         onSuccess: () => {
           router.push("/auth/signin");
-        }
+        },
       }
     );
   };
@@ -82,7 +82,7 @@ const ResetPassword = () => {
         <p className="text-gray-600 text-center mb-6">
           Chúng tôi đã gửi mã xác thực đến {email || "email của bạn"}
         </p>
-        
+
         <div className="space-y-4">
           {/* Email field (if not from params) */}
           {!email && (
@@ -174,4 +174,4 @@ const ResetPassword = () => {
   );
 };
 
-export default ResetPassword
+export default ResetPassword;

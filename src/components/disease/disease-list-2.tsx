@@ -20,9 +20,10 @@ import {
 } from "lucide-react"
 import { useDiseases } from "@/hooks/disease/disease.hooks"
 import type { IDisease } from "@/interface/disease/disease.interface"
-import DiseaseCard from "./disease-card"
+import DiseaseCard from "./disease-card-2"
+// import DiseaseCard from "./disease-card"
 
-export default function DiseaseList() {
+export default function DiseaseList02() {
   const [searchTerm, setSearchTerm] = useState("")
   const [severityFilter, setSeverityFilter] = useState<string>("all")
   const [statusFilter, setStatusFilter] = useState<string>("all")
@@ -251,7 +252,7 @@ export default function DiseaseList() {
       ) : (
         <div
           className={
-            viewMode === "grid" ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" : "space-y-4"
+            viewMode === "grid" ? "grid gap-6" : "space-y-4"
           }
         >
           {paginatedDiseases.map((disease) => (

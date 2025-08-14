@@ -1,21 +1,21 @@
-"use client"
+"use client";
 import { useSearchParams } from "next/navigation";
-import { 
-  ChevronLeft, 
-  Mail, 
-  AlertCircle, 
+import {
+  ChevronLeft,
+  Mail,
+  AlertCircle,
   CheckCircle2,
   Loader2,
-  Shield
+  Shield,
 } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { useForgotPassword } from "@/hooks/auth.hook";
-const EmailInput = ({ 
-  value, 
-  onChange, 
-  error, 
-  disabled 
+import { useForgotPassword } from "@/hooks/auth/auth.hook";
+const EmailInput = ({
+  value,
+  onChange,
+  error,
+  disabled,
 }: {
   value: string;
   onChange: (value: string) => void;
@@ -24,12 +24,17 @@ const EmailInput = ({
 }) => {
   return (
     <div className="space-y-2">
-      <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+      <label
+        htmlFor="email"
+        className="block text-sm font-medium text-gray-700"
+      >
         Nhập email
       </label>
       <div className="relative">
         <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-          <Mail className={`h-5 w-5 ${error ? 'text-red-400' : 'text-gray-400'}`} />
+          <Mail
+            className={`h-5 w-5 ${error ? "text-red-400" : "text-gray-400"}`}
+          />
         </div>
         <input
           id="email"
@@ -41,9 +46,10 @@ const EmailInput = ({
             block w-full pl-10 pr-3 py-3 border rounded-lg text-sm
             placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2
             disabled:bg-gray-50 disabled:text-gray-500 disabled:cursor-not-allowed
-            ${error 
-              ? 'border-red-300 focus:ring-red-500 focus:border-red-500' 
-              : 'border-gray-300 focus:ring-blue-500 focus:border-blue-500'
+            ${
+              error
+                ? "border-red-300 focus:ring-red-500 focus:border-red-500"
+                : "border-gray-300 focus:ring-blue-500 focus:border-blue-500"
             }
           `}
           placeholder="Nhập email của bạn vào đây nhé"
@@ -62,7 +68,11 @@ const EmailInput = ({
 };
 
 // Success State Component
-const SuccessState = ({ email, onResend, isResending }: {
+const SuccessState = ({
+  email,
+  onResend,
+  isResending,
+}: {
   email: string;
   onResend: () => void;
   isResending: boolean;
@@ -90,7 +100,7 @@ const SuccessState = ({ email, onResend, isResending }: {
       <div className="mx-auto w-16 h-16 bg-green-100 rounded-full flex items-center justify-center">
         <CheckCircle2 className="h-8 w-8 text-green-600" />
       </div>
-      
+
       <div className="space-y-2">
         <h2 className="text-2xl font-semibold text-gray-900">Kiểm tra email</h2>
         <p className="text-gray-600 max-w-sm mx-auto">
@@ -105,14 +115,15 @@ const SuccessState = ({ email, onResend, isResending }: {
           <div className="text-left">
             <p className="text-sm font-medium text-blue-900">Security tip</p>
             <p className="text-sm text-blue-700">
-              The code will expire in 10 minutes. Check your spam folder if you don&apos;t see it.
+              The code will expire in 10 minutes. Check your spam folder if you
+              don&apos;t see it.
             </p>
           </div>
         </div>
       </div>
 
       <div className="space-y-3">
-        <Link 
+        <Link
           href={`/auth/reset-password?email=${encodeURIComponent(email)}`}
           className="inline-flex w-full justify-center items-center px-4 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
         >
@@ -153,7 +164,7 @@ const ForgotPassword = () => {
 
   // Get email from URL params if available
   useEffect(() => {
-    const emailFromParams = searchParams.get('email');
+    const emailFromParams = searchParams.get("email");
     if (emailFromParams) {
       setEmail(emailFromParams);
     }
@@ -174,10 +185,10 @@ const ForgotPassword = () => {
   // Handle form submission
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     const error = validateEmail(email);
     setEmailError(error);
-    
+
     if (!error) {
       forgotPasswordMutation.mutate(
         { email: email.trim() },
@@ -193,7 +204,7 @@ const ForgotPassword = () => {
           // },
           onError: () => {
             setEmailError("Đặt lại mật khẩu thất bại. Vui lòng thử lại sau.");
-          }
+          },
         }
       );
     }
@@ -228,7 +239,8 @@ const ForgotPassword = () => {
                     Bạn bị quên mật khẩu?
                   </h2>
                   <p className="text-gray-600 max-w-sm mx-auto">
-                    Đừng lo lắng! Nhập email của bạn và chúng tôi &apos; sẽ gửi mã OTP cho bạn.
+                    Đừng lo lắng! Nhập email của bạn và chúng tôi &apos; sẽ gửi
+                    mã OTP cho bạn.
                   </p>
                 </div>
 
@@ -259,7 +271,7 @@ const ForgotPassword = () => {
 
               {/* Back to login */}
               <div className="mt-8 pt-6 border-t border-gray-200">
-                <Link 
+                <Link
                   href="/auth"
                   className="flex items-center justify-center text-sm text-gray-600 hover:text-gray-900 transition-colors"
                 >
@@ -270,7 +282,7 @@ const ForgotPassword = () => {
             </>
           ) : (
             // Success State
-            <SuccessState 
+            <SuccessState
               email={email}
               onResend={handleResend}
               isResending={resendMutation.isPending}
