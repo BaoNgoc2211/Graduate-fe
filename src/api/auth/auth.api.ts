@@ -1,6 +1,6 @@
-import { ICheckAuth, IInfo, IReset } from "../interface/auth/auth.interface";
-import { ISignIn, IVerify } from "@/interface/auth/auth.interface";
-import APIConfig from "./api.config";
+import APIConfig from '../api.config';
+import { ISignIn, IVerify, ICheckAuth, IInfo, IReset } from './../../interface/auth/auth.interface';
+
 
 export const signupAPI = async (data: ISignIn) => {
   const response = await APIConfig.post("/api/auth/sign-up", data);

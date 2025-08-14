@@ -5,8 +5,9 @@ import { assets } from "../../../public/assets";
 import SearchBar from "./search-bar";
 import NavItem from "../home/nav-item";
 import { useRouter } from "next/navigation";
-import { logOutAPI } from "@/api/auth.api";
+// import { logOutAPI } from "@/api/auth.api";
 import { toast } from "sonner";
+import { logOutAPI } from "@/api/auth/auth.api";
 
 const Header = () => {
   const router = useRouter();
@@ -48,9 +49,6 @@ const Header = () => {
           </li>
           <li>
             <NavItem href="/voucher" label="Mã giảm giá" />
-          </li>
-          <li>
-            <NavItem href="/voucher" label="Chat" />
           </li>
           <li>
             <NavItem href="/about" label="Về chúng tôi" />

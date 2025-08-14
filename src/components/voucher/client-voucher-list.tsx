@@ -14,10 +14,11 @@ import { Calendar, ClipboardCopy, Tag, Gift, AlertCircle } from "lucide-react";
 import { toast } from "sonner";
 import { format } from "date-fns";
 import { vi } from "date-fns/locale";
-import { useVouchersValidate } from "@/hooks/voucher.hooks";
+import { useValidVouchers } from "@/hooks/voucher.hooks";
+// import { useVouchersValidate } from "@/hooks/voucher.hooks";
 
 export function ClientVoucherList() {
-  const { data: vouchersData, isLoading, error } = useVouchersValidate();
+  const { data: vouchersData, isLoading, error } = useValidVouchers();
   const vouchers = vouchersData?.data || [];
 
   const formatPrice = (amount: number) => {
