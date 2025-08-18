@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useCallback, useMemo } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Loader2, Stethoscope } from "lucide-react";
 import { useSymptomAnalysis } from "@/hooks/symptom-analysis.hooks";
@@ -15,17 +15,49 @@ const SymptomCheckerPage = () => {
   
   const { isLoading, error, result, analyzeSymptoms, reset } = useSymptomAnalysis();
 
-  const handleAnalyzeSymptoms = async () => {
+  const handleAnalyzeSymptoms = useCallback(async () => {
     await analyzeSymptoms(symptoms, age ? parseInt(age) : undefined, gender || undefined);
-  };
+  }, [analyzeSymptoms, symptoms, age, gender]);
 
-  const handleReset = () => {
+  const handleReset = useCallback(() => {
     setSymptoms("");
     setAge("");
     setGender("");
     setSelectedDiseaseIndex(0);
     reset();
-  };
+  }, [reset]);
+
+  const handleSelectDisease = useCallback((index: number) => {
+    setSelectedDiseaseIndex(index);
+  }, []);
+
+  const handleSymptomsChange = useCallback((value: string) => {
+    setSymptoms(value);
+  }, []);
+
+  // Memoize form props để tránh re-render không cần thiết
+  const symptomFormProps = useMemo(() => ({
+    symptoms,
+    isLoading,
+    error,
+    isServiceAvailable: true,
+    onSymptomsChange: handleSymptomsChange,
+    onAnalyze: handleAnalyzeSymptoms,
+    onReset: handleReset
+  }), [symptoms, isLoading, error, handleSymptomsChange, handleAnalyzeSymptoms, handleReset]);
+
+  // Memoize result props - chỉ tạo khi result không null
+  const symptomResultProps = useMemo(() => result ? {
+    result,
+    selectedIndex: selectedDiseaseIndex,
+    onSelectDisease: handleSelectDisease
+  } : null, [result, selectedDiseaseIndex, handleSelectDisease]);
+
+  const diseaseDetailProps = useMemo(() => result ? {
+    result,
+    selectedIndex: selectedDiseaseIndex,
+    onSelectDisease: handleSelectDisease
+  } : null, [result, selectedDiseaseIndex, handleSelectDisease]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 py-8">
@@ -42,15 +74,7 @@ const SymptomCheckerPage = () => {
 
         <div className="space-y-6">
           {/* Form nhập triệu chứng */}
-          <SymptomForm
-            symptoms={symptoms}
-            isLoading={isLoading}
-            error={error}
-            isServiceAvailable={true}
-            onSymptomsChange={setSymptoms}
-            onAnalyze={handleAnalyzeSymptoms}
-            onReset={handleReset}
-          />
+          <SymptomForm {...symptomFormProps} />
 
           {/* Kết quả */}
           {isLoading && (
@@ -64,30 +88,20 @@ const SymptomCheckerPage = () => {
             </Card>
           )}
 
-          {result && (
+          {result && symptomResultProps && diseaseDetailProps && (
             <div className="grid gap-6 lg:grid-cols-3">
               {/* Top 3 bệnh dự đoán */}
               <div className="lg:col-span-1">
-                <SymptomResult 
-                  result={result} 
-                  selectedIndex={selectedDiseaseIndex}
-                  onSelectDisease={setSelectedDiseaseIndex}
-                />
+                <SymptomResult {...symptomResultProps} />
               </div>
               
               {/* Chi tiết bệnh */}
               <div className="lg:col-span-2">
-                <DiseaseDetail 
-                  result={result} 
-                  selectedIndex={selectedDiseaseIndex}
-                  onSelectDisease={setSelectedDiseaseIndex}
-                />
+                <DiseaseDetail {...diseaseDetailProps} />
               </div>
             </div>
           )}
         </div>
-
-
       </div>
     </div>
   );
