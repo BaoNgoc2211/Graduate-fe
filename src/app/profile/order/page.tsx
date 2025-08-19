@@ -1,5 +1,6 @@
 "use client";
-import { getAllOrders } from "@/api/order/order.api";
+import { getAllOrdersAPI } from "@/api/cart/order-management.api";
+// import { getAllOrders } from "@/api/order/order.api";
 import OrderTabs from "@/app/order/components/layout/ordertabs";
 import { Order, OrderStatus } from "@/styles/order";
 import React, { useEffect, useState } from "react";
@@ -12,7 +13,7 @@ const OrderPage: React.FC = () => {
   );
 
   useEffect(() => {
-    getAllOrders().then(setOrders);
+    getAllOrdersAPI().then(setOrders);
   }, []);
 
   const filteredOrders =
