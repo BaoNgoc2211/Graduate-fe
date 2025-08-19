@@ -3,7 +3,7 @@
 import { Card, CardContent, CardHeader } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { Eye, AlertTriangle, Users, Activity } from "lucide-react"
+import { Eye, AlertTriangle, Activity } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 import type { IDisease } from "@/interface/disease/disease.interface"

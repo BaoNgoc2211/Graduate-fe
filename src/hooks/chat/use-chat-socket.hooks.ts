@@ -253,7 +253,7 @@
 
 import { useEffect, useState, useCallback } from "react"
 import { io, type Socket } from "socket.io-client"
-import { useStartChat, useSendMessage }from "./useChat.hooks"
+import { useStartChat, useSendMessage } from "./useChat.hooks"
 import type { IMessage, IChatRoom } from "@/interface/auth/chat.interface"
 
 interface UseChatSocketProps {
@@ -291,8 +291,19 @@ export const useChatSocket = ({ userId, onNewMessage, onRoomCreated }: UseChatSo
 
   // Initialize socket connection
   useEffect(() => {
-    const socketInstance = io(process.env.NEXT_PUBLIC_SOCKET_URL || "http://localhost:3001", {
-      transports: ["websocket"],
+    // Don't initialize socket if no URL is provided
+    const socketUrl = process.env.NEXT_PUBLIC_SOCKET_URL
+    if (!socketUrl) {
+      console.warn("NEXT_PUBLIC_SOCKET_URL not configured, chat will work without real-time features")
+      return
+    }
+
+    const socketInstance = io(socketUrl, {
+      transports: ["websocket", "polling"], // Added polling as fallback
+      timeout: 5000, // Added connection timeout
+      reconnection: true, // Enable reconnection
+      reconnectionAttempts: 3, // Limit reconnection attempts
+      reconnectionDelay: 1000, // Delay between attempts
     })
 
     socketInstance.on("connect", () => {
@@ -300,9 +311,19 @@ export const useChatSocket = ({ userId, onNewMessage, onRoomCreated }: UseChatSo
       console.log("Connected to chat server")
     })
 
-    socketInstance.on("disconnect", () => {
+    socketInstance.on("disconnect", (reason) => {
       setIsConnected(false)
-      console.log("Disconnected from chat server")
+      console.log("Disconnected from chat server:", reason)
+    })
+
+    socketInstance.on("connect_error", (error) => {
+      console.warn("Socket connection failed:", error.message)
+      setIsConnected(false)
+    })
+
+    socketInstance.on("reconnect_failed", () => {
+      console.warn("Socket reconnection failed, continuing without real-time features")
+      setIsConnected(false)
     })
 
     socketInstance.on("newMessage", handleNewMessage)
@@ -369,13 +390,15 @@ export const useChatSocket = ({ userId, onNewMessage, onRoomCreated }: UseChatSo
       }
       setMessages((prev) => [...prev, tempMessage])
 
-      // Send via socket for real-time
-      if (socket) {
+      // Send via API for persistence (primary method)
+      const response = await sendMessageMutation.mutateAsync(payload)
+
+      setMessages((prev) => prev.map((msg) => (msg._id.startsWith("temp-") ? response.data.message : msg)))
+
+      // Send via socket for real-time (if connected)
+      if (socket && isConnected) {
         socket.emit("sendMessage", payload)
       }
-
-      // Also send via API for persistence
-      await sendMessageMutation.mutateAsync(payload)
     } catch (error) {
       console.error("Failed to send message:", error)
       // Remove optimistic message on error
