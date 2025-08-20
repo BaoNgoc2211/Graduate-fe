@@ -1,5 +1,3 @@
-// api/profile.api.ts - Tách riêng profile API
-// import APIConfig from "./api.config";
 import type { 
   IInfo, 
   IProfileResponse, 

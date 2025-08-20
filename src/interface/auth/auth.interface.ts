@@ -88,8 +88,17 @@ export interface IInfo {
   point?: number;
   birthday?: string; // Thay đổi từ Date thành string để dễ xử lý
   address?: IAddress;
+  birth?: string;
 }
 
+// export interface IUser {
+//   _id: string;
+//   email: string;
+//   isEmailVerified: boolean;
+//   info?: IInfo;
+//   createdAt: string;
+//   updatedAt: string;
+// }
 export interface IUser {
   _id: string;
   email: string;
@@ -97,6 +106,13 @@ export interface IUser {
   info?: IInfo;
   createdAt: string;
   updatedAt: string;
+  // THÊM MỚI: Support cho legacy data structure (flat fields)
+  name?: string;
+  phone?: string;
+  address?: string;
+  avatar?: string;
+  gender?: string;
+  birth?: string;
 }
 
 // Profile form state interface
@@ -141,3 +157,37 @@ export interface Ward {
   code: number;
   name: string;
 }
+export interface IProfileFormData {
+  name: string;
+  phone: string;
+  address: string;
+  avatar?: string;
+  gender: "male" | "female";
+  birth: string;
+}
+
+// THÊM MỚI: Helper function để normalize user data
+export const normalizeUserData = (userData: IUser): {
+  name: string;
+  phone: string;
+  email: string;
+  gender: string;
+  birthday: string;
+  avatar?: string;
+  address?: string;
+} => {
+  // Handle both nested info structure và flat structure
+  const info = userData.info || {};
+  
+  return {
+    name: info.name || userData.name || '',
+    phone: info.phone || userData.phone || '',
+    email: userData.email || '',
+    gender: info.gender || userData.gender || '',
+    birthday: info.birthday || info.birth || userData.birth || '',
+    avatar: info.avatar || userData.avatar,
+    address: typeof info.address === 'object' 
+      ? info.address?.street || '' 
+      : userData.address || '',
+  };
+};

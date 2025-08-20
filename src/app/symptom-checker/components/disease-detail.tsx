@@ -1,9 +1,8 @@
 "use client";
-import { useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Stethoscope, Info, Heart, Shield, AlertTriangle, Clock, Users } from "lucide-react";
+import { Stethoscope, Info, Heart, Shield, AlertTriangle, Users } from "lucide-react";
 import { SymptomAnalysisResponse } from "@/api/disease/symptom-analysis.api";
 
 interface DiseaseDetailProps {
@@ -12,7 +11,7 @@ interface DiseaseDetailProps {
   onSelectDisease?: (index: number) => void;
 }
 
-export const DiseaseDetail = ({ result, selectedIndex = 0, onSelectDisease }: DiseaseDetailProps) => {
+export const DiseaseDetail = ({ result, selectedIndex = 0 }: DiseaseDetailProps) => {
   const selectedDisease = result.predictions[selectedIndex];
 
   const getSeverityColor = (severity: string) => {
