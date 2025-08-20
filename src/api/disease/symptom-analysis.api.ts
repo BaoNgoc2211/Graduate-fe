@@ -156,7 +156,7 @@ export const getSupportedDiseasesAPI = async (): Promise<{
   const diseases = fastAPIResponse.diseases || [];
   
   // Chuyển đổi sang format IDisease
-  const convertedDiseases: IDisease[] = diseases.map((disease: string, index: number) => ({
+  const convertedDiseases: IDisease[] = diseases.map((disease: string) => ({
     _id: disease.toLowerCase().replace(/\s+/g, '_'),
     code: disease.toLowerCase().replace(/\s+/g, '_'),
     name: disease,

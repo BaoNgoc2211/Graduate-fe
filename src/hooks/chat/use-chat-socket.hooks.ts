@@ -253,7 +253,7 @@
 
 import { useEffect, useState, useCallback } from "react"
 import { io, type Socket } from "socket.io-client"
-import { useStartChat, useSendMessage } from "./useChat.hooks"
+import { useStartChat, useSendMessage, useChatMessages } from "./useChat.hooks"
 import type { IMessage, IChatRoom } from "@/interface/auth/chat.interface"
 
 interface UseChatSocketProps {
@@ -272,10 +272,29 @@ export const useChatSocket = ({ userId, onNewMessage, onRoomCreated }: UseChatSo
 
   const startChatMutation = useStartChat()
   const sendMessageMutation = useSendMessage()
+  
+  // Use the chat messages hook to get messages for current room
+  const { 
+    data: messagesData, 
+    isLoading: isLoadingMessages,
+    refetch: refetchMessages 
+  } = useChatMessages(currentRoom?._id || "")
+
+  // Update local messages when data changes
+  useEffect(() => {
+    if (messagesData?.data) {
+      setMessages(messagesData.data)
+    }
+  }, [messagesData])
 
   const handleNewMessage = useCallback(
     (message: IMessage) => {
-      setMessages((prev) => [...prev, message])
+      setMessages((prev) => {
+        // Avoid duplicates
+        const exists = prev.some(msg => msg._id === message._id)
+        if (exists) return prev
+        return [...prev, message]
+      })
       onNewMessage?.(message)
     },
     [onNewMessage],
@@ -291,7 +310,6 @@ export const useChatSocket = ({ userId, onNewMessage, onRoomCreated }: UseChatSo
 
   // Initialize socket connection
   useEffect(() => {
-    // Don't initialize socket if no URL is provided
     const socketUrl = process.env.NEXT_PUBLIC_SOCKET_URL
     if (!socketUrl) {
       console.warn("NEXT_PUBLIC_SOCKET_URL not configured, chat will work without real-time features")
@@ -299,11 +317,11 @@ export const useChatSocket = ({ userId, onNewMessage, onRoomCreated }: UseChatSo
     }
 
     const socketInstance = io(socketUrl, {
-      transports: ["websocket", "polling"], // Added polling as fallback
-      timeout: 5000, // Added connection timeout
-      reconnection: true, // Enable reconnection
-      reconnectionAttempts: 3, // Limit reconnection attempts
-      reconnectionDelay: 1000, // Delay between attempts
+      transports: ["websocket", "polling"],
+      timeout: 5000,
+      reconnection: true,
+      reconnectionAttempts: 3,
+      reconnectionDelay: 1000,
     })
 
     socketInstance.on("connect", () => {
@@ -334,14 +352,21 @@ export const useChatSocket = ({ userId, onNewMessage, onRoomCreated }: UseChatSo
     return () => {
       socketInstance.disconnect()
     }
-  }, [handleNewMessage, handleRoomCreated]) // Added proper dependencies
+  }, [handleNewMessage, handleRoomCreated])
 
   // Join room when room is set
   useEffect(() => {
     if (socket && currentRoom?._id) {
       socket.emit("joinRoom", currentRoom._id)
     }
-  }, [socket, currentRoom?._id]) // Added currentRoom._id dependency
+  }, [socket, currentRoom?._id])
+
+  // Refetch messages when room changes
+  useEffect(() => {
+    if (currentRoom?._id) {
+      refetchMessages()
+    }
+  }, [currentRoom?._id, refetchMessages])
 
   // Start chat (create room)
   const startChat = async (message: string) => {
@@ -359,8 +384,11 @@ export const useChatSocket = ({ userId, onNewMessage, onRoomCreated }: UseChatSo
       if (socket) {
         socket.emit("joinRoom", room._id)
       }
+
+      return room // Return the room for external use
     } catch (error) {
       console.error("Failed to start chat:", error)
+      throw error
     } finally {
       setIsLoading(false)
     }
@@ -384,7 +412,7 @@ export const useChatSocket = ({ userId, onNewMessage, onRoomCreated }: UseChatSo
         room: currentRoom._id,
         content,
         sender: userId,
-        senderType: "user",
+        senderType: "user" as const,
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
       }
@@ -393,31 +421,48 @@ export const useChatSocket = ({ userId, onNewMessage, onRoomCreated }: UseChatSo
       // Send via API for persistence (primary method)
       const response = await sendMessageMutation.mutateAsync(payload)
 
-      setMessages((prev) => prev.map((msg) => (msg._id.startsWith("temp-") ? response.data.message : msg)))
+      setMessages((prev) => 
+        prev.map((msg) => 
+          msg._id.startsWith("temp-") ? response.data : msg
+        )
+      )
 
       // Send via socket for real-time (if connected)
       if (socket && isConnected) {
         socket.emit("sendMessage", payload)
       }
+
+      // Refetch to ensure we have the latest messages
+      refetchMessages()
     } catch (error) {
       console.error("Failed to send message:", error)
       // Remove optimistic message on error
       setMessages((prev) => prev.filter((msg) => !msg._id.startsWith("temp-")))
+      throw error
     } finally {
       setIsSending(false)
     }
   }
 
+  // Function to manually refresh messages
+  const refreshMessages = useCallback(() => {
+    if (currentRoom?._id) {
+      refetchMessages()
+    }
+  }, [currentRoom?._id, refetchMessages])
+
   return {
     socket,
     isConnected,
-    currentRoom,
+    currentRoom: currentRoom?._id || null, // Return just the ID string
+    currentRoomData: currentRoom, // Return full room data
     messages,
-    isLoading,
+    isLoading: isLoading || isLoadingMessages,
     isSending,
     startChat,
     sendMessage,
     setCurrentRoom,
     setMessages,
+    refreshMessages,
   }
 }

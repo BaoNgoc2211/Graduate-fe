@@ -628,83 +628,209 @@
 
 // export default FormProfile;
 //#endregion
+// "use client"
+
+// import { useState, useEffect } from "react"
+// import { Skeleton } from "@/components/ui/skeleton"
+// import { Card, CardContent } from "@/components/ui/card"
+// import { UserProfileHeader } from "@/components/profile/UserProfileHeader"
+// import { UserProfileForm } from "@/components/profile/UserProfileForm"
+
+// const mockUserData = {
+//   _id: "user123",
+//   name: "Nguyễn Huỳnh Phú Quý",
+//   phone: "085910072",
+//   address: "Chung cư Thái An",
+//   avatar: "12.jpg",
+//   gender: "male" as const,
+//   birth: "2004-01-23",
+// }
+
+// type UserData = typeof mockUserData
+
+// export default function UserProfilePage() {
+//   const [userData, setUserData] = useState<UserData | null>(null)
+//   const [isLoading, setIsLoading] = useState(true)
+
+//   useEffect(() => {
+//     const fetchUserData = async () => {
+//       try {
+//         // Replace with actual API call
+//         await new Promise((resolve) => setTimeout(resolve, 1000))
+//         setUserData(mockUserData)
+//       } catch (error) {
+//         console.error("Failed to fetch user data:", error)
+//       } finally {
+//         setIsLoading(false)
+//       }
+//     }
+
+//     fetchUserData()
+//   }, [])
+
+//   const handleProfileUpdate = async (formData: Partial<UserData>) => {
+//     try {
+//       const response = await fetch("/api/user/profile", {
+//         method: "PUT",
+//         headers: {
+//           "Content-Type": "application/json",
+//         },
+//         body: JSON.stringify(formData),
+//       })
+
+//       if (!response.ok) {
+//         throw new Error("Failed to update profile")
+//       }
+
+//       const updatedData = await response.json()
+//       setUserData(updatedData)
+//     } catch (error) {
+//       console.error("Profile update error:", error)
+//       throw error
+//     }
+//   }
+
+//   if (isLoading) {
+//     return <UserProfileSkeleton />
+//   }
+
+//   if (!userData) {
+//     return (
+//       <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
+//         <Card className="p-6 text-center max-w-md w-full">
+//           <CardContent>
+//             <p className="text-red-600">Không thể tải thông tin cá nhân. Vui lòng thử lại.</p>
+//           </CardContent>
+//         </Card>
+//       </div>
+//     )
+//   }
+
+//   return (
+//     <div className="min-h-screen bg-gray-50">
+//       <div className="container mx-auto px-4 py-8 max-w-2xl">
+//         <div className="mb-8 text-center">
+//           <h1 className="text-3xl font-bold text-blue-900 mb-2">Thông tin cá nhân</h1>
+//           <p className="text-gray-600">Quản lý thông tin tài khoản của bạn</p>
+//         </div>
+
+//         <UserProfileHeader avatar={userData.avatar} name={userData.name} phone={userData.phone} />
+
+//         <UserProfileForm defaultValues={userData} onSubmit={handleProfileUpdate} />
+//       </div>
+//     </div>
+//   )
+// }
+
+// function UserProfileSkeleton() {
+//   return (
+//     <div className="min-h-screen bg-gray-50">
+//       <div className="container mx-auto px-4 py-8 max-w-2xl">
+//         <div className="mb-8 text-center">
+//           <Skeleton className="h-8 w-64 mx-auto mb-2" />
+//           <Skeleton className="h-4 w-48 mx-auto" />
+//         </div>
+
+//         <Card className="p-6 mb-6 bg-white">
+//           <div className="flex flex-col items-center gap-4">
+//             <Skeleton className="h-24 w-24 rounded-full" />
+//             <div className="text-center space-y-2">
+//               <Skeleton className="h-6 w-48" />
+//               <Skeleton className="h-4 w-32" />
+//             </div>
+//           </div>
+//         </Card>
+
+//         <Card className="bg-white">
+//           <div className="p-6 space-y-4">
+//             {[1, 2, 3, 4, 5].map((i) => (
+//               <div key={i} className="space-y-2">
+//                 <Skeleton className="h-4 w-24" />
+//                 <Skeleton className="h-10 w-full" />
+//               </div>
+//             ))}
+//           </div>
+//         </Card>
+//       </div>
+//     </div>
+//   )
+// }
 "use client"
 
-import { useState, useEffect } from "react"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Card, CardContent } from "@/components/ui/card"
 import { UserProfileHeader } from "@/components/profile/UserProfileHeader"
 import { UserProfileForm } from "@/components/profile/UserProfileForm"
-
-const mockUserData = {
-  _id: "user123",
-  name: "Nguyễn Huỳnh Phú Quý",
-  phone: "085910072",
-  address: "Chung cư Thái An",
-  avatar: "12.jpg",
-  gender: "male" as const,
-  birth: "2004-01-23",
-}
-
-type UserData = typeof mockUserData
+import { useProfile } from "@/hooks/profile/profile.hooks"
+import { normalizeUserData } from "@/interface/auth/auth.interface"
+import { AlertCircle, RefreshCw } from "lucide-react"
+import { Button } from "@/components/ui/button"
 
 export default function UserProfilePage() {
-  const [userData, setUserData] = useState<UserData | null>(null)
-  const [isLoading, setIsLoading] = useState(true)
+  const { 
+    data: profileData, 
+    isLoading, 
+    error, 
+    refetch,
+    isRefetching 
+  } = useProfile()
 
-  useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        // Replace with actual API call
-        await new Promise((resolve) => setTimeout(resolve, 1000))
-        setUserData(mockUserData)
-      } catch (error) {
-        console.error("Failed to fetch user data:", error)
-      } finally {
-        setIsLoading(false)
-      }
-    }
-
-    fetchUserData()
-  }, [])
-
-  const handleProfileUpdate = async (formData: Partial<UserData>) => {
-    try {
-      const response = await fetch("/api/user/profile", {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      })
-
-      if (!response.ok) {
-        throw new Error("Failed to update profile")
-      }
-
-      const updatedData = await response.json()
-      setUserData(updatedData)
-    } catch (error) {
-      console.error("Profile update error:", error)
-      throw error
-    }
+  const handleRefresh = () => {
+    refetch()
   }
 
   if (isLoading) {
     return <UserProfileSkeleton />
   }
 
-  if (!userData) {
+  if (error) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
         <Card className="p-6 text-center max-w-md w-full">
-          <CardContent>
-            <p className="text-red-600">Không thể tải thông tin cá nhân. Vui lòng thử lại.</p>
+          <CardContent className="space-y-4">
+            <AlertCircle className="h-12 w-12 text-red-500 mx-auto" />
+            <div>
+              <h3 className="font-semibold text-gray-900 mb-2">
+                Không thể tải thông tin cá nhân
+              </h3>
+              <p className="text-gray-600 text-sm mb-4">
+                {error.message || "Đã xảy ra lỗi. Vui lòng thử lại."}
+              </p>
+              <Button 
+                onClick={handleRefresh}
+                disabled={isRefetching}
+                className="bg-blue-600 hover:bg-blue-700"
+              >
+                {isRefetching ? (
+                  <>
+                    <RefreshCw className="h-4 w-4 mr-2 animate-spin" />
+                    Đang tải...
+                  </>
+                ) : (
+                  "Thử lại"
+                )}
+              </Button>
+            </div>
           </CardContent>
         </Card>
       </div>
     )
   }
+
+  if (!profileData?.data) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
+        <Card className="p-6 text-center max-w-md w-full">
+          <CardContent>
+            <p className="text-red-600">Không tìm thấy thông tin cá nhân.</p>
+          </CardContent>
+        </Card>
+      </div>
+    )
+  }
+
+  const userData = profileData.data
+  const normalizedData = normalizeUserData(userData)
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -714,9 +840,22 @@ export default function UserProfilePage() {
           <p className="text-gray-600">Quản lý thông tin tài khoản của bạn</p>
         </div>
 
-        <UserProfileHeader avatar={userData.avatar} name={userData.name} phone={userData.phone} />
+        <UserProfileHeader 
+          avatar={normalizedData.avatar} 
+          name={normalizedData.name || "Chưa cập nhật"} 
+          phone={normalizedData.phone || "Chưa cập nhật"} 
+        />
 
-        <UserProfileForm defaultValues={userData} onSubmit={handleProfileUpdate} />
+        <UserProfileForm 
+          defaultValues={{
+            name: normalizedData.name,
+            phone: normalizedData.phone,
+            address: normalizedData.address || '',
+            avatar: normalizedData.avatar || '',
+            gender: (normalizedData.gender as "male" | "female") || "male",
+            birth: normalizedData.birthday,
+          }}
+        />
       </div>
     </div>
   )
@@ -731,27 +870,263 @@ function UserProfileSkeleton() {
           <Skeleton className="h-4 w-48 mx-auto" />
         </div>
 
+        {/* Header skeleton */}
         <Card className="p-6 mb-6 bg-white">
           <div className="flex flex-col items-center gap-4">
             <Skeleton className="h-24 w-24 rounded-full" />
             <div className="text-center space-y-2">
               <Skeleton className="h-6 w-48" />
               <Skeleton className="h-4 w-32" />
+              <Skeleton className="h-4 w-40" />
             </div>
           </div>
         </Card>
 
+        {/* Form skeleton */}
         <Card className="bg-white">
-          <div className="p-6 space-y-4">
-            {[1, 2, 3, 4, 5].map((i) => (
-              <div key={i} className="space-y-2">
-                <Skeleton className="h-4 w-24" />
-                <Skeleton className="h-10 w-full" />
+          <div className="p-6 space-y-6">
+            {/* Basic info section */}
+            <div className="space-y-4">
+              <Skeleton className="h-6 w-32" />
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Skeleton className="h-4 w-16" />
+                  <Skeleton className="h-10 w-full" />
+                </div>
+                <div className="space-y-2">
+                  <Skeleton className="h-4 w-20" />
+                  <Skeleton className="h-10 w-full" />
+                </div>
               </div>
-            ))}
+            </div>
+
+            {/* Personal info section */}
+            <div className="space-y-4">
+              <Skeleton className="h-6 w-40" />
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Skeleton className="h-4 w-20" />
+                  <Skeleton className="h-10 w-full" />
+                </div>
+                <div className="space-y-2">
+                  <Skeleton className="h-4 w-16" />
+                  <Skeleton className="h-10 w-full" />
+                </div>
+              </div>
+            </div>
+
+            {/* Address section */}
+            <div className="space-y-4">
+              <Skeleton className="h-6 w-24" />
+              <div className="space-y-4">
+                {[1, 2, 3, 4].map((i) => (
+                  <div key={i} className="space-y-2">
+                    <Skeleton className="h-4 w-24" />
+                    <Skeleton className="h-10 w-full" />
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Buttons */}
+            <div className="flex gap-4 pt-4">
+              <Skeleton className="h-10 w-24" />
+              <Skeleton className="h-10 w-32" />
+            </div>
           </div>
         </Card>
       </div>
     </div>
   )
 }
+// "use client"
+
+// import { Skeleton } from "@/components/ui/skeleton"
+// import { Card, CardContent } from "@/components/ui/card"
+// import { UserProfileHeader } from "@/components/profile/UserProfileHeader"
+// import { UserProfileForm } from "@/components/profile/UserProfileForm"
+// import { useProfile } from "@/hooks/profile/profile.hooks"
+// import { toast } from "sonner"
+// import { AlertCircle, RefreshCw } from "lucide-react"
+// import { Button } from "@/components/ui/button"
+
+// export default function UserProfilePage() {
+//   const { 
+//     data: profileData, 
+//     isLoading, 
+//     error, 
+//     refetch,
+//     isRefetching 
+//   } = useProfile()
+
+//   const handleRefresh = () => {
+//     refetch()
+//   }
+
+//   if (isLoading) {
+//     return <UserProfileSkeleton />
+//   }
+
+//   if (error) {
+//     return (
+//       <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
+//         <Card className="p-6 text-center max-w-md w-full">
+//           <CardContent className="space-y-4">
+//             <AlertCircle className="h-12 w-12 text-red-500 mx-auto" />
+//             <div>
+//               <h3 className="font-semibold text-gray-900 mb-2">
+//                 Không thể tải thông tin cá nhân
+//               </h3>
+//               <p className="text-gray-600 text-sm mb-4">
+//                 {error.message || "Đã xảy ra lỗi. Vui lòng thử lại."}
+//               </p>
+//               <Button 
+//                 onClick={handleRefresh}
+//                 disabled={isRefetching}
+//                 className="bg-blue-600 hover:bg-blue-700"
+//               >
+//                 {isRefetching ? (
+//                   <>
+//                     <RefreshCw className="h-4 w-4 mr-2 animate-spin" />
+//                     Đang tải...
+//                   </>
+//                 ) : (
+//                   "Thử lại"
+//                 )}
+//               </Button>
+//             </div>
+//           </CardContent>
+//         </Card>
+//       </div>
+//     )
+//   }
+
+//   if (!profileData?.data) {
+//     return (
+//       <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
+//         <Card className="p-6 text-center max-w-md w-full">
+//           <CardContent>
+//             <p className="text-red-600">Không tìm thấy thông tin cá nhân.</p>
+//           </CardContent>
+//         </Card>
+//       </div>
+//     )
+//   }
+
+//   const userData = profileData.data
+//   const userInfo = userData.info || {}
+
+//   return (
+//     <div className="min-h-screen bg-gray-50">
+//       <div className="container mx-auto px-4 py-8 max-w-2xl">
+//         <div className="mb-8 text-center">
+//           <h1 className="text-3xl font-bold text-blue-900 mb-2">Thông tin cá nhân</h1>
+//           <p className="text-gray-600">Quản lý thông tin tài khoản của bạn</p>
+//         </div>
+
+//         <UserProfileHeader 
+//           avatar={userInfo.avatar} 
+//           name={userInfo.name || "Chưa cập nhật"} 
+//           phone={userInfo.phone || "Chưa cập nhật"} 
+//           email={userData.email}
+//         />
+
+//         <UserProfileForm 
+//           defaultValues={{
+//             name: userInfo.name || '',
+//             phone: userInfo.phone || '',
+//             email: userData.email || '',
+//             gender: userInfo.gender || '',
+//             birthday: userInfo.birthday || '',
+//             address: {
+//               province: userInfo.address?.provinceName || '',
+//               district: '', // Will be populated from API
+//               ward: userInfo.address?.wardName || '',
+//               detail: userInfo.address?.street || '',
+//             }
+//           }}
+//           initialData={userInfo}
+//         />
+//       </div>
+//     </div>
+//   )
+// }
+
+// function UserProfileSkeleton() {
+//   return (
+//     <div className="min-h-screen bg-gray-50">
+//       <div className="container mx-auto px-4 py-8 max-w-2xl">
+//         <div className="mb-8 text-center">
+//           <Skeleton className="h-8 w-64 mx-auto mb-2" />
+//           <Skeleton className="h-4 w-48 mx-auto" />
+//         </div>
+
+//         {/* Header skeleton */}
+//         <Card className="p-6 mb-6 bg-white">
+//           <div className="flex flex-col items-center gap-4">
+//             <Skeleton className="h-24 w-24 rounded-full" />
+//             <div className="text-center space-y-2">
+//               <Skeleton className="h-6 w-48" />
+//               <Skeleton className="h-4 w-32" />
+//               <Skeleton className="h-4 w-40" />
+//             </div>
+//           </div>
+//         </Card>
+
+//         {/* Form skeleton */}
+//         <Card className="bg-white">
+//           <div className="p-6 space-y-6">
+//             {/* Basic info section */}
+//             <div className="space-y-4">
+//               <Skeleton className="h-6 w-32" />
+//               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+//                 <div className="space-y-2">
+//                   <Skeleton className="h-4 w-16" />
+//                   <Skeleton className="h-10 w-full" />
+//                 </div>
+//                 <div className="space-y-2">
+//                   <Skeleton className="h-4 w-20" />
+//                   <Skeleton className="h-10 w-full" />
+//                 </div>
+//               </div>
+//             </div>
+
+//             {/* Personal info section */}
+//             <div className="space-y-4">
+//               <Skeleton className="h-6 w-40" />
+//               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+//                 <div className="space-y-2">
+//                   <Skeleton className="h-4 w-20" />
+//                   <Skeleton className="h-10 w-full" />
+//                 </div>
+//                 <div className="space-y-2">
+//                   <Skeleton className="h-4 w-16" />
+//                   <Skeleton className="h-10 w-full" />
+//                 </div>
+//               </div>
+//             </div>
+
+//             {/* Address section */}
+//             <div className="space-y-4">
+//               <Skeleton className="h-6 w-24" />
+//               <div className="space-y-4">
+//                 {[1, 2, 3, 4].map((i) => (
+//                   <div key={i} className="space-y-2">
+//                     <Skeleton className="h-4 w-24" />
+//                     <Skeleton className="h-10 w-full" />
+//                   </div>
+//                 ))}
+//               </div>
+//             </div>
+
+//             {/* Buttons */}
+//             <div className="flex gap-4 pt-4">
+//               <Skeleton className="h-10 w-24" />
+//               <Skeleton className="h-10 w-32" />
+//             </div>
+//           </div>
+//         </Card>
+//       </div>
+//     </div>
+//   )
+// }
