@@ -8,7 +8,7 @@ import {
 import { useRouter, useSearchParams } from "next/navigation";
 import { useMutation } from "@tanstack/react-query";
 import { IVerify } from "@/interface/auth/auth.interface";
-import { verifyEmailAPI } from "@/api/auth.api";
+import { verifyEmailAPI } from "@/api/auth/auth.api";
 import { toast } from "sonner";
 const VerifyEmail = () => {
   const router = useRouter();

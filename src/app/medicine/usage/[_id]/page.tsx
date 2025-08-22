@@ -8,6 +8,7 @@ import MedicineItemUsage from "../../components/layout/medicine-item-usage";
 
 const MedicineCategoryPage = () => {
   const { data, isLoading, isError } = useMedicineUsageGroupById();
+  console.log("data", data);
   const usage = data?.data;
   if (isLoading) return <p>Loading...</p>;
   if (isError || !usage?.medicine) return <p>Error loading data</p>;

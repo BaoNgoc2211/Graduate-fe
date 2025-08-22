@@ -1,3 +1,101 @@
+// export interface MedicineResponse {
+//   message: string;
+//   data: {
+//     currentPage: number;
+//     totalPages: number;
+//     totalItems: number;
+//     limit: number;
+//     data: IMedicine[];
+//   };
+// }
+
+// export interface IMedicineResponse {
+//   message: string;
+//   data: {
+//     currentPage: number;
+//     totalPages: number;
+//     totalItems: number;
+//     limit: number;
+//     data: IMedicine[];
+//   };
+// }
+
+// export interface IReview {
+//   user: string;
+//   rating: number;
+//   comment: string;
+//   medicine_id: string;
+// }
+
+// export interface IMedicineInfo {
+//   note: string;
+//   use: string;
+//   dosage: string;
+//   indication: string;
+//   adverse: string;
+//   precaution: string;
+//   contraindication: string;
+//   ability: string;
+//   pregnancy: string;
+//   storage: string;
+//   drugInteractions: string;
+// }
+
+// export interface IMedicineItem {
+//   _id: string;
+//   name: string;
+//   thumbnail: string;
+// }
+
+// export interface IMedicineDetail {
+//   name: string;
+//   thumbnail: string;
+//   image?: string[];
+//   packaging: string;
+//   dosageForm: string;
+// }
+
+// export interface IMedicine {
+//   _id: string;
+//   code: string;
+//   name: string;
+//   thumbnail: string;
+//   image?: string[];
+//   packaging: string;
+//   dosageForm: string; // dạng điều chế
+//   use?: string; // cách dùng
+//   dosage?: string; // liều dùng
+//   indication?: string; // công dụng
+//   adverse?: string; // tác dụng phụ
+//   contraindication?: string; // chống chỉ định
+//   precaution?: string; // thận trọng khi sử dụng
+//   ability?: string; //Khả năng lái xe và vận hành máy móc
+//   pregnancy?: string; // Thời kỳ mang thai và cho con bú
+//   drugInteractions?: string; // Tương tác thuốc
+//   storage?: string; // bảo quản
+//   active: string;
+//   note?: string;
+//   age_group: string;
+//   medCategory_id: {
+//     _id: string;
+//     name: string;
+//   };
+//   medUsage_id?: {
+//     _id: string;
+//     name: string;
+//   };
+//   manufacturer_id: {
+//     _id: string;
+//     nameCo: string;
+//   };
+//   stock_id: {
+//     _id: string;
+//     quantity: number;
+//     sellingPrice: number;
+//   };
+// }
+// interface/medicine/medicine.interface.ts
+
 export interface MedicineResponse {
   message: string;
   data: {
@@ -9,79 +107,98 @@ export interface MedicineResponse {
   };
 }
 
-export interface IMedicineResponse {   
-  message: string;   
-  data: {     
-    currentPage: number;     
-    totalPages: number;     
-    totalItems: number;     
-    limit: number;     
-    data: IMedicine[];   
-  }; 
+export interface IMedicineResponse {
+  message: string;
+  data: {
+    currentPage: number;
+    totalPages: number;
+    totalItems: number;
+    limit: number;
+    data: IMedicine[];
+  };
 }
 
-export interface IReview {   
-  user: string;   
-  rating: number;   
-  comment: string;   
-  medicine_id: string; 
-} 
+export interface IReview {
+  user: string;
+  rating: number;
+  comment: string;
+  medicine_id: string;
+}
 
-export interface IMedicineInfo {   
-  note: string;   
-  use: string;   
-  dosage: string;   
-  indication: string;   
-  adverse: string;   
-  precaution: string;   
-  contraindication: string;   
-  ability: string;   
-  pregnancy: string;   
-  storage: string;   
-  drugInteractions: string; 
-} 
+export interface IMedicineInfo {
+  note: string;
+  use: string;
+  dosage: string;
+  indication: string;
+  adverse: string;
+  precaution: string;
+  contraindication: string;
+  ability: string;
+  pregnancy: string;
+  storage: string;
+  drugInteractions: string;
+}
 
-export interface IMedicineItem {   
-  _id: string;   
-  name: string;   
-  thumbnail: string; 
-} 
+export interface IMedicineItem {
+  _id: string;
+  name: string;
+  thumbnail: string;
+}
 
-export interface IMedicineDetail {   
-  name: string;   
-  thumbnail: string;   
-  image?: string[];   
-  packaging: string;   
-  dosageForm: string; 
-} 
+export interface IMedicineDetail {
+  name: string;
+  thumbnail: string;
+  image?: string[];
+  packaging: string;
+  dosageForm: string;
+}
 
-export interface IMedicine {   
-  _id: string;   
-  code: string;   
-  name: string;   
-  thumbnail: string;   
-  image?: string[];   
-  packaging: string;   
-  dosageForm: string; // dạng điều chế   
-  use?: string; // cách dùng   
-  dosage?: string; // liều dùng   
-  indication?: string; // công dụng   
-  adverse?: string; // tác dụng phụ   
-  contraindication?: string; // chống chỉ định   
-  precaution?: string; // thận trọng khi sử dụng   
-  ability?: string; //Khả năng lái xe và vận hành máy móc   
-  pregnancy?: string; // Thời kỳ mang thai và cho con bú   
-  drugInteractions?: string; // Tương tác thuốc   
-  storage?: string; // bảo quản   
-  active: string;   
-  note?: string;   
-  age_group: string;   
-  medCategory_id: string[];   
-  medUsage_id?: string[];   
-  manufacturer_id: string;   
-  stock_id: {     
-    _id: string;     
-    quantity: number;     
-    sellingPrice: number;   
-  }; 
+export interface IMedicine {
+  _id: string;
+  code: string;
+  name: string;
+  thumbnail: string;
+  image?: string[];
+  packaging: string;
+  dosageForm: string; // dạng điều chế
+  use?: string; // cách dùng
+  dosage?: string; // liều dùng
+  indication?: string; // công dụng
+  adverse?: string; // tác dụng phụ
+  contraindication?: string; // chống chỉ định
+  precaution?: string; // thận trọng khi sử dụng
+  ability?: string; //Khả năng lái xe và vận hành máy móc
+  pregnancy?: string; // Thời kỳ mang thai và cho con bú
+  drugInteractions?: string; // Tương tác thuốc
+  storage?: string; // bảo quản
+  active: string;
+  note?: string;
+  age_group: string;
+  medCategory_id?:
+    | {
+        _id: string;
+        name: string;
+      }[]
+    | {
+        _id: string;
+        name: string;
+      };
+  medUsage_id?:
+    | {
+        _id: string;
+        name: string;
+      }[]
+    | {
+        _id: string;
+        name: string;
+      };
+  manufacturer_id?: {
+    _id: string;
+    nameCo: string;
+  };
+  stock_id?: {
+    _id: string;
+    quantity: number;
+    sellingPrice: number;
+  };
 }

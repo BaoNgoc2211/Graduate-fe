@@ -58,7 +58,7 @@ const Header = () => {
       </div>
       <div className="flex items-center gap-6">
         <div className="group relative">
-          <Link href="/home">
+          <Link href="/profile">
             <Image
               src={assets.profile_icon}
               alt="Profile icon"
@@ -68,21 +68,19 @@ const Header = () => {
             />
           </Link>
           <div className="group-hover:block hidden absolute dropdown-menu right-0 pt-4">
-            <div className="flex flex-col gap-2 w-50 py-3 px-5 bg-slate-100 text-gray-500 rounded">
+            <div className="flex flex-col gap-2 w-50 py-3 px-5 bg-blue-600 text-white rounded">
               <Link href="/profile">
-                <p className="cursor-pointer hover:text-black">
+                <p className="cursor-pointer hover:text-blue-900">
                   Thông tin cá nhân
                 </p>
               </Link>
               <Link href="/order-management">
-                <p className="cursor-pointer hover:text-black">
+                <p className="cursor-pointer hover:text-blue-900">
                   Lịch sử đơn hàng
                 </p>
               </Link>
-
-              <p className="cursor-pointer hover:text-black">Mã giảm giá</p>
               <p
-                className="cursor-pointer hover:text-black"
+                className="cursor-pointer hover:text-blue-900"
                 onClick={handleLogout}
               >
                 Đăng xuất

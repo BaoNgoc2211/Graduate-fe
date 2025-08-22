@@ -12,7 +12,7 @@ export const useMedicineUsageGroup = () => {
     queryFn: getAllMedUsageAPI,
   });
 };
-export const useMedicineUsageGroupById = () => {
+export const  useMedicineUsageGroupById = () => {
   const params = useParams<{ _id: string }>();
   const usageId = params._id;
   console.log("UsageGroup ID:", usageId);

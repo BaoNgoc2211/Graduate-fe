@@ -4,7 +4,6 @@ export const getAllDisCategoryAPI = async (): Promise<{
   data: IDisCategory[];
 }> => {
   const response = await APIConfig.get("api/disCategory/getAll");
-  // return response.data as Promise<{ data: IDisCategory[] }>;
   return response.data?.data;
 };
 export const getDisCateById = async (

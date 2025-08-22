@@ -29,24 +29,25 @@ export default function CartPage() {
 
   // Lấy dữ liệu giỏ hàng
   const { data: cartData, isLoading } = useCarts();
-  
+
   // const rawCartItems = cartData?.data?.[0]?.medicine_item || [];
   // const cartItems = useMemo(() => {
-  //   return rawCartItems.filter((item: ICartItem) => 
-  //     item?.medicine_id && 
-  //     item.medicine_id._id && 
+  //   return rawCartItems.filter((item: ICartItem) =>
+  //     item?.medicine_id &&
+  //     item.medicine_id._id &&
   //     item.medicine_id.name &&
   //     item.quantity > 0
   //   );
   // }, [rawCartItems]);
   const cartItems = useMemo(() => {
     const rawCartItems = cartData?.data?.[0]?.medicine_item || [];
-  
-    return rawCartItems.filter((item: ICartItem) => 
-      item?.medicine_id &&
-      item.medicine_id._id &&
-      item.medicine_id.name &&
-      item.quantity > 0
+
+    return rawCartItems.filter(
+      (item: ICartItem) =>
+        item?.medicine_id &&
+        item.medicine_id._id &&
+        item.medicine_id.name &&
+        item.quantity > 0
     );
   }, [cartData]);
 
@@ -145,7 +146,7 @@ export default function CartPage() {
     };
 
     localStorage.setItem("checkoutData", JSON.stringify(checkoutSessionData));
-    
+
     // Chuyển đến trang checkout
     window.location.href = "/checkout";
   };
@@ -179,7 +180,7 @@ export default function CartPage() {
 
     // Lưu data vào localStorage
     const checkoutSessionData = {
-      selectedItems: cartItems.map(item => item.medicine_id._id),
+      selectedItems: cartItems.map((item) => item.medicine_id._id),
       items: allCheckoutData.items,
       totalAmount: allCheckoutData.totalAmount,
       selectedCount: allCheckoutData.selectedCount,
@@ -327,19 +328,26 @@ export default function CartPage() {
 
       {/* Clear Cart Confirmation Dialog */}
       <Dialog open={isClearDialogOpen} onOpenChange={setIsClearDialogOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Xác nhận xóa toàn bộ giỏ hàng</DialogTitle>
-            <DialogDescription>
-              Bạn có chắc chắn muốn xóa toàn bộ {cartItems.length} sản phẩm
+        <DialogContent className="sm:max-w-[425px] bg-white border border-gray-200 shadow-xl z-50">
+          <DialogHeader className="space-y-3">
+            <DialogTitle className="text-lg font-semibold text-gray-900">
+              Xác nhận xóa toàn bộ giỏ hàng
+            </DialogTitle>
+            <DialogDescription className="text-sm text-gray-600 leading-relaxed">
+              Bạn có chắc chắn muốn xóa toàn bộ{" "}
+              <span className="font-medium text-gray-900">
+                {cartItems.length} sản phẩm
+              </span>{" "}
               trong giỏ hàng? Hành động này không thể hoàn tác.
             </DialogDescription>
           </DialogHeader>
-          <DialogFooter>
+
+          <DialogFooter className="flex flex-col sm:flex-row gap-2 sm:gap-3 mt-6">
             <Button
               variant="outline"
               onClick={() => setIsClearDialogOpen(false)}
               disabled={clearCartMutation.isPending}
+              className="w-full sm:w-auto border-gray-300 text-gray-700 hover:bg-gray-50 hover:text-gray-900"
             >
               Hủy
             </Button>
@@ -347,9 +355,31 @@ export default function CartPage() {
               variant="destructive"
               onClick={handleClearCart}
               disabled={clearCartMutation.isPending}
-              className="bg-red-600 hover:bg-red-700"
+              className="w-full sm:w-auto bg-red-600 hover:bg-red-700 text-white font-medium transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {clearCartMutation.isPending ? "Đang xóa..." : "Xóa toàn bộ"}
+              {clearCartMutation.isPending ? (
+                <span className="flex items-center gap-2">
+                  <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24">
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                      fill="none"
+                    />
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                    />
+                  </svg>
+                  Đang xóa...
+                </span>
+              ) : (
+                "Xóa toàn bộ"
+              )}
             </Button>
           </DialogFooter>
         </DialogContent>

@@ -1,9 +1,8 @@
-// import React, { useState } from "react";
 "use client";
 import { IMedicine } from "@/interface/medicine/medicine.interface";
 import { useState } from "react";
+
 const NavbarInfo: React.FC<Partial<IMedicine>> = ({
-  note,
   use,
   dosage,
   indication,
@@ -14,6 +13,9 @@ const NavbarInfo: React.FC<Partial<IMedicine>> = ({
   pregnancy,
   storage,
   drugInteractions,
+  medCategory_id,
+  medUsage_id,
+  manufacturer_id,
 }) => {
   const [activeTab, setActiveTab] = useState("description");
 
@@ -26,9 +28,56 @@ const NavbarInfo: React.FC<Partial<IMedicine>> = ({
 
   const renderContent = () => {
     const fallback = "Đang cập nhật.";
+    
+    // Helper functions để xử lý cả array và object
+    const getCategoryName = () => {
+      if (Array.isArray(medCategory_id) && medCategory_id.length > 0) {
+        return medCategory_id[0]?.name;
+      }
+      if (medCategory_id && typeof medCategory_id === 'object' && 'name' in medCategory_id) {
+        return medCategory_id.name;
+      }
+      return fallback;
+    };
+
+    const getUsageName = () => {
+      if (Array.isArray(medUsage_id) && medUsage_id.length > 0) {
+        return medUsage_id[0]?.name;
+      }
+      if (medUsage_id && typeof medUsage_id === 'object' && 'name' in medUsage_id) {
+        return medUsage_id.name;
+      }
+      return fallback;
+    };
+
+    const getManufacturerName = () => {
+      if (Array.isArray(manufacturer_id) && manufacturer_id.length > 0) {
+        return manufacturer_id[0]?.nameCo;
+      }
+      if (manufacturer_id && typeof manufacturer_id === 'object' && 'nameCo' in manufacturer_id) {
+        return manufacturer_id.nameCo;
+      }
+      return fallback;
+    };
+
     switch (activeTab) {
       case "description":
-        return <p>{note && note !== "Không" ? note : fallback}</p>;
+        return (
+          <>
+            <p>
+              <strong>Thuộc danh mục thuốc:</strong>{" "}
+              {getCategoryName()}
+            </p>
+            <p>
+              <strong>Thuộc nhóm thuốc:</strong>{" "}
+              {getUsageName()}
+            </p>
+            <p>
+              <strong>Thuộc nhà sản xuất:</strong>{" "}
+              {getManufacturerName()}
+            </p>
+          </>
+        );
       case "usage":
         return (
           <>

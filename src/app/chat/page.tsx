@@ -3,8 +3,6 @@
 import { sendMessage, startChat } from "@/api/chat/chat.api";
 import { IMessage, IStartChatResponse } from "@/interface/auth/chat.interface";
 import { useEffect, useState } from "react";
-// import { startChat, sendMessage } from "@/api/chat.api";
-// import { IMessage, IStartChatResponse } from "@/interface/chat.interface";
 
 export default function ChatUserPage() {
   const [messages, setMessages] = useState<IMessage[]>([]);

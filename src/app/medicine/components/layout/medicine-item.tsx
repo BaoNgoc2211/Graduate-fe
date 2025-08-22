@@ -25,7 +25,7 @@ const MedicineItem: React.FC<Partial<IMedicineItem>> = ({
       <div className="text-gray-700 bg-white rounded-xl shadow-md p-4 w-full max-w-[260px] relative cursor-copy">
         <div className="overflow-hidden">
           <Image
-            className="hover:scale-110 transition ease-in-out object-contain w-full h-[260px] rounded-lg"
+            className="hover:scale-110 transition ease-in-out object-contain w-full h-[230px] rounded-lg"
             src={thumbnail ?? "/images/default-thumbnail.jpg"}
             alt={name ?? "Medicine image"}
             width={260}
