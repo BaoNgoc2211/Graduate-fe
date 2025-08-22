@@ -18,8 +18,8 @@ const MedicineItemUsage: React.FC<Partial<MedicineItemUsageProps>> = ({
     <Link href={`/medicine/${_id}`}>
       <div className="text-gray-700 bg-white rounded-xl shadow-md p-4 w-full max-w-[260px] relative cursor-copy">
         <div className="overflow-hidden">
-          <Image
-            className="hover:scale-110 transition ease-in-out "
+        <Image
+            className="hover:scale-110 transition ease-in-out object-contain w-full h-[230px] rounded-lg"
             src={thumbnailSrc}
             alt={name ?? "Medicine image"}
             width={260}

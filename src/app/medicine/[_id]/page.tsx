@@ -43,6 +43,9 @@ const MedicineDetailPage = () => {
         pregnancy={data?.data.pregnancy}
         storage={data?.data.storage}
         drugInteractions={data?.data.drugInteractions}
+        medCategory_id={data?.data.medCategory_id}
+        medUsage_id={data?.data.medUsage_id}
+        manufacturer_id={data?.data.manufacturer_id}
       />
       <div className="mt-20">
         <div className="flex">

@@ -7,9 +7,9 @@ import { Mail, Lock, User } from "lucide-react";
 import { assets } from "../../../../public/assets";
 import { useRouter } from "next/navigation";
 import { useMutation } from "@tanstack/react-query";
-import { signupAPI } from "@/api/auth.api";
 import { toast } from "sonner";
 import Link from "next/link";
+import { signupAPI } from "@/api/auth/auth.api";
 const SignUp = () => {
   const router = useRouter();
   const [signUp, setSignUp] = useState({

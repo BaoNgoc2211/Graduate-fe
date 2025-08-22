@@ -1,9 +1,5 @@
-// import ButtonStep from "./button-step04";
-
 import ButtonStep from "@/app/symptom-checker/components/ui/button";
 
-// import ButtonStep from "../ui/button-step04";
-// interface IDiseaseItem {}
 const DiseaseItem = () => {
   return (
     <div className="px-5 py-3">

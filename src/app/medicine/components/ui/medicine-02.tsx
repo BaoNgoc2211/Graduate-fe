@@ -4,6 +4,7 @@ import { useMedicineUsageGroup } from "@/hooks/medicine/medicine-usage.hooks";
 
 const Medicine02 = () => {
   const { data, isLoading, isError } = useMedicineUsageGroup();
+  console.log("Data", data);
 
   if (isLoading)
     return (

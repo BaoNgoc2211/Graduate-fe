@@ -15,7 +15,6 @@ import { toast } from "sonner";
 import { format } from "date-fns";
 import { vi } from "date-fns/locale";
 import { useValidVouchers } from "@/hooks/voucher.hooks";
-// import { useVouchersValidate } from "@/hooks/voucher.hooks";
 
 export function ClientVoucherList() {
   const { data: vouchersData, isLoading, error } = useValidVouchers();
@@ -273,7 +272,7 @@ export function ClientVoucherList() {
                   </Button>
                   <Button
                     size="sm"
-                    className="flex-1 bg-blue-900 hover:bg-blue-800"
+                    className="flex-1 bg-blue-900 text-white hover:bg-blue-800"
                     onClick={() => handleUseVoucher(voucher.code)}
                     disabled={isDisabled}
                   >

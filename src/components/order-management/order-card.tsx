@@ -36,7 +36,7 @@
 // }: OrderCardProps) {
 //   const [showDebug, setShowDebug] = useState(false);
   
-//   console.log(" OrderCard render - Order data:", {
+//   console.log("OrderCard render - Order data:", {
 //     id: order._id,
 //     status: order.status,
 //     totalAmount: order.totalAmount,
@@ -50,6 +50,7 @@
 
 //   const statusInfo = ORDER_STATUSES.find((s) => s.value === order.status);
 //   const router = useRouter();
+
 //   const formatDate = (dateString: string) => {
 //     try {
 //       return new Date(dateString).toLocaleDateString("vi-VN", {
@@ -60,7 +61,7 @@
 //         minute: "2-digit",
 //       });
 //     } catch (error) {
-//       console.error(" Error formatting date:", dateString, error);
+//       console.error("Error formatting date:", dateString, error);
 //       return dateString;
 //     }
 //   };
@@ -72,15 +73,90 @@
 //         currency: "VND",
 //       });
 //     } catch (error) {
-//       console.error(" Error formatting currency:", amount, error);
+//       console.error("Error formatting currency:", amount, error);
 //       return `${amount} VND`;
 //     }
 //   };
 
-//   // Safe data access với fallbacks
-//   const userName = order.shippingAddress?.name || order.user_id?.name || "Unknown User";
-//   const userPhone = order.shippingAddress?.phone || order.user_id?.phone || "No phone";
-//   const userAddress = order.shippingAddress?.address || order.user_id?.address || "No address";
+//   // Safe data access với fallbacks và kiểm tra kiểu dữ liệu
+//   const getUserName = () => {
+//     if (order.shippingAddress?.name && typeof order.shippingAddress.name === 'string') {
+//       return order.shippingAddress.name;
+//     }
+//     if (order.user_id?.name && typeof order.user_id.name === 'string') {
+//       return order.user_id.name;
+//     }
+//     return "Unknown User";
+//   };
+
+//   const getUserPhone = () => {
+//     if (order.shippingAddress?.phone && typeof order.shippingAddress.phone === 'string') {
+//       return order.shippingAddress.phone;
+//     }
+//     if (order.user_id?.phone && typeof order.user_id.phone === 'string') {
+//       return order.user_id.phone;
+//     }
+//     return "No phone";
+//   };
+
+//   const getFormattedAddress = () => {
+//     try {
+//       // let addressParts = [];
+      
+//       // Kiểm tra từng phần của địa chỉ và đảm bảo là string
+//       if (order.shippingAddress?.street && typeof order.shippingAddress.street === 'string') {
+//         addressParts.push(order.shippingAddress.street);
+//       } else if (order.shippingAddress?.address && typeof order.shippingAddress.address === 'string') {
+//         addressParts.push(order.shippingAddress.address);
+//       } else if (order.user_id?.address && typeof order.user_id.address === 'string') {
+//         addressParts.push(order.user_id.address);
+//       }
+
+//       // Thêm ward (phường/xã)
+//       if (order.shippingAddress?.wardName && typeof order.shippingAddress.wardName === 'string') {
+//         addressParts.push(order.shippingAddress.wardName);
+//       } else if (order.shippingAddress?.ward && typeof order.shippingAddress.ward === 'string') {
+//         addressParts.push(order.shippingAddress.ward);
+//       }
+
+//       // Thêm district (quận/huyện)
+//       if (order.shippingAddress?.districtName && typeof order.shippingAddress.districtName === 'string') {
+//         addressParts.push(order.shippingAddress.districtName);
+//       } else if (order.shippingAddress?.district && typeof order.shippingAddress.district === 'string') {
+//         addressParts.push(order.shippingAddress.district);
+//       }
+
+//       // Thêm province (tỉnh/thành phố)
+//       if (order.shippingAddress?.provinceName && typeof order.shippingAddress.provinceName === 'string') {
+//         addressParts.push(order.shippingAddress.provinceName);
+//       } else if (order.shippingAddress?.city && typeof order.shippingAddress.city === 'string') {
+//         addressParts.push(order.shippingAddress.city);
+//       }
+
+//       // Lọc bỏ các phần tử undefined, null, hoặc empty
+//       const validParts = addressParts.filter(part => part && part.trim().length > 0);
+      
+//       return validParts.length > 0 ? validParts.join(', ') : "No address";
+//     } catch (error) {
+//       console.error("Error formatting address:", error, order.shippingAddress);
+//       return "Address formatting error";
+//     }
+//   };
+
+//   const userName = getUserName();
+//   const userPhone = getUserPhone();
+//   const userAddress = getFormattedAddress();
+
+//   // Safe render function for complex objects
+//   const renderSafeValue = (value: any, fallback: string = "N/A") => {
+//     if (value === null || value === undefined) {
+//       return fallback;
+//     }
+//     if (typeof value === 'object') {
+//       return JSON.stringify(value);
+//     }
+//     return String(value);
+//   };
 
 //   return (
 //     <Card className="hover:shadow-lg transition-shadow duration-200 border border-gray-200">
@@ -107,15 +183,22 @@
 //           {/* Debug Panel */}
 //           {showDebug && (
 //             <div className="bg-gray-100 rounded-lg p-3 text-xs space-y-2">
-//               <div><strong>Order ID:</strong> {order._id}</div>
-//               <div><strong>Status:</strong> {order.status}</div>
-//               <div><strong>Order Detail ID:</strong> {order.orderDetailId || "N/A"}</div>
-//               <div><strong>Total Amount:</strong> {order.totalAmount}</div>
-//               <div><strong>Final Amount:</strong> {order.finalAmount}</div>
-//               <div><strong>Shipping Fee:</strong> {order.shippingFee}</div>
-//               <div><strong>Items Count:</strong> {order.orderItems?.length || 0}</div>
+//               <div><strong>Order ID:</strong> {renderSafeValue(order._id)}</div>
+//               <div><strong>Status:</strong> {renderSafeValue(order.status)}</div>
+//               <div><strong>Order Detail ID:</strong> {renderSafeValue(order.orderDetailId)}</div>
+//               <div><strong>Total Amount:</strong> {renderSafeValue(order.totalAmount)}</div>
+//               <div><strong>Final Amount:</strong> {renderSafeValue(order.finalAmount)}</div>
+//               <div><strong>Shipping Fee:</strong> {renderSafeValue(order.shippingFee)}</div>
+//               <div><strong>Items Count:</strong> {renderSafeValue(order.orderItems?.length)}</div>
 //               <div><strong>User Name:</strong> {userName}</div>
 //               <div><strong>User Phone:</strong> {userPhone}</div>
+//               <div><strong>Formatted Address:</strong> {userAddress}</div>
+//               <div>
+//                 <strong>Shipping Address Object:</strong>
+//                 <pre className="mt-1 text-xs bg-white p-2 rounded overflow-auto max-h-32">
+//                   {JSON.stringify(order.shippingAddress, null, 2)}
+//                 </pre>
+//               </div>
 //               <div>
 //                 <strong>Raw Order:</strong>
 //                 <pre className="mt-1 text-xs bg-white p-2 rounded overflow-auto max-h-32">
@@ -131,7 +214,7 @@
 //               <Package className="h-5 w-5 text-blue-900" />
 //               <div>
 //                 <h3 className="font-semibold text-lg text-gray-900">
-//                   #{order._id}
+//                   #{renderSafeValue(order._id)}
 //                 </h3>
 //                 <p className="text-sm text-gray-500 flex items-center mt-1">
 //                   <Calendar className="h-4 w-4 mr-1" />
@@ -159,9 +242,6 @@
 //               <MapPin className="h-4 w-4 text-gray-500 mt-0.5" />
 //               <span className="text-gray-700 text-sm">
 //                 {userAddress}
-//                 {order.shippingAddress?.ward && `, ${order.shippingAddress.ward}`}
-//                 {order.shippingAddress?.district && `, ${order.shippingAddress.district}`}
-//                 {order.shippingAddress?.city && `, ${order.shippingAddress.city}`}
 //               </span>
 //             </div>
 //           </div>
@@ -211,12 +291,12 @@
 //             <div className="flex items-center space-x-2">
 //               <CreditCard className="h-4 w-4 text-gray-500" />
 //               <span className="text-gray-600">Thanh toán:</span>
-//               <span className="font-medium">{order.paymentMethod}</span>
+//               <span className="font-medium">{renderSafeValue(order.paymentMethod, "Không xác định")}</span>
 //             </div>
 //             <div className="flex items-center space-x-2">
 //               <Package className="h-4 w-4 text-gray-500" />
 //               <span className="text-gray-600">Vận chuyển:</span>
-//               <span className="font-medium">{order.shippingMethod}</span>
+//               <span className="font-medium">{renderSafeValue(order.shippingMethod, "Không xác định")}</span>
 //             </div>
 //           </div>
 
@@ -224,7 +304,7 @@
 //           {order.trackingNumber && (
 //             <div className="bg-blue-50 rounded-lg p-3">
 //               <p className="text-sm text-blue-800">
-//                 <strong>Mã vận đơn:</strong> {order.trackingNumber}
+//                 <strong>Mã vận đơn:</strong> {renderSafeValue(order.trackingNumber)}
 //               </p>
 //             </div>
 //           )}
@@ -233,7 +313,7 @@
 //           {order.status === "Cancelled" && order.cancelReason && (
 //             <div className="bg-red-50 rounded-lg p-3">
 //               <p className="text-sm text-red-800">
-//                 <strong>Lý do hủy:</strong> {order.cancelReason}
+//                 <strong>Lý do hủy:</strong> {renderSafeValue(order.cancelReason)}
 //               </p>
 //             </div>
 //           )}
@@ -245,9 +325,7 @@
 //               size="sm"
 //               onClick={() => {
 //                 console.log("🔍 ViewDetails clicked for order:", order._id);
-//                 // onViewDetails(order._id);
-//                 router.push(`/order-management/${order._id}`); // Navigate to order details page
-
+//                 router.push(`/order-management/${order._id}`);
 //               }}
 //               className="bg-blue-50 text-blue-700 border-blue-200 hover:bg-blue-100"
 //             >
@@ -283,7 +361,7 @@
 //       </CardContent>
 //     </Card>
 //   );
-// }
+// } 
 "use client";
 
 import {
@@ -314,6 +392,9 @@ interface OrderCardProps {
   onCancelOrder?: (orderId: string) => void;
   onReview?: (orderId: string) => void;
 }
+
+// Type for rendering safe values
+type SafeRenderValue = string | number | boolean | null | undefined | Record<string, unknown>;
 
 export default function OrderCard({
   order,
@@ -387,7 +468,7 @@ export default function OrderCard({
 
   const getFormattedAddress = () => {
     try {
-      let addressParts = [];
+      const addressParts: string[] = [];
       
       // Kiểm tra từng phần của địa chỉ và đảm bảo là string
       if (order.shippingAddress?.street && typeof order.shippingAddress.street === 'string') {
@@ -433,8 +514,8 @@ export default function OrderCard({
   const userPhone = getUserPhone();
   const userAddress = getFormattedAddress();
 
-  // Safe render function for complex objects
-  const renderSafeValue = (value: any, fallback: string = "N/A") => {
+  // Safe render function for complex objects with proper typing
+  const renderSafeValue = (value: SafeRenderValue, fallback: string = "N/A"): string => {
     if (value === null || value === undefined) {
       return fallback;
     }
@@ -647,4 +728,4 @@ export default function OrderCard({
       </CardContent>
     </Card>
   );
-} 
+}

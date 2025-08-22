@@ -24,7 +24,6 @@ import {
 } from "@/components/ui/dialog";
 import { toast } from "sonner";
 import { useCheckoutOrder } from "@/hooks/order/order.hooks";
-import type { ICheckoutSession } from "@/interface/order/order.interface";
 import { formatPrice } from "@/lib/format-price";
 import { ICheckoutItem } from "@/interface/order/cart.interface";
 import { useShippingMethods } from "@/hooks/shipping.hooks";
@@ -85,6 +84,7 @@ export default function CheckoutReviewPage() {
   } = useValidVouchers();
 
   const reviewOrderMutation = useCheckoutOrder();
+  // const reviewOrderMutation = useReviewOrder();
 
   const shippingMethods = useMemo(() => {
     return shippingData?.data || [];
@@ -248,7 +248,6 @@ export default function CheckoutReviewPage() {
     setSelectedVoucher("");
     toast.success("Đã bỏ voucher");
   };
-
   const handleReviewOrder = async () => {
     if (!checkoutData || !selectedShipping || !selectedPayment) {
       toast.error("Vui lòng chọn phương thức giao hàng và thanh toán");
@@ -268,7 +267,8 @@ export default function CheckoutReviewPage() {
       const reviewData = await reviewOrderMutation.mutateAsync(payload);
       console.log("Review order response:", reviewData);
 
-      const checkoutSession: ICheckoutSession = {
+      // Lưu dữ liệu session để chuẩn bị cho checkout cuối
+      const checkoutSession = {
         selectedItems: checkoutData.selectedItems,
         shippingMethodId: selectedShipping,
         paymentMethod: selectedPayment,
@@ -285,11 +285,60 @@ export default function CheckoutReviewPage() {
       console.log("Saved checkout session:", checkoutSession);
       console.log("Saved order review:", reviewData);
 
+      // Chuyển đến trang checkout final để thực hiện đặt hàng thực sự
       router.push("/checkout/final");
     } catch (error) {
       console.error("Review order error:", error);
+
+      // Log chi tiết lỗi
+      if (error?.response) {
+        console.error("Error response:", error.response.data);
+        console.error("Error status:", error.response.status);
+      }
     }
   };
+
+  // const handleReviewOrder = async () => {
+  //   if (!checkoutData || !selectedShipping || !selectedPayment) {
+  //     toast.error("Vui lòng chọn phương thức giao hàng và thanh toán");
+  //     return;
+  //   }
+
+  //   try {
+  //     const payload = {
+  //       selectItemIds: checkoutData.selectedItems,
+  //       shippingId: selectedShipping,
+  //       paymentMethod: selectedPayment,
+  //       ...(selectedVoucher && { voucherId: selectedVoucher }),
+  //     };
+
+  //     console.log("Review order payload:", payload);
+
+  //     const reviewData = await reviewOrderMutation.mutateAsync(payload);
+  //     console.log("Review order response:", reviewData);
+
+  //     const checkoutSession: ICheckoutSession = {
+  //       selectedItems: checkoutData.selectedItems,
+  //       shippingMethodId: selectedShipping,
+  //       paymentMethod: selectedPayment,
+  //       voucherId: selectedVoucher,
+  //       totalAmount: checkoutData.totalAmount,
+  //       shippingPrice: calculations?.shippingPrice || 0,
+  //       discountAmount: calculations?.discountAmount || 0,
+  //       finalAmount: calculations?.finalAmount || 0,
+  //     };
+
+  //     localStorage.setItem("checkoutSession", JSON.stringify(checkoutSession));
+  //     localStorage.setItem("orderReview", JSON.stringify(reviewData));
+
+  //     console.log("Saved checkout session:", checkoutSession);
+  //     console.log("Saved order review:", reviewData);
+
+  //     router.push("/checkout/final");
+  //   } catch (error) {
+  //     console.error("Review order error:", error);
+  //   }
+  // };
 
   if (isLoading || isLoadingShipping) {
     return (
@@ -654,28 +703,6 @@ export default function CheckoutReviewPage() {
                       </span>
                     </div>
                   </div>
-
-                  {/* <Button
-                    onClick={handleReviewOrder}
-                    disabled={
-                      reviewOrderMutation.isPending ||
-                      !selectedShipping ||
-                      !selectedPayment
-                    }
-                    className="w-full bg-blue-900 hover:bg-blue-800 text-white font-semibold py-3"
-                  >
-                    {reviewOrderMutation.isPending ? (
-                      <>
-                        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
-                        Đang xử lý...
-                      </>
-                    ) : (
-                      <>
-                        Đặt hàng
-                        <ChevronRight className="h-4 w-4 ml-2" />
-                      </>
-                    )}
-                  </Button> */}
                   <Button
                     onClick={handleReviewOrder}
                     disabled={
@@ -709,10 +736,9 @@ export default function CheckoutReviewPage() {
           </div>
         </div>
       </div>
-
       <Dialog open={isVoucherModalOpen} onOpenChange={setIsVoucherModalOpen}>
-        <DialogContent className="max-w-2xl max-h-[80vh] overflow-hidden">
-          <DialogHeader>
+        <DialogContent className="max-w-2xl max-h-[80vh] overflow-hidden bg-white">
+          <DialogHeader className="bg-white">
             <DialogTitle className="flex items-center gap-2">
               <Tag className="h-5 w-5" />
               Chọn mã giảm giá
@@ -722,14 +748,14 @@ export default function CheckoutReviewPage() {
             </DialogDescription>
           </DialogHeader>
 
-          <div className="flex-1 overflow-y-auto space-y-3 max-h-96">
+          <div className="flex-1 overflow-y-auto space-y-3 max-h-96 bg-white p-2">
             {isLoadingVouchers ? (
-              <div className="text-center py-8">
+              <div className="text-center py-8 bg-white">
                 <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-900 mx-auto"></div>
                 <p className="text-gray-500 mt-2">Đang tải voucher...</p>
               </div>
             ) : voucherError ? (
-              <div className="text-center py-8">
+              <div className="text-center py-8 bg-white">
                 <Tag className="h-12 w-12 text-red-400 mx-auto mb-4" />
                 <p className="text-red-500 mb-4">
                   Không thể tải danh sách voucher
@@ -743,7 +769,7 @@ export default function CheckoutReviewPage() {
                 </Button>
               </div>
             ) : availableVouchers.length === 0 ? (
-              <div className="text-center py-8">
+              <div className="text-center py-8 bg-white">
                 <Tag className="h-12 w-12 text-gray-400 mx-auto mb-4" />
                 <p className="text-gray-500">Không có voucher khả dụng</p>
               </div>
@@ -777,10 +803,10 @@ export default function CheckoutReviewPage() {
                   return (
                     <div
                       key={voucher._id}
-                      className={`p-4 border rounded-lg transition-colors ${
+                      className={`p-4 border rounded-lg transition-colors bg-white ${
                         isDisabled
                           ? "border-gray-200 bg-gray-50 opacity-60"
-                          : "border-gray-200 hover:border-blue-300 cursor-pointer"
+                          : "border-gray-200 hover:border-blue-300 cursor-pointer hover:bg-gray-50"
                       }`}
                       onClick={() =>
                         !isDisabled && handleVoucherSelect(voucher._id)

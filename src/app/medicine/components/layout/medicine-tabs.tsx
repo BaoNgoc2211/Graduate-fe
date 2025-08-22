@@ -61,23 +61,15 @@ const MedicineTabs: React.FC<MedicineTabsProps> = ({
             </p>
             <p className="text-blue-900 font-semibold">Số lượng: </p>
             <div className="flex space-x-4 justify-center">
-              {/* <p className="border border-blue-900 rounded-full w-7 h-7 text-center font-semibold">
-                {" "}
-                -
-              </p> */}
+          
               <button
                 onClick={() => handleChangeQuantity("decrement")}
                 className="border border-blue-900 rounded-full w-7 h-7 text-center font-semibold hover:bg-blue-100"
               >
                 -
               </button>
-              {/* <p className="rounded-full w-7 h-7 text-center font-medium text-[18px]">
-                50
-              </p> */}
               <p className="w-8 text-center text-lg font-medium">{quantity}</p>
-              {/* <p className="border border-blue-900 rounded-full w-7 h-7 text-center font-semibold">
-                +
-              </p> */}
+              
               <button
                 onClick={() => handleChangeQuantity("increment")}
                 className="border border-blue-900 rounded-full w-7 h-7 text-center font-semibold hover:bg-blue-100"
