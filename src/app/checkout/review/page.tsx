@@ -31,6 +31,7 @@ import { useValidVouchers } from "@/hooks/voucher.hooks";
 import { IVoucher } from "@/interface/voucher.interface";
 import { IShipping } from "@/interface/shipping.interface";
 import SelectedVoucherCard from "@/components/checkout/selected-voucher-card";
+import { fi } from "date-fns/locale";
 
 const PAYMENT_METHODS = [
   {
@@ -145,9 +146,9 @@ export default function CheckoutReviewPage() {
       return 0;
     }
 
-    if (voucher.usageLimit && voucher.usedCount >= voucher.usageLimit) {
-      return 0;
-    }
+    // if (voucher.usageLimit && voucher.usedCount >= voucher.usageLimit) {
+    //   return 0;
+    // }
 
     let discount = 0;
     if (voucher.discountType === "PERCENTAGE") {
@@ -222,7 +223,7 @@ export default function CheckoutReviewPage() {
       return;
     }
 
-    if (voucher.usageLimit && voucher.usedCount >= voucher.usageLimit) {
+    if (voucher.usageLimit == 0) {
       toast.error("Voucher này đã hết lượt sử dụng");
       return;
     }
@@ -276,7 +277,8 @@ export default function CheckoutReviewPage() {
         totalAmount: checkoutData.totalAmount,
         shippingPrice: calculations?.shippingPrice || 0,
         discountAmount: calculations?.discountAmount || 0,
-        finalAmount: calculations?.finalAmount || 0,
+        // finalAmount: calculations?.finalAmount || 0,
+        finalAmount: calculations?.finalAmount  || 0,
       };
 
       localStorage.setItem("checkoutSession", JSON.stringify(checkoutSession));
@@ -676,15 +678,15 @@ export default function CheckoutReviewPage() {
                           : formatPrice(calculations?.shippingPrice || 0)}
                       </span>
                     </div>
-                    {calculations?.discountAmount &&
-                      calculations.discountAmount > 0 && (
+                    {calculations &&
+                      // calculations.discountAmount > 0 && (
                         <div className="flex justify-between text-green-600">
                           <span>Voucher giảm giá</span>
                           <span>
                             -{formatPrice(calculations.discountAmount)}
                           </span>
                         </div>
-                      )}
+                      }
                     <Separator />
                     <div className="flex justify-between text-lg font-semibold">
                       <span>Tổng cộng</span>
@@ -771,8 +773,7 @@ export default function CheckoutReviewPage() {
                   const isExpired = new Date(voucher.endDate) < now;
                   const isNotStarted = new Date(voucher.startDate) > now;
                   const isUsageLimitReached =
-                    voucher.usageLimit &&
-                    voucher.usedCount >= voucher.usageLimit;
+                    voucher.usageLimit == 0
                   const isOrderNotEligible =
                     checkoutData &&
                     voucher.minOrderValue > checkoutData.totalAmount;
@@ -842,8 +843,8 @@ export default function CheckoutReviewPage() {
                                 </Badge>
                               )}
                             <Badge variant="outline" className="text-xs">
-                              Còn: {voucher.usageLimit - voucher.usedCount}/
-                              {voucher.usageLimit}
+                              Còn: {voucher.usageLimit}/
+                              {voucher.usageLimit + voucher.usedCount}{" "}
                             </Badge>
                           </div>
 

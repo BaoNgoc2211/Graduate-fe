@@ -46,12 +46,16 @@ export function ClientVoucherList() {
     return new Date(endDate) < new Date();
   };
 
-  const isVoucherExhausted = (usageLimit: number, usedCount: number) => {
-    return usedCount >= usageLimit;
+  const isVoucherExhausted = (usageLimit: number) => {
+    return usageLimit == 0;
   };
 
-  const getUsesLeft = (usageLimit: number, usedCount: number) => {
-    return Math.max(0, usageLimit - usedCount);
+  const getUsesLeft = (usageLimit: number) => {
+    return Math.max(0, usageLimit );
+  };
+
+  const getUsedCount = (usedCount: number) => {
+    return usedCount;
   };
 
   const copyVoucherCode = (code: string) => {
@@ -146,10 +150,10 @@ export function ClientVoucherList() {
         {vouchers.map((voucher) => {
           const expired = isVoucherExpired(voucher.endDate);
           const exhausted = isVoucherExhausted(
-            voucher.usageLimit,
-            voucher.usedCount
+            voucher.usageLimit
           );
-          const usesLeft = getUsesLeft(voucher.usageLimit, voucher.usedCount);
+          const usesLeft = getUsesLeft(voucher.usageLimit);
+          const usedCount = getUsedCount(voucher.usedCount);
           const isDisabled = expired || exhausted || !voucher.isActive;
 
           return (
@@ -239,6 +243,14 @@ export function ClientVoucherList() {
                       }`}
                     >
                       {usesLeft} lượt sử dụng
+                    </span>
+                  </div>
+
+                  <div className="flex items-center justify-between">
+                    <span className="text-gray-600">Đã sử dụng:</span>
+                    <span
+                      className="font-medium text-orange-600">
+                      {usedCount} lượt sử dụng
                     </span>
                   </div>
 

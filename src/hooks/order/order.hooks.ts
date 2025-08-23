@@ -82,8 +82,6 @@ export const useCheckoutOrder = () => {
           window.location.href = data.paymentUrl;
         } else {
           toast.success("Đặt hàng thành công!");
-          
-          
           const orderInfo = {
             orderId: data.orderId || `ORD-${Date.now().toString().slice(-6)}`,
             success: true,
@@ -92,9 +90,20 @@ export const useCheckoutOrder = () => {
           localStorage.setItem("orderSuccess", JSON.stringify(orderInfo));
           
           router.push("/order-success");
+          // throw new Error(data.message || "Đặt hàng thất bại");
         }
       } else {
-        throw new Error(data.message || "Đặt hàng thất bại");
+        // toast.success("Đặt hàng thành công!");
+        // const orderInfo = {
+        //   orderId: data.orderId || `ORD-${Date.now().toString().slice(-6)}`,
+        //   success: true,
+        //   paymentMethod: "COD"
+        // };
+        // localStorage.setItem("orderSuccess", JSON.stringify(orderInfo));
+        
+        // router.push("/order-success");
+         throw new Error(data.message || "Đặt hàng thất bại");
+        
       }
     },
     onError: (error) => {
