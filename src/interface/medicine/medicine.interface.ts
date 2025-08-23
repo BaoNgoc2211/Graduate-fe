@@ -76,26 +76,34 @@
 //   active: string;
 //   note?: string;
 //   age_group: string;
-//   medCategory_id: {
-//     _id: string;
-//     name: string;
-//   };
-//   medUsage_id?: {
-//     _id: string;
-//     name: string;
-//   };
-//   manufacturer_id: {
+//   medCategory_id?:
+//     | {
+//         _id: string;
+//         name: string;
+//       }[]
+//     | {
+//         _id: string;
+//         name: string;
+//       };
+//   medUsage_id?:
+//     | {
+//         _id: string;
+//         name: string;
+//       }[]
+//     | {
+//         _id: string;
+//         name: string;
+//       };
+//   manufacturer_id?: {
 //     _id: string;
 //     nameCo: string;
 //   };
-//   stock_id: {
+//   stock_id?: {
 //     _id: string;
 //     quantity: number;
 //     sellingPrice: number;
 //   };
 // }
-// interface/medicine/medicine.interface.ts
-
 export interface MedicineResponse {
   message: string;
   data: {

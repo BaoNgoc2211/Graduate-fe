@@ -322,7 +322,7 @@ export default function DiseaseDetailPage() {
           </Card>
 
           {/* Medical Information Grid */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 gap-8">
             {/* Causes */}
             {disease.causes && (
               <Card>

@@ -1,14 +1,9 @@
 "use client"
 
 import { useState, useMemo } from "react"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import {
   Search,
-  Filter,
   Grid3X3,
   List,
   ChevronLeft,
@@ -16,12 +11,10 @@ import {
   Loader2,
   AlertTriangle,
   RefreshCw,
-  X,
 } from "lucide-react"
 import { useDiseases } from "@/hooks/disease/disease.hooks"
 import type { IDisease } from "@/interface/disease/disease.interface"
 import DiseaseCard from "./disease-card-2"
-// import DiseaseCard from "./disease-card"
 
 export default function DiseaseList02() {
   const [searchTerm, setSearchTerm] = useState("")
@@ -156,7 +149,7 @@ export default function DiseaseList02() {
       </div>
 
       {/* Filters */}
-      <Card>
+      {/* <Card>
         <CardHeader>
           <CardTitle className="text-lg flex items-center gap-2">
             <Filter className="w-5 h-5" />
@@ -232,7 +225,7 @@ export default function DiseaseList02() {
             </div>
           )}
         </CardContent>
-      </Card>
+      </Card> */}
 
       {/* Results Summary */}
       <div className="flex items-center justify-between">

@@ -29,16 +29,6 @@ export default function CartPage() {
 
   // Lấy dữ liệu giỏ hàng
   const { data: cartData, isLoading } = useCarts();
-
-  // const rawCartItems = cartData?.data?.[0]?.medicine_item || [];
-  // const cartItems = useMemo(() => {
-  //   return rawCartItems.filter((item: ICartItem) =>
-  //     item?.medicine_id &&
-  //     item.medicine_id._id &&
-  //     item.medicine_id.name &&
-  //     item.quantity > 0
-  //   );
-  // }, [rawCartItems]);
   const cartItems = useMemo(() => {
     const rawCartItems = cartData?.data?.[0]?.medicine_item || [];
 
