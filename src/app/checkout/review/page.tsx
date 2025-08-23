@@ -450,17 +450,7 @@ export default function CheckoutReviewPage() {
               </CardContent>
             </Card>
 
-            {/* <Card>
-              <CardHeader>
-                <CardTitle>Phương thức giao hàng</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <ShippingMethodList 
-                  selectedShipping={selectedShipping}
-                  onShippingChange={setSelectedShipping}
-                />
-              </CardContent>
-            </Card> */}
+        
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">

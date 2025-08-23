@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useMemo } from "react"
+import { useState, useMemo, useEffect } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
@@ -30,48 +30,45 @@ export default function DiseaseList() {
   const [currentPage, setCurrentPage] = useState(1)
   const itemsPerPage = 12
 
-  const { data: diseasesResponse, isLoading, error, refetch } = useDiseases()
+  // Debounce search term để tránh call API quá nhiều
+  const [debouncedSearchTerm, setDebouncedSearchTerm] = useState("")
 
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedSearchTerm(searchTerm)
+      setCurrentPage(1) // Reset về trang 1 khi search
+    }, 500)
+
+    return () => clearTimeout(timer)
+  }, [searchTerm])
+
+  // Call API với pagination parameters
+  const { data: diseasesResponse, isLoading, error, refetch } = useDiseases({
+    page: currentPage,
+    limit: itemsPerPage,
+    search: debouncedSearchTerm || undefined,
+    severity: severityFilter !== "all" ? severityFilter : undefined,
+    status: statusFilter !== "all" ? statusFilter : undefined,
+  })
+
+  // Extract data từ response
   const diseases: IDisease[] = useMemo(() => {
-    if (!diseasesResponse) return []
-
-    // Handle different response structures
-    if (Array.isArray(diseasesResponse)) {
-      return diseasesResponse
-    }
-
-    if (diseasesResponse.data) {
-      if (Array.isArray(diseasesResponse.data)) {
-        return diseasesResponse.data
-      }
-      if (diseasesResponse.data.data && Array.isArray(diseasesResponse.data.data)) {
-        return diseasesResponse.data.data
-      }
-    }
-
-    return []
+    if (!diseasesResponse?.data?.data) return []
+    return diseasesResponse.data.data
   }, [diseasesResponse])
 
-  // Filter diseases
-  const filteredDiseases = useMemo(() => {
-    return diseases.filter((disease) => {
-      const matchesSearch =
-        disease.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        disease.code.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        disease.common.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        (disease.nameDiff && disease.nameDiff.toLowerCase().includes(searchTerm.toLowerCase()))
-
-      const matchesSeverity = severityFilter === "all" || disease.severityLevel === severityFilter
-      const matchesStatus = statusFilter === "all" || disease.status === statusFilter
-
-      return matchesSearch && matchesSeverity && matchesStatus
-    })
-  }, [diseases, searchTerm, severityFilter, statusFilter])
-
-  // Pagination
-  const totalPages = Math.ceil(filteredDiseases.length / itemsPerPage)
-  const startIndex = (currentPage - 1) * itemsPerPage
-  const paginatedDiseases = filteredDiseases.slice(startIndex, startIndex + itemsPerPage)
+  // Pagination info từ server
+  const paginationInfo = useMemo(() => {
+    if (!diseasesResponse?.data) {
+      return {
+        currentPage: 1,
+        totalPages: 1,
+        totalItems: 0,
+        limit: itemsPerPage
+      }
+    }
+    return diseasesResponse.data
+  }, [diseasesResponse, itemsPerPage])
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page)
@@ -84,6 +81,11 @@ export default function DiseaseList() {
     setStatusFilter("all")
     setCurrentPage(1)
   }
+
+  // Reset page khi filter thay đổi
+  useEffect(() => {
+    setCurrentPage(1)
+  }, [severityFilter, statusFilter])
 
   const hasActiveFilters = searchTerm || severityFilter !== "all" || statusFilter !== "all"
 
@@ -203,7 +205,7 @@ export default function DiseaseList() {
           </div>
           {hasActiveFilters && (
             <div className="flex items-center justify-between mt-4 pt-4 border-t">
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 flex-wrap">
                 <span className="text-sm text-gray-600">Bộ lọc đang áp dụng:</span>
                 {searchTerm && (
                   <Badge variant="secondary" className="gap-1">
@@ -236,17 +238,17 @@ export default function DiseaseList() {
       {/* Results Summary */}
       <div className="flex items-center justify-between">
         <p className="text-gray-600">
-          Hiển thị {paginatedDiseases.length} trong tổng số {filteredDiseases.length} bệnh
+          Hiển thị {diseases.length} trong tổng số {paginationInfo.totalItems} bệnh
         </p>
-        {totalPages > 1 && (
+        {paginationInfo.totalPages > 1 && (
           <p className="text-gray-600">
-            Trang {currentPage} / {totalPages}
+            Trang {paginationInfo.currentPage} / {paginationInfo.totalPages}
           </p>
         )}
       </div>
 
       {/* Disease List */}
-      {filteredDiseases.length === 0 ? (
+      {diseases.length === 0 ? (
         <EmptyContent />
       ) : (
         <div
@@ -254,45 +256,45 @@ export default function DiseaseList() {
             viewMode === "grid" ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" : "space-y-4"
           }
         >
-          {paginatedDiseases.map((disease) => (
+          {diseases.map((disease) => (
             <DiseaseCard key={disease._id} disease={disease} />
           ))}
         </div>
       )}
 
-      {/* Pagination */}
-      {totalPages > 1 && (
+      {/* Server-side Pagination */}
+      {paginationInfo.totalPages > 1 && (
         <div className="flex items-center justify-center gap-2">
           <Button
             variant="outline"
             size="sm"
-            onClick={() => handlePageChange(currentPage - 1)}
-            disabled={currentPage === 1}
+            onClick={() => handlePageChange(paginationInfo.currentPage - 1)}
+            disabled={paginationInfo.currentPage === 1}
           >
             <ChevronLeft className="w-4 h-4" />
             Trước
           </Button>
 
           <div className="flex items-center gap-1">
-            {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
+            {Array.from({ length: Math.min(5, paginationInfo.totalPages) }, (_, i) => {
               let pageNum
-              if (totalPages <= 5) {
+              if (paginationInfo.totalPages <= 5) {
                 pageNum = i + 1
-              } else if (currentPage <= 3) {
+              } else if (paginationInfo.currentPage <= 3) {
                 pageNum = i + 1
-              } else if (currentPage >= totalPages - 2) {
-                pageNum = totalPages - 4 + i
+              } else if (paginationInfo.currentPage >= paginationInfo.totalPages - 2) {
+                pageNum = paginationInfo.totalPages - 4 + i
               } else {
-                pageNum = currentPage - 2 + i
+                pageNum = paginationInfo.currentPage - 2 + i
               }
 
               return (
                 <Button
                   key={pageNum}
-                  variant={currentPage === pageNum ? "default" : "outline"}
+                  variant={paginationInfo.currentPage === pageNum ? "default" : "outline"}
                   size="sm"
                   onClick={() => handlePageChange(pageNum)}
-                  className={`w-10 ${currentPage === pageNum ? "bg-blue-900 hover:bg-blue-800" : ""}`}
+                  className={`w-10 ${paginationInfo.currentPage === pageNum ? "bg-blue-900 hover:bg-blue-800" : ""}`}
                 >
                   {pageNum}
                 </Button>
@@ -303,8 +305,8 @@ export default function DiseaseList() {
           <Button
             variant="outline"
             size="sm"
-            onClick={() => handlePageChange(currentPage + 1)}
-            disabled={currentPage === totalPages}
+            onClick={() => handlePageChange(paginationInfo.currentPage + 1)}
+            disabled={paginationInfo.currentPage === paginationInfo.totalPages}
           >
             Sau
             <ChevronRight className="w-4 h-4" />

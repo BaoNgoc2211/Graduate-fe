@@ -15,8 +15,6 @@ const DiseasePage = () => {
   const [page, setPage] = useState(1);
 
   const filtered = mockDiseases.filter((d) => d.bodyPart === selectedPart);
-  // const pageSize = 10;
-  // const pageData = filtered.slice((page - 1) * pageSize, page * pageSize);
   return (
     <div>
       <div className="flex flex-col mb-5">
@@ -41,12 +39,7 @@ const DiseasePage = () => {
           <Pagination total={filtered.length} page={page} onChange={setPage} />
         </div>
       </div>
-      {/* <DiseaseList /> */}
-      <DiseaseList
-        // diseases={pageData}
-        // selectedPart={selectedPart}
-        // onSelect={setSelectedPart}
-      />
+      <DiseaseList/>
     </div>
   );
 };
