@@ -312,9 +312,7 @@ export function UserProfileForm({ defaultValues }: UserProfileFormProps) {
         gender: data.gender,
         birthday: data.birth, // Map birth to birthday
         avatar: data.avatar,
-        address: {
-          street: data.address.trim(), // Flat address to structured format
-        },
+        address: data.address.trim(), // Flat address to structured format,
       }
 
       // Remove empty fields
@@ -416,7 +414,7 @@ export function UserProfileForm({ defaultValues }: UserProfileFormProps) {
                   <SelectTrigger className="border-gray-200 focus:border-blue-500 focus:ring-blue-500">
                     <SelectValue placeholder="Chọn giới tính" />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent className="bg-white" >
                     <SelectItem value="male">Nam</SelectItem>
                     <SelectItem value="female">Nữ</SelectItem>
                   </SelectContent>

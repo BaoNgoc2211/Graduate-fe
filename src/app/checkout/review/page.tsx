@@ -31,8 +31,7 @@ import { useValidVouchers } from "@/hooks/voucher.hooks";
 import { IVoucher } from "@/interface/voucher.interface";
 import { IShipping } from "@/interface/shipping.interface";
 import SelectedVoucherCard from "@/components/checkout/selected-voucher-card";
-import { fi } from "date-fns/locale";
-import { ICheckoutSession } from "@/interface/order/order.interface";
+
 
 const PAYMENT_METHODS = [
   {

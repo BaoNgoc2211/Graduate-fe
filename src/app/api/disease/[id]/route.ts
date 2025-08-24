@@ -61,12 +61,12 @@ export async function GET(
       message: 'Lấy thông tin bệnh thành công'
     });
 
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error fetching disease:', error);
     
     return NextResponse.json({
       success: false,
-      error: error.message || 'Lỗi khi lấy thông tin bệnh'
+      error: error instanceof Error ? error.message : 'Lỗi khi lấy thông tin bệnh'
     }, { status: 500 });
   }
 }
@@ -113,12 +113,12 @@ export async function PUT(
       message: 'Cập nhật bệnh thành công'
     });
 
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error updating disease:', error);
     
     return NextResponse.json({
       success: false,
-      error: error.message || 'Lỗi khi cập nhật bệnh'
+      error: error instanceof Error ? error.message : 'Lỗi khi cập nhật bệnh'
     }, { status: 500 });
   }
 }
@@ -159,12 +159,12 @@ export async function DELETE(
       message: 'Xóa bệnh thành công'
     });
 
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error deleting disease:', error);
     
     return NextResponse.json({
       success: false,
-      error: error.message || 'Lỗi khi xóa bệnh'
+     error: error instanceof Error ? error.message : 'Lỗi khi xoá bệnh'
     }, { status: 500 });
   }
 }

@@ -1,10 +1,6 @@
 import type { 
   IInfo, 
   IProfileResponse, 
-  IUpdateProfilePayload,
-  Province,
-  District,
-  Ward
 } from "@/interface/auth/auth.interface";
 import APIConfig from "../api.config";
 
@@ -19,7 +15,7 @@ const PROFILE_ENDPOINTS = {
 // Profile management
 export const getProfileAPI = async (): Promise<IProfileResponse> => {
   try {
-    const response = await APIConfig.get(PROFILE_ENDPOINTS.GET_PROFILE);
+    const response = await APIConfig.get<IProfileResponse>(PROFILE_ENDPOINTS.GET_PROFILE);
     console.log('Profile fetched successfully');
     return response.data;
   } catch (error) {
@@ -39,13 +35,17 @@ export const updateProfileAPI = async (data: IInfo): Promise<IProfileResponse> =
       throw new Error('Số điện thoại không hợp lệ');
     }
 
-    const payload: IUpdateProfilePayload = { info: data };
+    // const payload = { info: data };
+    const response = await APIConfig.put<IProfileResponse>(PROFILE_ENDPOINTS.UPDATE_PROFILE, data);
+    return response.data
+    // const payload: IUpdateProfilePayload = { info: data };
     
-    console.log('Updating profile with data:', payload);
+    // console.log('Updating profile with data:', payload);
     
-    const response = await APIConfig.put(PROFILE_ENDPOINTS.UPDATE_PROFILE, payload);
-    console.log('Profile updated successfully');
-    return response.data;
+    // const response = await APIConfig.put(PROFILE_ENDPOINTS.UPDATE_PROFILE, payload);
+    // console.log(update)
+    // console.log('Profile updated successfully');
+    // return response.data.data.info;
   } catch (error) {
     console.error('Failed to update profile:', error);
     throw error;
@@ -53,32 +53,32 @@ export const updateProfileAPI = async (data: IInfo): Promise<IProfileResponse> =
 };
 
 // Address management (nếu có API riêng)
-export const getProvincesAPI = async (): Promise<{ data: Province[] }> => {
-  try {
-    const response = await APIConfig.get(PROFILE_ENDPOINTS.PROVINCES);
-    return response.data;
-  } catch (error) {
-    console.error('Failed to fetch provinces:', error);
-    throw error;
-  }
-};
+// export const getProvincesAPI = async (): Promise<{ data: Province[] }> => {
+//   try {
+//     const response = await APIConfig.get(PROFILE_ENDPOINTS.PROVINCES);
+//     return response.data;
+//   } catch (error) {
+//     console.error('Failed to fetch provinces:', error);
+//     throw error;
+//   }
+// };
 
-export const getDistrictsAPI = async (provinceCode: number): Promise<{ data: District[] }> => {
-  try {
-    const response = await APIConfig.get(`${PROFILE_ENDPOINTS.DISTRICTS}/${provinceCode}`);
-    return response.data;
-  } catch (error) {
-    console.error('Failed to fetch districts:', error);
-    throw error;
-  }
-};
+// export const getDistrictsAPI = async (provinceCode: number): Promise<{ data: District[] }> => {
+//   try {
+//     const response = await APIConfig.get(`${PROFILE_ENDPOINTS.DISTRICTS}/${provinceCode}`);
+//     return response.data;
+//   } catch (error) {
+//     console.error('Failed to fetch districts:', error);
+//     throw error;
+//   }
+// };
 
-export const getWardsAPI = async (districtCode: number): Promise<{ data: Ward[] }> => {
-  try {
-    const response = await APIConfig.get(`${PROFILE_ENDPOINTS.WARDS}/${districtCode}`);
-    return response.data;
-  } catch (error) {
-    console.error('Failed to fetch wards:', error);
-    throw error;
-  }
-};
+// export const getWardsAPI = async (districtCode: number): Promise<{ data: Ward[] }> => {
+//   try {
+//     const response = await APIConfig.get(`${PROFILE_ENDPOINTS.WARDS}/${districtCode}`);
+//     return response.data;
+//   } catch (error) {
+//     console.error('Failed to fetch wards:', error);
+//     throw error;
+//   }
+// };

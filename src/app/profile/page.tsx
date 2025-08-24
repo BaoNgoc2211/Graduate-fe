@@ -832,6 +832,13 @@ export default function UserProfilePage() {
   const userData = profileData.data
   const normalizedData = normalizeUserData(userData)
 
+  const formatDateForInput = (date: string | Date | undefined) => {
+    if (!date) return '';
+    const d = new Date(date);
+    const month = String(d.getMonth() + 1).padStart(2, '0');
+    const day = String(d.getDate()).padStart(2, '0');
+    return `${d.getFullYear()}-${month}-${day}`;
+  };
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="container mx-auto px-4 py-8 max-w-2xl">
@@ -853,7 +860,7 @@ export default function UserProfilePage() {
             address: normalizedData.address || '',
             avatar: normalizedData.avatar || '',
             gender: (normalizedData.gender as "male" | "female") || "male",
-            birth: normalizedData.birthday,
+            birth: formatDateForInput(normalizedData.birthday),
           }}
         />
       </div>

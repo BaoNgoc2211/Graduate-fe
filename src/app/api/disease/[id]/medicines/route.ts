@@ -50,12 +50,14 @@ export async function GET(
       message: 'Lấy danh sách thuốc khuyến nghị thành công'
     });
 
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error fetching medicines for disease:', error);
     
     return NextResponse.json({
       success: false,
-      error: error.message || 'Lỗi khi lấy danh sách thuốc khuyến nghị'
+      error:  error instanceof Error
+            ? error.message
+            : "Lỗi khi lấy danh sách bệnh",
     }, { status: 500 });
   }
 }
@@ -110,12 +112,14 @@ export async function POST(
       message: 'Thêm thuốc khuyến nghị thành công'
     }, { status: 201 });
 
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error adding medicine for disease:', error);
     
     return NextResponse.json({
       success: false,
-      error: error.message || 'Lỗi khi thêm thuốc khuyến nghị'
+      error: error instanceof Error
+            ? error.message
+            : "Lỗi khi lấy danh sách bệnh",
     }, { status: 500 });
   }
 }

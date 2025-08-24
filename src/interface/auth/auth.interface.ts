@@ -15,21 +15,21 @@ export interface IVerify {
   otp: string;
 }
 
-export interface IInfo {
-  name?: string;
-  phone?: string;
-  avatar?: string;
-  gender?: string;
-  point?: number;
-  birthday?: Date;
-  address?: {
-    provinceId?: string;
-    provinceName?: string;
-    wardId?: string;
-    wardName?: string;
-    street?: string;
-  };
-}
+// export interface IInfo {
+//   name?: string;
+//   phone?: string;
+//   avatar?: string;
+//   gender?: string;
+//   point?: number;
+//   birthday?: Date;
+//   address?: {
+//     // provinceId?: string;
+//     // provinceName?: string;
+//     // wardId?: string;
+//     // wardName?: string;
+//     // street?: string;
+//   };
+// }
 
 export interface ICheckAuth {
   message: string;
@@ -72,13 +72,13 @@ export interface IReset {
 //   };
 // }
 // interface/auth/auth.interface.ts - Cập nhật interfaces
-export interface IAddress {
-  provinceId?: string;
-  provinceName?: string;
-  wardId?: string;
-  wardName?: string;
-  street?: string; // Địa chỉ chi tiết
-}
+// export interface IAddress {
+//   provinceId?: string;
+//   provinceName?: string;
+//   wardId?: string;
+//   wardName?: string;
+//   street?: string; // Địa chỉ chi tiết
+// }
 
 export interface IInfo {
   name?: string;
@@ -86,9 +86,9 @@ export interface IInfo {
   avatar?: string;
   gender?: string;
   point?: number;
-  birthday?: string; // Thay đổi từ Date thành string để dễ xử lý
-  address?: IAddress;
-  birth?: string;
+  // birthday?: string; // Thay đổi từ Date thành string để dễ xử lý
+  address?: string;
+  birth?: Date;
 }
 
 // export interface IUser {
@@ -112,7 +112,7 @@ export interface IUser {
   address?: string;
   avatar?: string;
   gender?: string;
-  birth?: string;
+  birth?: Date;
 }
 
 // Profile form state interface
@@ -123,12 +123,13 @@ export interface IProfileFormState {
   birthday: string;
   gender: string;
   password: string;
-  address: {
-    province: string;
-    district: string;
-    ward: string;
-    detail: string;
-  };
+  address: string
+  // {
+  //   province: string;
+  //   district: string;
+  //   ward: string;
+  //   detail: string;
+  // };
 }
 
 // API interfaces
@@ -172,7 +173,7 @@ export const normalizeUserData = (userData: IUser): {
   phone: string;
   email: string;
   gender: string;
-  birthday: string;
+  birthday: Date;
   avatar?: string;
   address?: string;
 } => {
@@ -184,10 +185,8 @@ export const normalizeUserData = (userData: IUser): {
     phone: info.phone || userData.phone || '',
     email: userData.email || '',
     gender: info.gender || userData.gender || '',
-    birthday: info.birthday || info.birth || userData.birth || '',
+    birthday: info.birthday || info.birth || userData.birth ,
     avatar: info.avatar || userData.avatar,
-    address: typeof info.address === 'object' 
-      ? info.address?.street || '' 
-      : userData.address || '',
+    address: info.address || userData.address || '',
   };
 };

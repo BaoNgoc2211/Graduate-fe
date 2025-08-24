@@ -1,7 +1,11 @@
 {
   "compilerOptions": {
     "target": "ES2017",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -19,17 +23,33 @@
       }
     ],
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": [
+        "./src/*"
+      ]
     }
   },
   "include": [
-    "next-env.d.ts",
+    //     "next-env.d.ts",
+    //     "**/*.ts",
+    //     "**/*.tsx",
+    //     ".next/types/**/*.ts",
+    //     "src/app/medicine/collection",
+    //     "src/app/medicine/detail",
+    //     "src/app/medicine/[_id]"
+    // , "src/app/medicine/category", "src/components/csv-upload.tsx", "src/app/medicine/usage"  ],
     "**/*.ts",
     "**/*.tsx",
-    ".next/types/**/*.ts",
+    "next-env.d.ts",
+    "src/app/medicine/[_id]",
+    "src/app/medicine/category",
     "src/app/medicine/collection",
     "src/app/medicine/detail",
-    "src/app/medicine/[_id]"
-, "src/app/medicine/category", "src/components/csv-upload.tsx", "src/app/medicine/usage"  ],
-  "exclude": ["node_modules"]
+    "src/app/medicine/usage",
+    "src/components/csv-upload.tsx",
+    ".next/types/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    ".next"
+  ]
 }

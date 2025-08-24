@@ -36,12 +36,23 @@ export const updateCartAPI = async (
   });
   return response.data as Promise<{ data: ICart }>;
 };
+// export const removeCartAPI = async (
+//   medicine_id: string
+// ): Promise<RemoveCartResponse> => {
+//   const response = await APIConfig.delete<RemoveCartResponse>(
+//     `/api/cart/remove`,
+//     { data: { medicine_id } } // Gửi medicine_id trong body
+//   );
+//   return response.data;
+// };
 export const removeCartAPI = async (
   medicine_id: string
 ): Promise<RemoveCartResponse> => {
   const response = await APIConfig.delete<RemoveCartResponse>(
-    `/api/cart/remove`,
-    { data: { medicine_id } } // Gửi medicine_id trong body
+    `/api/cart/remove/`,{
+      data: { medicine_id }
+    } as any // Gửi medicine_id trong body
+
   );
   return response.data;
 };

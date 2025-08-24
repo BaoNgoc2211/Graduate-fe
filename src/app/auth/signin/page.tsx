@@ -6,9 +6,10 @@ import { Lock, Phone } from "lucide-react";
 import Image from "next/image";
 import React, { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
-import { signInAPI } from "@/api/auth.api";
+
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
+import { signInAPI } from "@/api/auth/auth.api";
 const SignIn = () => {
   const router = useRouter();
   const [signIn, setSignIn] = useState({

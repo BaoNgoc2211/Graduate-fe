@@ -1,7 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import type { IInfo, IProfileResponse } from '@/interface/auth/auth.interface';
 import { toast } from 'sonner';
-import { getProfileAPI, updateProfileAPI, getProvincesAPI, getDistrictsAPI, getWardsAPI } from '@/api/auth/profile.api';
+import { getProfileAPI, updateProfileAPI } from '@/api/auth/profile.api';
 
 // Query keys
 export const PROFILE_QUERY_KEYS = {
