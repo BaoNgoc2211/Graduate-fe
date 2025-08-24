@@ -403,17 +403,17 @@ export default function OrderCard({
 }: OrderCardProps) {
   const [showDebug, setShowDebug] = useState(false);
   
-  console.log("OrderCard render - Order data:", {
-    id: order._id,
-    status: order.status,
-    totalAmount: order.totalAmount,
-    finalAmount: order.finalAmount,
-    shippingFee: order.shippingFee,
-    itemsCount: order.orderItems?.length || 0,
-    user: order.user_id,
-    shippingAddress: order.shippingAddress,
-    orderDetailId: order.orderDetailId
-  });
+  // console.log("OrderCard render - Order data:", {
+  //   id: order._id,
+  //   status: order.status,
+  //   totalAmount: order.totalAmount,
+  //   finalAmount: order.finalAmount,
+  //   shippingFee: order.shippingFee,
+  //   itemsCount: order.orderItems?.length || 0,
+  //   user: order.user_id,
+  //   shippingAddress: order.shippingAddress,
+  //   orderDetailId: order.orderDetailId
+  // });
 
   const statusInfo = ORDER_STATUSES.find((s) => s.value === order.status);
   const router = useRouter();
@@ -635,14 +635,20 @@ export default function OrderCard({
                   : formatCurrency(order.shippingFee)}
               </span>
             </div>
-            {(order.discount || 0) > 0 && (
+            <div className="flex justify-between items-center">
+              <span className="text-gray-600">Giảm giá:</span>
+              <span className="font-medium text-green-600">
+                -{formatCurrency(order.discount)}
+              </span>
+            </div>
+            {/* {order.discount  > 0 && (
               <div className="flex justify-between items-center">
                 <span className="text-gray-600">Giảm giá:</span>
                 <span className="font-medium text-green-600">
                   -{formatCurrency(order.discount)}
                 </span>
               </div>
-            )}
+            )} */}
             <div className="border-t pt-2 flex justify-between items-center">
               <span className="text-lg font-semibold text-gray-900">
                 Tổng thanh toán:

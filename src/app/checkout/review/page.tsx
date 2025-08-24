@@ -32,6 +32,7 @@ import { IVoucher } from "@/interface/voucher.interface";
 import { IShipping } from "@/interface/shipping.interface";
 import SelectedVoucherCard from "@/components/checkout/selected-voucher-card";
 import { fi } from "date-fns/locale";
+import { ICheckoutSession } from "@/interface/order/order.interface";
 
 const PAYMENT_METHODS = [
   {
@@ -131,6 +132,11 @@ export default function CheckoutReviewPage() {
       }
     }
   }, [shippingMethods, selectedShipping]);
+
+  useEffect(() => {
+    console.log("SelectedVoucher:", selectedVoucher);
+  }, [selectedVoucher]);
+
   const calculateVoucherDiscount = (
     voucher: IVoucher,
     subtotal: number
@@ -201,6 +207,7 @@ export default function CheckoutReviewPage() {
 
     const voucher = availableVouchers.find(
       (v: IVoucher) => v._id === voucherId
+
     );
     if (!voucher) return;
 
@@ -249,6 +256,7 @@ export default function CheckoutReviewPage() {
     setSelectedVoucher("");
     toast.success("Đã bỏ voucher");
   };
+
   const handleReviewOrder = async () => {
     if (!checkoutData || !selectedShipping || !selectedPayment) {
       toast.error("Vui lòng chọn phương thức giao hàng và thanh toán");
@@ -260,7 +268,7 @@ export default function CheckoutReviewPage() {
         selectItemIds: checkoutData.selectedItems,
         shippingId: selectedShipping,
         paymentMethod: selectedPayment,
-        ...(selectedVoucher && { voucherId: selectedVoucher }),
+        ...(selectedVoucher && { voucherCode: selectedVoucher }),
       };
 
       console.log("Review order payload:", payload);
@@ -273,11 +281,10 @@ export default function CheckoutReviewPage() {
         selectedItems: checkoutData.selectedItems,
         shippingMethodId: selectedShipping,
         paymentMethod: selectedPayment,
-        voucherId: selectedVoucher,
+        voucherCode: selectedVoucher,
         totalAmount: checkoutData.totalAmount,
         shippingPrice: calculations?.shippingPrice || 0,
         discountAmount: calculations?.discountAmount || 0,
-        // finalAmount: calculations?.finalAmount || 0,
         finalAmount: calculations?.finalAmount  || 0,
       };
 
@@ -317,6 +324,7 @@ export default function CheckoutReviewPage() {
   //     console.log("Review order payload:", payload);
 
   //     const reviewData = await reviewOrderMutation.mutateAsync(payload);
+
   //     console.log("Review order response:", reviewData);
 
   //     const checkoutSession: ICheckoutSession = {

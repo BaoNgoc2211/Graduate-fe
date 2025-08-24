@@ -9,6 +9,11 @@ interface APIOrderListResponse {
   status: string;
   totalAmount: number;
   finalAmount: number;
+  paymentMethod: string;
+  shippingMethod: {
+    type: string;
+    price: number;
+  };
   userId: {
     _id: string;
     info: {
@@ -321,9 +326,11 @@ function mapOrderFromListAPI(apiOrder: APIOrderListResponse): IOrder {
   const mappedStatus = mapStatusFromAPI(apiOrder.status);
   console.log(`🏷️ Status mapped: ${apiOrder.status} -> ${mappedStatus}`);
 
-  // Calculate shipping fee from difference
-  const shippingFee = (apiOrder.finalAmount - apiOrder.totalAmount) || 0;
-  console.log(`💰 Calculated shipping fee: ${shippingFee} (${apiOrder.finalAmount} - ${apiOrder.totalAmount})`);
+  const shippingFee = apiOrder.shippingMethod?.price || 0;
+
+    // Tính discount
+  const discount = (apiOrder.totalAmount + shippingFee) - apiOrder.finalAmount;
+
 
   const mappedOrder: IOrder = {
     _id: apiOrder.orderId,
@@ -355,12 +362,14 @@ function mapOrderFromListAPI(apiOrder: APIOrderListResponse): IOrder {
       };
     }) || [],
     totalAmount: apiOrder.totalAmount || 0,
-    shippingFee: shippingFee,
-    discount: 0,
+    // shippingFee: apiOrder.shippingMedthod?.price || 0,
+    // discount: discount,
+    shippingFee,
+    discount,
     finalAmount: apiOrder.finalAmount || 0,
     status: mappedStatus as IOrder["status"],
-    paymentMethod: "COD",
-    shippingMethod: "Standard Shipping",
+    paymentMethod: apiOrder.paymentMethod ,
+    shippingMethod: apiOrder.shippingMethod?.type || "",
     shippingAddress: {
       name: apiOrder.userId?.info?.name || "",
       phone: apiOrder.userId?.info?.phone || "",

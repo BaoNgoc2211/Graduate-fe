@@ -2,7 +2,7 @@ export interface ICheckoutPayload {
   selectItemIds: string[];
   shippingId?: string;
   paymentMethod?: string;
-  voucherId?: string;
+  voucherCode?: string;
 }
 
 export interface IOrderItem {
@@ -20,6 +20,7 @@ export interface IOrder {
   _id: string;
   user_id: string;
   shipping_id: string;
+  voucher_id?: string;
   status: string;
   totalAmount: number;
   finalAmount: number;
