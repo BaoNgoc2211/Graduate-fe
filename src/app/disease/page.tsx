@@ -20,9 +20,9 @@ const DiseasePage = () => {
       <div className="flex flex-col mb-5">
         <Disease01 />
       </div>
-      <div className="flex flex-col mb-5">
+      {/* <div className="flex flex-col mb-5">
         <TitleDisease text1="Bệnh theo đối tượng" />
-      </div>
+      </div> */}
       <div className="flex flex-col mb-5">
         <TitleDisease text1="Chuyên trang bệnh học" />
         <Disease03 />

@@ -2,12 +2,8 @@
 import {
   Home,
   TicketPercent,
-  Bell,
-  WalletCards,
   LogOut,
   Logs,
-  MapPinHouse,
-  ClipboardList,
   ChevronLeft,
   ChevronRight,
 } from "lucide-react";
@@ -17,12 +13,8 @@ import Link from "next/link";
 
 const sidebarItems = [
   { label: "Thông tin cá nhân", icon: Home, href: "/profile" },
-  { label: "Lịch sử đơn hàng", icon: Logs, href: "/profile/order" },
-  { label: "Mã giảm giá", icon: TicketPercent, href: "/coupons" },
-  { label: "Thông báo của tôi", icon: Bell, href: "/notifications" },
-  { label: "Quản lý thanh toán", icon: WalletCards, href: "/payments" },
-  { label: "Đơn thuốc của tôi", icon: ClipboardList, href: "/prescriptions" },
-  { label: "Sổ địa chỉ nhận hàng", icon: MapPinHouse, href: "/prescriptions" },
+  { label: "Lịch sử đơn hàng", icon: Logs, href: "/order-management" },
+  { label: "Mã giảm giá", icon: TicketPercent, href: "/voucher" },
   { label: "Đăng xuất", icon: LogOut },
 ];
 
