@@ -53,6 +53,7 @@ export interface ICheckoutResponse {
   paymentUrl?: string;
   message?: string;
   orderId?: string;
+  paymentMethod?: string;
 }
 
 // Checkout session data interface

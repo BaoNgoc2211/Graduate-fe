@@ -68,8 +68,19 @@ export const useCheckoutOrder = () => {
     mutationKey: ["checkout-order"],
     mutationFn: (payload) => checkoutAPI(payload),
     onSuccess: (data) => {
-      if (data.success) {
-        if (data.paymentUrl) {
+      if (!data.paymentUrl) {
+        toast.success("Đặt hàng thành công!");
+        const orderInfo = {
+          orderId: data.orderId || `ORD-${Date.now().toString().slice(-6)}`,
+          success: true,
+          paymentMethod: "COD"
+        };
+        localStorage.setItem("orderSuccess", JSON.stringify(orderInfo));
+        
+        router.push("/order-success");
+      } 
+      else {
+        if (data.success) {
           toast.success("Đang chuyển đến trang thanh toán...");
           
           const pendingPayment = {
@@ -80,32 +91,13 @@ export const useCheckoutOrder = () => {
           localStorage.setItem("pendingPayment", JSON.stringify(pendingPayment));
           
           window.location.href = data.paymentUrl;
-        } else {
-          toast.success("Đặt hàng thành công!");
-          const orderInfo = {
-            orderId: data.orderId || `ORD-${Date.now().toString().slice(-6)}`,
-            success: true,
-            paymentMethod: "COD"
-          };
-          localStorage.setItem("orderSuccess", JSON.stringify(orderInfo));
-          
-          router.push("/order-success");
-          // throw new Error(data.message || "Đặt hàng thất bại");
-        }
+      
       } else {
-        // toast.success("Đặt hàng thành công!");
-        // const orderInfo = {
-        //   orderId: data.orderId || `ORD-${Date.now().toString().slice(-6)}`,
-        //   success: true,
-        //   paymentMethod: "COD"
-        // };
-        // localStorage.setItem("orderSuccess", JSON.stringify(orderInfo));
-        
-        // router.push("/order-success");
-         throw new Error(data.message || "Đặt hàng thất bại");
-        
+        throw new Error(data.message || "Đặt hàng thất bại");
       }
-    },
+    }
+  },
+    
     onError: (error) => {
       console.error("Checkout error:", error);
       toast.error("Đặt hàng thất bại");
